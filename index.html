@@ -17,38 +17,37 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
 .account-selector{font-size:12px;padding:5px 10px;border:1px solid var(--cream3);border-radius:var(--radius-lg);background:var(--cream);color:var(--ink);font-family:'Outfit',sans-serif;cursor:pointer;outline:none;max-width:200px}
 .btn-outline{font-size:12px;padding:5px 12px;border:1px solid var(--accent);border-radius:var(--radius-lg);background:transparent;color:var(--accent);font-family:'Outfit',sans-serif;cursor:pointer}
 .btn-outline:hover{background:var(--accent2)}
-.main{display:grid;grid-template-columns:210px 1fr;overflow:hidden}
+.main{display:grid;grid-template-columns:220px 1fr;overflow:hidden}
 .sidebar{border-right:1px solid var(--cream3);padding:1rem 0;background:var(--cream);overflow-y:auto}
 .nav-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--ink3);padding:0 1rem;margin-bottom:.4rem;text-transform:uppercase}
-.nav-item{display:flex;align-items:center;gap:8px;padding:.5rem 1rem;font-size:13px;color:var(--ink2);cursor:pointer;border-left:2px solid transparent;transition:background .1s}
+.nav-item{display:flex;align-items:center;gap:10px;padding:.5rem 1rem;font-size:13px;color:var(--ink2);cursor:pointer;border-left:2px solid transparent;transition:background .1s}
 .nav-item:hover{background:var(--cream2)}
 .nav-item.active{background:var(--cream2);border-left-color:var(--accent);color:var(--ink);font-weight:500}
-.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--cream3);flex-shrink:0}
-.nav-item.active .nav-dot{background:var(--accent)}
+.nav-step{width:20px;height:20px;border-radius:50%;background:var(--cream3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:'DM Mono',monospace;flex-shrink:0;color:var(--ink3)}
+.nav-item.active .nav-step{background:var(--accent);color:#fff}
+.nav-item.done .nav-step{background:var(--green2);color:#fff}
+.nav-item.done{color:var(--ink3)}
 .nav-sep{height:1px;background:var(--cream3);margin:.65rem 1rem}
 .content{padding:1.25rem;overflow-y:auto;background:var(--cream)}
 .panel{display:none}.panel.active{display:block}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,14,12,.5);z-index:200;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:var(--cream);border-radius:var(--radius-lg);border:1px solid var(--cream3);padding:1.5rem;width:440px;max-width:95vw;max-height:90vh;overflow-y:auto}
-.modal h3{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:1rem}
-.field{margin-bottom:.875rem}
-.field label{font-size:11px;color:var(--ink3);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em}
-.field input,.field select{width:100%;border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem .75rem;font-family:'Outfit',sans-serif;font-size:13px;background:var(--cream);color:var(--ink);outline:none}
-.field input:focus,.field select:focus{border-color:var(--accent)}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
-.btn-primary{background:var(--ink);color:var(--cream);border:none;border-radius:var(--radius);padding:.5rem 1.1rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer;font-weight:500}
-.btn-primary:hover{opacity:.85}
-.btn-secondary{background:transparent;color:var(--ink2);border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem 1.1rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer}
-.save-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.save-bar h2{font-family:'DM Serif Display',serif;font-size:19px}
+
+/* STEPPER */
+.step-header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem}
+.step-badge{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:14px;font-weight:500;flex-shrink:0}
+.step-title{font-family:'DM Serif Display',serif;font-size:20px}
+.step-sub{font-size:12px;color:var(--ink3);margin-top:2px}
+.step-nav{display:flex;gap:8px;margin-top:1.5rem}
+.btn-next{background:var(--ink);color:var(--cream);border:none;border-radius:var(--radius-lg);padding:.6rem 1.25rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer;font-weight:500}
+.btn-next:hover{opacity:.85}
+.btn-back{background:transparent;color:var(--ink2);border:1px solid var(--cream3);border-radius:var(--radius-lg);padding:.6rem 1.25rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer}
+
+/* METAS */
 .tabs-row{display:flex;gap:4px;margin-bottom:1.25rem;border-bottom:1px solid var(--cream3)}
 .tab-btn{font-size:12px;padding:6px 14px;cursor:pointer;border:none;background:transparent;color:var(--ink3);font-family:'Outfit',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px}
 .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
 .tab-panel{display:none}.tab-panel.active{display:block}
 .month-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1.25rem}
-.mtab{font-size:11px;padding:4px 10px;border:1px solid var(--cream3);border-radius:99px;cursor:pointer;color:var(--ink3);font-family:'DM Mono',monospace;transition:all .1s}
+.mtab{font-size:11px;padding:4px 10px;border:1px solid var(--cream3);border-radius:99px;cursor:pointer;color:var(--ink3);font-family:'DM Mono',monospace}
 .mtab:hover{border-color:var(--accent);color:var(--accent)}.mtab.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
 .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
 .meta-card{background:var(--cream2);border:1px solid var(--cream3);border-radius:var(--radius-lg);padding:1rem}
@@ -60,65 +59,65 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
 .prog-wrap{background:var(--cream3);border-radius:99px;height:5px;margin-top:8px}
 .prog-fill{height:5px;border-radius:99px;transition:width .5s ease}
 .prog-green{background:var(--green2)}.prog-gold{background:var(--gold)}.prog-red{background:var(--red2)}
-.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.25rem}
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:1.25rem}
 .kpi-s{background:var(--cream2);border:1px solid var(--cream3);border-radius:var(--radius-lg);padding:.75rem .875rem}
 .kpi-s-l{font-size:10px;color:var(--ink3);margin-bottom:3px}
 .kpi-s-v{font-size:18px;font-weight:600;font-family:'DM Serif Display',serif;color:var(--ink)}
 .kpi-s-d{font-size:10px;margin-top:2px}
-.sec-hd{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.75rem}
-/* Satisfaccion */
-.sat-stars{display:flex;gap:6px;margin:8px 0 4px}
-.star{font-size:22px;cursor:pointer;opacity:.3;transition:opacity .1s,transform .1s}
-.star.active{opacity:1;transform:scale(1.1)}
-.sat-val{font-family:'DM Serif Display',serif;font-size:28px;font-weight:600;color:var(--ink)}
-.sat-label{font-size:11px;color:var(--ink3)}
-/* Anual */
+.sec-hd{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.75rem;margin-top:1rem}
 .anual-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1.25rem}
-@media(max-width:600px){.anual-grid{grid-template-columns:1fr}.meta-grid{grid-template-columns:1fr}}
 .anual-card{background:var(--cream2);border:1px solid var(--cream3);border-radius:var(--radius-lg);padding:1rem}
 .anual-label{font-size:10px;color:var(--ink3);margin-bottom:6px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em}
-.anual-val{font-size:20px;font-weight:600;font-family:'DM Serif Display',serif;color:var(--ink);margin-bottom:4px}
-.anual-sub{font-size:11px;color:var(--ink3)}
-.big-prog{background:var(--cream3);border-radius:99px;height:8px;margin-top:10px}
-.big-prog-fill{height:8px;border-radius:99px;transition:width .6s ease}
-/* REPORTES */
-.report-section{margin-bottom:1.75rem}
-.rep-hd{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.75rem}
-.upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:.875rem}
-.up-card{border:1.5px dashed var(--cream3);border-radius:var(--radius-lg);padding:1rem;cursor:pointer;transition:all .15s;text-align:center;background:var(--cream)}
+.big-prog{background:var(--cream3);border-radius:99px;height:7px;margin-top:8px}
+.big-prog-fill{height:7px;border-radius:99px;transition:width .6s ease}
+.sat-stars{display:flex;gap:5px;margin:8px 0 4px;flex-wrap:wrap}
+.star{font-size:20px;cursor:pointer;opacity:.25;transition:opacity .1s}
+.star.active{opacity:1}
+.sat-val{font-family:'DM Serif Display',serif;font-size:26px;font-weight:600;color:var(--ink)}
+.sat-label{font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* ARCHIVOS */
+.upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1rem}
+.up-card{border:1.5px dashed var(--cream3);border-radius:var(--radius-lg);padding:1.25rem 1rem;cursor:pointer;transition:all .15s;text-align:center;background:var(--cream)}
 .up-card:hover{border-color:var(--accent);background:var(--accent2)}
 .up-card.loaded{border-style:solid;border-color:var(--green2);background:var(--green-bg)}
-.up-icon-el{font-size:22px;color:var(--ink3);margin-bottom:.4rem;display:block}
-.up-name{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.up-icon-el{font-size:28px;margin-bottom:.5rem;display:block}
+.up-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px}
 .up-cols{font-size:10px;color:var(--ink3);line-height:1.5}
-.up-status{font-size:10px;color:var(--green);margin-top:.3rem;font-family:'DM Mono',monospace;word-break:break-all}
-.data-preview{background:var(--cream2);border:1px solid var(--cream3);border-radius:var(--radius-lg);padding:.875rem 1rem;margin-bottom:.875rem;display:none}
+.up-status{font-size:10px;color:var(--green);margin-top:.4rem;font-family:'DM Mono',monospace;word-break:break-all}
+.data-preview{background:var(--cream2);border:1px solid var(--cream3);border-radius:var(--radius-lg);padding:.875rem 1rem;margin-bottom:1rem;display:none}
 .data-preview.show{display:block}
 .preview-title{font-size:11px;font-weight:500;color:var(--ink);margin-bottom:.5rem}
 .preview-table{width:100%;font-size:11px;border-collapse:collapse;font-family:'DM Mono',monospace}
 .preview-table th{text-align:left;color:var(--ink3);padding:3px 8px 3px 0;border-bottom:1px solid var(--cream3);font-weight:400}
 .preview-table td{padding:3px 8px 3px 0;color:var(--ink2);border-bottom:1px solid var(--cream3)}
+.files-progress{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding:.75rem 1rem;background:var(--cream2);border-radius:var(--radius-lg);border:1px solid var(--cream3)}
+.files-progress-label{font-size:12px;color:var(--ink2)}
+.files-dots{display:flex;gap:6px}
+.fdot{width:10px;height:10px;border-radius:50%;background:var(--cream3);transition:background .3s}
+.fdot.done{background:var(--green2)}
+
+/* MI PLAN */
+.plan-card{background:var(--cream2);border:1px solid var(--cream3);border-radius:var(--radius-lg);padding:1rem;margin-bottom:10px}
+.plan-card-title{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
+.plan-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--cream3);font-size:12px}
+.plan-row:last-child{border-bottom:none}
+.plan-row-label{color:var(--ink3)}
+.plan-row-val{color:var(--ink);font-weight:500;font-family:'DM Mono',monospace}
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.empty-plan{text-align:center;padding:2rem;color:var(--ink3);font-size:13px}
 .analyze-btn{background:var(--ink);color:var(--cream);border:none;border-radius:var(--radius-lg);padding:.6rem 1.25rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer;font-weight:500}
 .analyze-btn:disabled{opacity:.35;cursor:not-allowed}
 .ai-result{margin-top:1rem;border-left:3px solid var(--accent);padding:.875rem 1rem;border-radius:0 var(--radius-lg) var(--radius-lg) 0;background:var(--accent2);font-size:13px;line-height:1.7;display:none}
 .ai-result.show{display:block}
-.account-list{display:flex;flex-direction:column;gap:8px}
-.account-row{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1rem;border:1px solid var(--cream3);border-radius:var(--radius-lg);background:var(--cream);cursor:pointer;transition:all .12s}
-.account-row:hover,.account-row.selected{border-color:var(--accent);background:var(--accent2)}
-.ar-left{display:flex;align-items:center;gap:10px}
-.ar-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
-.ar-name{font-size:14px;font-weight:500}.ar-sub{font-size:11px;color:var(--ink3);margin-top:1px}
-.ar-right{display:flex;align-items:center;gap:8px}
-.ar-badge{font-size:10px;padding:2px 8px;border-radius:99px;font-family:'DM Mono',monospace}
-.ar-badge.ok{background:var(--green-bg);color:var(--green)}.ar-badge.warn{background:var(--gold-bg);color:var(--gold)}.ar-badge.alert{background:var(--red-bg);color:var(--red2)}
-.ar-del{font-size:11px;color:var(--ink3);padding:3px 7px;border:1px solid var(--cream3);border-radius:var(--radius);background:transparent;cursor:pointer}
-.ar-del:hover{border-color:var(--red2);color:var(--red2)}
+
+/* CHAT */
 .chat-intro h2{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:.3rem}
 .chat-intro p{font-size:13px;color:var(--ink3);line-height:1.6;margin-bottom:1rem}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem}
-.chip{font-size:11px;padding:4px 11px;border:1px solid var(--cream3);border-radius:99px;cursor:pointer;color:var(--ink2);background:var(--cream);transition:all .1s;font-family:'Outfit',sans-serif}
+.chip{font-size:11px;padding:4px 11px;border:1px solid var(--cream3);border-radius:99px;cursor:pointer;color:var(--ink2);background:var(--cream);font-family:'Outfit',sans-serif}
 .chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent2)}
-.messages{display:flex;flex-direction:column;gap:.625rem;margin-bottom:.875rem;min-height:200px;max-height:420px;overflow-y:auto}
+.messages{display:flex;flex-direction:column;gap:.625rem;margin-bottom:.875rem;min-height:200px;max-height:400px;overflow-y:auto}
 .msg{max-width:90%;padding:.625rem .875rem;border-radius:var(--radius-lg);font-size:13px;line-height:1.65}
 .msg.user{align-self:flex-end;background:var(--ink);color:var(--cream);border-bottom-right-radius:2px}
 .msg.ai{align-self:flex-start;background:var(--cream2);color:var(--ink);border:1px solid var(--cream3);border-bottom-left-radius:2px}
@@ -132,64 +131,38 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
 .input-row textarea:focus{border-color:var(--accent)}
 .send-btn{background:var(--ink);color:var(--cream);border:none;border-radius:var(--radius-lg);padding:.5rem .875rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer}
 .send-btn:disabled{opacity:.35;cursor:not-allowed}
+@media(max-width:640px){.main{grid-template-columns:1fr}.sidebar{display:none}.anual-grid{grid-template-columns:1fr}.meta-grid{grid-template-columns:1fr}.upload-grid{grid-template-columns:1fr}.plan-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
-<div class="modal-overlay" id="modal-bg">
-<div class="modal">
-  <h3>Agregar plan / cuenta</h3>
-  <div class="field"><label>Nombre del cliente</label><input id="m-nombre" type="text" placeholder="Ej. Seguros MTY"/></div>
-  <div class="field-row">
-    <div class="field"><label>Plataforma</label><input id="m-plataforma" type="text" placeholder="Ej. SMNYL Rewards"/></div>
-    <div class="field"><label>Industria</label><select id="m-industria"><option>Seguros</option><option>Automotriz</option><option>Banca</option><option>Retail</option><option>Tecnologia</option><option>Consumo masivo</option><option>Otro</option></select></div>
-  </div>
-  <div class="field-row">
-    <div class="field"><label>Presupuesto total ($)</label><input id="m-presupuesto" type="number" placeholder="3298671"/></div>
-    <div class="field"><label>% consumido</label><input id="m-consumo" type="number" placeholder="63" min="0" max="100"/></div>
-  </div>
-  <div class="field-row">
-    <div class="field"><label>Participantes</label><input id="m-part" type="number" placeholder="2429"/></div>
-    <div class="field"><label>Campanas (coma)</label><input id="m-campanas" type="text" placeholder="RDA, Cumbre"/></div>
-  </div>
-  <div class="field"><label>Comision Alus sobre canje (%)</label><input id="m-comision" type="number" placeholder="8" step="0.5"/></div>
-  <div class="modal-actions">
-    <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
-    <button class="btn-primary" onclick="saveAccount()">Guardar cuenta</button>
-  </div>
-</div>
-</div>
-
 <div class="header">
   <div class="logo">alus <span>intelligence</span></div>
   <div class="header-right">
-    <select class="account-selector" id="account-select" onchange="selectAccount(this.value)"></select>
-    <button class="btn-outline" onclick="openModal()">+ Agregar plan</button>
+    <select class="account-selector" id="account-select" onchange="switchPlan(this.value)"></select>
   </div>
 </div>
-
 <div class="main">
 <div class="sidebar">
-  <div class="nav-label">Mi cuenta</div>
-  <div class="nav-item active" onclick="switchPanel('metas')"><div class="nav-dot"></div>Metas</div>
-  <div class="nav-item" onclick="switchPanel('reportes')"><div class="nav-dot"></div>Reportes y archivos</div>
-  <div class="nav-item" onclick="switchPanel('cuentas')"><div class="nav-dot"></div>Mis planes</div>
-  <div class="nav-item" onclick="switchPanel('chat')"><div class="nav-dot"></div>Consultar IA</div>
+  <div class="nav-label">Flujo de trabajo</div>
+  <div class="nav-item active" id="nav-metas" onclick="switchPanel('metas')"><div class="nav-step">1</div>Mis metas</div>
+  <div class="nav-item" id="nav-archivos" onclick="switchPanel('archivos')"><div class="nav-step">2</div>Subir archivos</div>
+  <div class="nav-item" id="nav-plan" onclick="switchPanel('plan')"><div class="nav-step">3</div>Mi plan</div>
+  <div class="nav-item" id="nav-chat" onclick="switchPanel('chat')"><div class="nav-step">4</div>Consultar IA</div>
   <div class="nav-sep"></div>
-  <div class="nav-label">Analisis rapido</div>
-  <div class="nav-item" onclick="switchPanel('chat');askChip('Como voy vs mis metas anuales y mensuales?')"><div class="nav-dot"></div>Avance vs meta</div>
-  <div class="nav-item" onclick="switchPanel('chat');askChip('Cual de mis cuentas necesita mas atencion urgente?')"><div class="nav-dot"></div>Priorizar cuentas</div>
-  <div class="nav-item" onclick="switchPanel('chat');askChip('Como puedo cerrar el mes en meta?')"><div class="nav-dot"></div>Cerrar el mes</div>
-  <div class="nav-item" onclick="switchPanel('chat');askChip('Compara el desempeno de todos mis planes')"><div class="nav-dot"></div>Comparar planes</div>
+  <div class="nav-label">Accesos rapidos</div>
+  <div class="nav-item" onclick="switchPanel('chat');askChip('Como voy vs mis metas anuales?')"><div class="nav-step" style="opacity:.4">→</div>Avance anual</div>
+  <div class="nav-item" onclick="switchPanel('chat');askChip('Como cierro el mes en meta?')"><div class="nav-step" style="opacity:.4">→</div>Cerrar el mes</div>
+  <div class="nav-item" onclick="switchPanel('chat');askChip('Que debo hacer para mejorar la satisfaccion de mi cliente?')"><div class="nav-step" style="opacity:.4">→</div>Mejorar satisfaccion</div>
 </div>
 
 <div class="content">
 
-<!-- METAS -->
+<!-- PASO 1: METAS -->
 <div id="panel-metas" class="panel active">
-  <div class="save-bar">
-    <h2 id="meta-titulo">Metas</h2>
-    <button class="btn-primary" id="save-meta-btn" onclick="saveMetas()" style="font-size:12px;padding:.4rem .9rem">Guardar</button>
+  <div class="step-header">
+    <div class="step-badge">1</div>
+    <div><div class="step-title" id="meta-titulo">Mis metas</div><div class="step-sub">Define tus objetivos anuales y mensuales</div></div>
   </div>
 
   <div class="tabs-row">
@@ -197,9 +170,8 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
     <button class="tab-btn" onclick="switchTab('mensual',this)">Metas Mensuales</button>
   </div>
 
-  <!-- ANUAL -->
   <div id="tab-anual" class="tab-panel active">
-    <div class="sec-hd">objetivos del ano — <span id="year-label"></span></div>
+    <div class="sec-hd">objetivos del ano <span id="year-label"></span></div>
     <div class="anual-grid">
       <div class="anual-card">
         <div class="anual-label">Meta anual de canje ($)</div>
@@ -218,13 +190,10 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
       <div class="anual-card">
         <div class="anual-label">Satisfaccion del cliente (1-10)</div>
         <div class="sat-stars" id="sat-stars"></div>
-        <div style="display:flex;align-items:baseline;gap:8px;margin-top:4px">
-          <div class="sat-val" id="sat-val">-</div>
-          <div class="sat-label" id="sat-label">Sin calificar</div>
-        </div>
+        <div class="sat-val" id="sat-val">-</div>
+        <div class="sat-label" id="sat-label">Sin calificar</div>
       </div>
     </div>
-
     <div class="sec-hd">avance real acumulado</div>
     <div class="anual-grid">
       <div class="anual-card">
@@ -239,101 +208,169 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
       </div>
       <div class="anual-card">
         <div class="anual-label">Facturacion estimada anual</div>
-        <div class="anual-val" id="fact-anual">-</div>
-        <div class="anual-sub">Sobre canje real acumulado</div>
+        <div class="meta-input" style="font-size:22px" id="fact-anual">-</div>
+        <div class="meta-sub">Sobre canje real acumulado</div>
       </div>
-    </div>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <div class="chip" onclick="switchPanel('chat');askChipAnual()">Analizar metas anuales con IA</div>
-      <div class="chip" onclick="switchPanel('chat');askChip('Como proyecto cerrar el ano en meta de canje?')">Proyeccion anual</div>
     </div>
   </div>
 
-  <!-- MENSUAL -->
   <div id="tab-mensual" class="tab-panel">
     <div class="month-tabs" id="month-tabs"></div>
-    <div class="sec-hd">metas del mes — <span id="mes-label">-</span></div>
+    <div class="sec-hd">metas del mes - <span id="mes-label">-</span></div>
     <div class="meta-grid">
-      <div class="meta-card">
-        <div class="meta-card-label">Meta de canje ($)</div>
-        <div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="meta-canje" type="number" placeholder="0" oninput="updateProgs()"/></div>
-        <div class="meta-sub">Valor total de canje esperado</div>
-        <div class="prog-wrap"><div class="prog-fill prog-green" id="prog-canje" style="width:0%"></div></div>
-        <div style="font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace" id="prog-canje-txt"></div>
-      </div>
-      <div class="meta-card">
-        <div class="meta-card-label">Meta de redenciones (#)</div>
-        <div class="meta-input-wrap"><div class="meta-prefix">#</div><input class="meta-input" id="meta-redenciones" type="number" placeholder="0" oninput="updateProgs()"/></div>
-        <div class="meta-sub">Numero de canjes a lograr</div>
-        <div class="prog-wrap"><div class="prog-fill prog-green" id="prog-red" style="width:0%"></div></div>
-        <div style="font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace" id="prog-red-txt"></div>
-      </div>
-      <div class="meta-card">
-        <div class="meta-card-label">Canje real del mes ($)</div>
-        <div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="real-canje" type="number" placeholder="0" oninput="updateProgs()"/></div>
-        <div class="meta-sub">Lo que realmente se canjeo</div>
-      </div>
-      <div class="meta-card">
-        <div class="meta-card-label">Redenciones reales (#)</div>
-        <div class="meta-input-wrap"><div class="meta-prefix">#</div><input class="meta-input" id="real-redenciones" type="number" placeholder="0" oninput="updateProgs()"/></div>
-        <div class="meta-sub">Pedidos reales del mes</div>
-      </div>
+      <div class="meta-card"><div class="meta-card-label">Meta de canje ($)</div><div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="meta-canje" type="number" placeholder="0" oninput="updateProgs()"/></div><div class="meta-sub">Valor total esperado</div><div class="prog-wrap"><div class="prog-fill prog-green" id="prog-canje" style="width:0%"></div></div><div style="font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace" id="prog-canje-txt"></div></div>
+      <div class="meta-card"><div class="meta-card-label">Meta de redenciones (#)</div><div class="meta-input-wrap"><div class="meta-prefix">#</div><input class="meta-input" id="meta-redenciones" type="number" placeholder="0" oninput="updateProgs()"/></div><div class="meta-sub">Numero de canjes</div><div class="prog-wrap"><div class="prog-fill prog-green" id="prog-red" style="width:0%"></div></div><div style="font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace" id="prog-red-txt"></div></div>
+      <div class="meta-card"><div class="meta-card-label">Canje real del mes ($)</div><div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="real-canje" type="number" placeholder="0" oninput="updateProgs()"/></div><div class="meta-sub">Lo que realmente se canjeo</div></div>
+      <div class="meta-card"><div class="meta-card-label">Redenciones reales (#)</div><div class="meta-input-wrap"><div class="meta-prefix">#</div><input class="meta-input" id="real-redenciones" type="number" placeholder="0" oninput="updateProgs()"/></div><div class="meta-sub">Pedidos reales del mes</div></div>
     </div>
-    <div class="sec-hd">resumen del mes</div>
     <div class="kpi-strip">
       <div class="kpi-s"><div class="kpi-s-l">% avance canje</div><div class="kpi-s-v" id="kpi-avc">-</div><div class="kpi-s-d" id="kpi-avc-d" style="color:var(--ink3)">-</div></div>
       <div class="kpi-s"><div class="kpi-s-l">% avance redenciones</div><div class="kpi-s-v" id="kpi-avr">-</div><div class="kpi-s-d" id="kpi-avr-d" style="color:var(--ink3)">-</div></div>
-      <div class="kpi-s"><div class="kpi-s-l">Facturacion estimada</div><div class="kpi-s-v" id="kpi-fact">-</div><div class="kpi-s-d" style="color:var(--ink3)">Sobre canje real</div></div>
-      <div class="kpi-s"><div class="kpi-s-l">Gap para meta</div><div class="kpi-s-v" id="kpi-gap">-</div><div class="kpi-s-d" style="color:var(--ink3)">Canje pendiente</div></div>
+      <div class="kpi-s"><div class="kpi-s-l">Facturacion estimada</div><div class="kpi-s-v" id="kpi-fact">-</div></div>
+      <div class="kpi-s"><div class="kpi-s-l">Gap para meta</div><div class="kpi-s-v" id="kpi-gap">-</div></div>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <div class="chip" onclick="switchPanel('chat');askChipMeta()">Analizar avance con IA</div>
-      <div class="chip" onclick="switchPanel('chat');askChip('Que puedo hacer esta semana para acercarme a mi meta?')">Plan semanal</div>
-    </div>
+  </div>
+
+  <div class="step-nav">
+    <button class="btn-next" onclick="saveMetas();switchPanel('archivos')">Guardar y continuar →</button>
   </div>
 </div>
 
-<!-- REPORTES -->
-<div id="panel-reportes" class="panel">
-  <div class="save-bar"><h2>Reportes y archivos</h2><span id="rep-account-tag" style="font-size:12px;color:var(--ink3);font-family:monospace"></span></div>
-  <div class="report-section">
-    <div class="rep-hd">archivos del programa</div>
-    <div class="upload-grid">
-      <div class="up-card" id="uc-canjes" onclick="document.getElementById('f-canjes').click()"><span class="up-icon-el">📦</span><div class="up-name">Canjes</div><div class="up-cols">Ordenes, status, productos, precios</div><input type="file" id="f-canjes" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'canjes')"/><div class="up-status" id="us-canjes"></div></div>
-      <div class="up-card" id="uc-trans" onclick="document.getElementById('f-trans').click()"><span class="up-icon-el">💰</span><div class="up-name">Asignaciones</div><div class="up-cols">Puntos dispersados por usuario y mes</div><input type="file" id="f-trans" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'trans')"/><div class="up-status" id="us-trans"></div></div>
-      <div class="up-card" id="uc-part" onclick="document.getElementById('f-part').click()"><span class="up-icon-el">👥</span><div class="up-name">Participantes</div><div class="up-cols">Usuarios, puntos, estado de cuenta</div><input type="file" id="f-part" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'part')"/><div class="up-status" id="us-part"></div></div>
+<!-- PASO 2: ARCHIVOS -->
+<div id="panel-archivos" class="panel">
+  <div class="step-header">
+    <div class="step-badge">2</div>
+    <div><div class="step-title">Subir archivos</div><div class="step-sub">Carga los 3 reportes del programa. El plan se llena automaticamente.</div></div>
+  </div>
+
+  <div class="files-progress">
+    <div class="files-progress-label">Archivos cargados:</div>
+    <div class="files-dots">
+      <div class="fdot" id="fdot-canjes" title="Canjes"></div>
+      <div class="fdot" id="fdot-trans" title="Asignaciones"></div>
+      <div class="fdot" id="fdot-part" title="Participantes"></div>
+    </div>
+    <div style="font-size:11px;color:var(--ink3);font-family:monospace" id="files-count">0 de 3</div>
+  </div>
+
+  <div class="upload-grid">
+    <div class="up-card" id="uc-canjes" onclick="document.getElementById('f-canjes').click()">
+      <span class="up-icon-el">📦</span>
+      <div class="up-name">Canjes</div>
+      <div class="up-cols">Ordenes, status, productos, precios, categorias</div>
+      <input type="file" id="f-canjes" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'canjes')"/>
+      <div class="up-status" id="us-canjes"></div>
+    </div>
+    <div class="up-card" id="uc-trans" onclick="document.getElementById('f-trans').click()">
+      <span class="up-icon-el">💰</span>
+      <div class="up-name">Asignaciones</div>
+      <div class="up-cols">Puntos dispersados por usuario, motivo y mes</div>
+      <input type="file" id="f-trans" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'trans')"/>
+      <div class="up-status" id="us-trans"></div>
+    </div>
+    <div class="up-card" id="uc-part" onclick="document.getElementById('f-part').click()">
+      <span class="up-icon-el">👥</span>
+      <div class="up-name">Participantes</div>
+      <div class="up-cols">Usuarios, puntos acumulados, estado de cuenta</div>
+      <input type="file" id="f-part" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'part')"/>
+      <div class="up-status" id="us-part"></div>
     </div>
   </div>
-  <div class="data-preview" id="data-preview"><div class="preview-title" id="preview-title">Vista previa</div><div style="overflow-x:auto"><table class="preview-table" id="preview-table"></table></div></div>
-  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
-    <button class="analyze-btn" id="analyze-btn" onclick="analyzeFiles()">Analizar con IA</button>
-    <button class="btn-secondary" style="font-size:12px" onclick="clearFiles()">Limpiar</button>
-    <span id="files-count" style="font-size:11px;color:var(--ink3);font-family:monospace"></span>
+
+  <div class="data-preview" id="data-preview">
+    <div class="preview-title" id="preview-title">Vista previa</div>
+    <div style="overflow-x:auto"><table class="preview-table" id="preview-table"></table></div>
   </div>
-  <div class="ai-result" id="ai-result"></div>
+
+  <div class="step-nav">
+    <button class="btn-back" onclick="switchPanel('metas')">← Atras</button>
+    <button class="btn-next" onclick="buildPlan();switchPanel('plan')">Ver mi plan →</button>
+  </div>
 </div>
 
-<!-- CUENTAS -->
-<div id="panel-cuentas" class="panel">
-  <div class="save-bar"><h2>Mis planes</h2><button class="btn-outline" onclick="openModal()" style="font-size:12px">+ Agregar plan</button></div>
-  <div class="sec-hd">planes activos</div>
-  <div class="account-list" id="account-list"></div>
-  <div id="no-accounts" style="font-size:13px;color:var(--ink3);padding:1rem 0;display:none">No tienes planes registrados.</div>
+<!-- PASO 3: MI PLAN -->
+<div id="panel-plan" class="panel">
+  <div class="step-header">
+    <div class="step-badge">3</div>
+    <div><div class="step-title">Mi plan</div><div class="step-sub">Generado automaticamente con tus archivos y metas</div></div>
+  </div>
+
+  <div id="plan-empty" class="empty-plan" style="display:none">
+    <div style="font-size:32px;margin-bottom:.5rem">📂</div>
+    Sube tus archivos en el paso 2 para ver el plan automatico.
+    <br><button class="btn-next" style="margin-top:1rem;font-size:12px" onclick="switchPanel('archivos')">Subir archivos</button>
+  </div>
+
+  <div id="plan-content">
+    <div class="plan-grid">
+      <div class="plan-card">
+        <div class="plan-card-title">📊 Resumen general</div>
+        <div class="plan-row"><span class="plan-row-label">Plataforma</span><span class="plan-row-val" id="pl-plataforma">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Total ordenes</span><span class="plan-row-val" id="pl-ordenes">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Ordenes entregadas</span><span class="plan-row-val" id="pl-delivered">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Ordenes pendientes</span><span class="plan-row-val" id="pl-pending">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Valor total canjeado</span><span class="plan-row-val" id="pl-valor">-</span></div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-title">👥 Participantes</div>
+        <div class="plan-row"><span class="plan-row-label">Total registrados</span><span class="plan-row-val" id="pl-total-part">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Activos</span><span class="plan-row-val" id="pl-activos">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Suspendidos</span><span class="plan-row-val" id="pl-suspendidos">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Tasa de activacion</span><span class="plan-row-val" id="pl-tasa">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Pts disponibles total</span><span class="plan-row-val" id="pl-pts-disp">-</span></div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-title">💰 Puntos</div>
+        <div class="plan-row"><span class="plan-row-label">Total asignados</span><span class="plan-row-val" id="pl-pts-asig">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Total acumulados</span><span class="plan-row-val" id="pl-pts-acum">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Total redimidos</span><span class="plan-row-val" id="pl-pts-red">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">% redimido</span><span class="plan-row-val" id="pl-pct-red">-</span></div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-title">📦 Top categorias canjeadas</div>
+        <div id="pl-categorias">-</div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-title">🎯 Avance vs metas anuales</div>
+        <div class="plan-row"><span class="plan-row-label">Canje vs meta anual</span><span class="plan-row-val" id="pl-avance-canje">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Asignacion vs meta</span><span class="plan-row-val" id="pl-avance-asig">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Satisfaccion cliente</span><span class="plan-row-val" id="pl-sat">-</span></div>
+        <div class="plan-row"><span class="plan-row-label">Facturacion estimada</span><span class="plan-row-val" id="pl-fact-est">-</span></div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-title">⚠ Alertas</div>
+        <div id="pl-alertas" style="font-size:12px;line-height:1.7;color:var(--ink2)">-</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="analyze-btn" id="analyze-btn" onclick="analyzeAll()">Analizar todo con IA →</button>
+      <button class="btn-back" onclick="switchPanel('archivos')">← Cambiar archivos</button>
+    </div>
+    <div class="ai-result" id="ai-result"></div>
+  </div>
+
+  <div class="step-nav" style="margin-top:1rem">
+    <button class="btn-next" onclick="switchPanel('chat')">Consultar IA →</button>
+  </div>
 </div>
 
-<!-- CHAT -->
+<!-- PASO 4: CHAT -->
 <div id="panel-chat" class="panel">
-  <div class="chat-intro"><h2>Consultar con IA</h2><p>Analizo tus metas anuales, mensuales, reportes y planes para darte recomendaciones accionables.</p></div>
+  <div class="step-header">
+    <div class="step-badge">4</div>
+    <div><div class="step-title">Consultar IA</div><div class="step-sub">Analisis completo con todo el contexto de tu cuenta</div></div>
+  </div>
   <div class="chips">
-    <div class="chip" onclick="askChip('Como voy vs mis metas anuales y mensuales?')">Avance vs metas</div>
-    <div class="chip" onclick="askChip('Analiza mis archivos y dime los 3 hallazgos mas importantes')">Analizar reportes</div>
+    <div class="chip" onclick="askChip('Como voy vs mis metas anuales y que debo hacer?')">Avance vs metas</div>
+    <div class="chip" onclick="askChip('Analiza mis canjes, asignaciones y participantes. Cuales son los 3 hallazgos mas importantes?')">Analizar reportes</div>
     <div class="chip" onclick="askChip('Que debo hacer para mejorar la satisfaccion de mi cliente?')">Mejorar satisfaccion</div>
     <div class="chip" onclick="askChip('Como proyecto cerrar el ano en meta de canje?')">Proyeccion anual</div>
-    <div class="chip" onclick="askChip('Cual de mis cuentas necesita mas atencion urgente?')">Priorizar cuentas</div>
+    <div class="chip" onclick="askChip('Que participantes estan en riesgo de inactividad y que hago?')">Riesgo inactividad</div>
+    <div class="chip" onclick="askChip('Dame un script para la proxima revision con mi cliente')">Preparar revision</div>
   </div>
   <div class="messages" id="messages">
-    <div class="msg ai"><span class="tag">IA</span>Hola. Soy tu asistente de cuenta Alus. Preguntame sobre tus metas anuales, mensuales o reportes.</div>
+    <div class="msg ai"><span class="tag">IA</span>Hola. Soy tu asistente de cuenta Alus. Una vez que completes los pasos 1, 2 y 3, tendre todo el contexto de tu cuenta para darte analisis y recomendaciones muy precisas. Preguntame lo que necesites.</div>
   </div>
   <div class="input-row">
     <textarea id="user-input" rows="2" placeholder="Escribe tu pregunta aqui..." onkeydown="handleKey(event)"></textarea>
@@ -348,22 +385,27 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
 <script>
 const MESES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 let activeMonth=new Date().getMonth();
-let accounts=[{id:'a1',nombre:'Seguros MTY',plataforma:'SMNYL Rewards',industria:'Seguros',presupuesto:3298671,consumo:63,participantes:2429,campanas:'RDA, Camino a la cumbre, Legion centurion',comision:8}];
-let metas={},activeAccountId='a1',isLoading=false,chatHistory=[],uploadedFiles={},parsedData={};
+let plans=[{id:'p1',nombre:'Seguros MTY',plataforma:'SMNYL Rewards',industria:'Seguros',comision:8}];
+let metas={},activePlanId='p1',isLoading=false,chatHistory=[];
+let uploadedFiles={},parsedData={};
 let satScore=0;
 
-try{const s=localStorage.getItem('alus_accounts');if(s)accounts=JSON.parse(s);}catch(e){}
+document.getElementById('year-label').textContent=new Date().getFullYear();
+
+try{const s=localStorage.getItem('alus_plans');if(s)plans=JSON.parse(s);}catch(e){}
 try{const s=localStorage.getItem('alus_metas');if(s)metas=JSON.parse(s);}catch(e){}
 
-document.getElementById('year-label').textContent=new Date().getFullYear();
+function getPlan(id){return plans.find(p=>p.id===id)||plans[0];}
+function getMetaKey(m){return activePlanId+'_'+m;}
+function getAnualKey(){return activePlanId+'_anual';}
 
 // STARS
 function buildStars(){
   const wrap=document.getElementById('sat-stars');wrap.innerHTML='';
   for(let i=1;i<=10;i++){
     const s=document.createElement('span');s.className='star'+(i<=satScore?' active':'');
-    s.textContent=i<=5?'★':'◆';s.title=i+'/10';
-    s.onclick=(()=>{const v=i;return()=>setSat(v);})();
+    s.textContent='★';s.title=i+'/10';
+    s.onclick=(function(v){return function(){setSat(v);};})(i);
     wrap.appendChild(s);
   }
 }
@@ -375,16 +417,10 @@ function setSat(v){
 }
 buildStars();
 
-function getAccount(id){return accounts.find(a=>a.id===id);}
-function getMetaKey(m){return activeAccountId+'_'+m;}
-function getAnualKey(){return activeAccountId+'_anual';}
-function saveAccountsToStorage(){try{localStorage.setItem('alus_accounts',JSON.stringify(accounts));}catch(e){}}
-
 function switchTab(name,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');document.getElementById('tab-'+name).classList.add('active');
 }
 
 function saveMetas(){
@@ -393,7 +429,6 @@ function saveMetas(){
   const ak=getAnualKey();
   metas[ak]={metaAnualCanje:parseFloat(document.getElementById('meta-anual-canje').value)||0,metaAnualAsig:parseFloat(document.getElementById('meta-anual-asig').value)||0,realAnualCanje:parseFloat(document.getElementById('real-anual-canje').value)||0,realAnualAsig:parseFloat(document.getElementById('real-anual-asig').value)||0,sat:satScore};
   try{localStorage.setItem('alus_metas',JSON.stringify(metas));}catch(e){}
-  const btn=document.getElementById('save-meta-btn');btn.textContent='Guardado';setTimeout(()=>btn.textContent='Guardar',1500);
 }
 
 function loadMetas(){
@@ -417,10 +452,10 @@ function updateAnual(){
   const ma=parseFloat(document.getElementById('meta-anual-asig').value)||0;
   const rc=parseFloat(document.getElementById('real-anual-canje').value)||0;
   const ra=parseFloat(document.getElementById('real-anual-asig').value)||0;
-  const acc=getAccount(activeAccountId);const com=acc?acc.comision:8;
+  const plan=getPlan(activePlanId);const com=plan?plan.comision:8;
+  const col=p=>p>=80?'prog-green':p>=50?'prog-gold':'prog-red';
   const pctC=mc>0?Math.min(Math.round(rc/mc*100),100):0;
   const pctA=ma>0?Math.min(Math.round(ra/ma*100),100):0;
-  const col=p=>p>=80?'prog-green':p>=50?'prog-gold':'prog-red';
   const pc=document.getElementById('prog-anual-canje');pc.style.width=pctC+'%';pc.className='big-prog-fill '+col(pctC);
   document.getElementById('prog-anual-canje-txt').textContent=mc>0?pctC+'% - $'+rc.toLocaleString()+' de $'+mc.toLocaleString():'';
   const pa=document.getElementById('prog-anual-asig');pa.style.width=pctA+'%';pa.className='big-prog-fill '+col(pctA);
@@ -433,7 +468,7 @@ function updateProgs(){
   const mr=parseFloat(document.getElementById('meta-redenciones').value)||0;
   const rc=parseFloat(document.getElementById('real-canje').value)||0;
   const rr=parseFloat(document.getElementById('real-redenciones').value)||0;
-  const acc=getAccount(activeAccountId);const com=acc?acc.comision:8;
+  const plan=getPlan(activePlanId);const com=plan?plan.comision:8;
   const pctC=mc>0?Math.min(Math.round(rc/mc*100),100):0;
   const pctR=mr>0?Math.min(Math.round(rr/mr*100),100):0;
   const col=p=>p>=80?'prog-green':p>=50?'prog-gold':'prog-red';
@@ -453,7 +488,7 @@ function buildMonthTabs(){
   const wrap=document.getElementById('month-tabs');wrap.innerHTML='';
   MESES.forEach((m,i)=>{
     const d=document.createElement('div');d.className='mtab'+(i===activeMonth?' active':'');d.textContent=m;
-    d.onclick=()=>{activeMonth=i;buildMonthTabs();document.getElementById('mes-label').textContent=m+' '+new Date().getFullYear();loadMetas();};
+    d.onclick=(function(idx,label){return function(){activeMonth=idx;buildMonthTabs();document.getElementById('mes-label').textContent=label+' '+new Date().getFullYear();loadMetas();};})(i,m);
     wrap.appendChild(d);
   });
   document.getElementById('mes-label').textContent=MESES[activeMonth]+' '+new Date().getFullYear();
@@ -461,23 +496,27 @@ function buildMonthTabs(){
 
 function handleFile(input,type){
   const f=input.files[0];if(!f)return;
-  uploadedFiles[type]={name:f.name};updateFilesCount();
+  uploadedFiles[type]={name:f.name};
   if(f.name.toLowerCase().endsWith('.csv')){
     const reader=new FileReader();
-    reader.onload=e=>{
+    reader.onload=function(e){
       const result=Papa.parse(e.target.result,{header:true,skipEmptyLines:true});
       parsedData[type]=result.data;
-      const card=document.getElementById('uc-'+type);
-      card.classList.add('loaded');card.querySelector('.up-icon-el').textContent='✅';
-      document.getElementById('us-'+type).textContent=f.name+' ('+result.data.length+' filas)';
+      markLoaded(type,f.name+' ('+result.data.length+' filas)');
       showPreview(type,result.data);
     };reader.readAsText(f);
   }else{
-    const card=document.getElementById('uc-'+type);
-    card.classList.add('loaded');card.querySelector('.up-icon-el').textContent='✅';
-    document.getElementById('us-'+type).textContent=f.name;
     parsedData[type]=[{archivo:f.name}];
+    markLoaded(type,f.name);
   }
+  updateFilesCount();
+}
+
+function markLoaded(type,label){
+  const card=document.getElementById('uc-'+type);
+  if(card){card.classList.add('loaded');card.querySelector('.up-icon-el').textContent='✅';}
+  const s=document.getElementById('us-'+type);if(s)s.textContent=label;
+  const dot=document.getElementById('fdot-'+type);if(dot)dot.classList.add('done');
 }
 
 function showPreview(type,data){
@@ -485,90 +524,147 @@ function showPreview(type,data){
   const labels={canjes:'Canjes',trans:'Asignaciones',part:'Participantes'};
   document.getElementById('preview-title').textContent='Vista previa: '+labels[type]+' (primeras 5 filas)';
   const cols=Object.keys(data[0]).slice(0,6);const rows=data.slice(0,5);
-  let html='<thead><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
-  rows.forEach(r=>{html+='<tr>'+cols.map(c=>'<td>'+(r[c]||'-')+'</td>').join('')+'</tr>';});
+  let html='<thead><tr>'+cols.map(function(c){return'<th>'+c+'</th>';}).join('')+'</tr></thead><tbody>';
+  rows.forEach(function(r){html+='<tr>'+cols.map(function(c){return'<td>'+(r[c]||'-')+'</td>';}).join('')+'</tr>';});
   document.getElementById('preview-table').innerHTML=html+'</tbody>';
   document.getElementById('data-preview').classList.add('show');
 }
 
-function updateFilesCount(){const n=Object.keys(uploadedFiles).length;document.getElementById('files-count').textContent=n>0?n+' archivo(s) cargado(s)':'';}
-
-function clearFiles(){
-  uploadedFiles={};parsedData={};
-  [['canjes','📦'],['trans','💰'],['part','👥']].forEach(([t,icon])=>{
-    const c=document.getElementById('uc-'+t);if(c){c.classList.remove('loaded');c.querySelector('.up-icon-el').textContent=icon;}
-    const s=document.getElementById('us-'+t);if(s)s.textContent='';
-    const f=document.getElementById('f-'+t);if(f)f.value='';
-  });
-  document.getElementById('data-preview').classList.remove('show');
-  document.getElementById('ai-result').classList.remove('show');
-  updateFilesCount();
+function updateFilesCount(){
+  const n=Object.keys(uploadedFiles).length;
+  document.getElementById('files-count').textContent=n+' de 3';
 }
 
-async function analyzeFiles(){
-  const btn=document.getElementById('analyze-btn');const res=document.getElementById('ai-result');
-  const acc=getAccount(activeAccountId)||{};const k=getMetaKey(activeMonth);const m=metas[k]||{};
+function buildPlan(){
+  const plan=getPlan(activePlanId);
   const ak=getAnualKey();const a=metas[ak]||{};
+  const com=plan?plan.comision:8;
+
+  // Datos de canjes
+  const canjes=parsedData.canjes||[];
+  const totalOrdenes=canjes.length;
+  const delivered=canjes.filter(function(r){return(r['Orden Status']||'').toUpperCase()==='DELIVERED';}).length;
+  const pending=canjes.filter(function(r){return(r['Orden Status']||'').toUpperCase()==='PENDING';}).length;
+  const valorTotal=canjes.reduce(function(s,r){return s+(parseFloat(r['Precio'])||0);},0);
+
+  // Categorias
+  const catMap={};
+  canjes.forEach(function(r){const c=r['Categoria']||r['Categoría']||'Sin categoria';catMap[c]=(catMap[c]||0)+1;});
+  const topCats=Object.entries(catMap).sort(function(a,b){return b[1]-a[1];}).slice(0,4);
+
+  // Participantes
+  const parts=parsedData.part||[];
+  const totalPart=parts.length;
+  const activos=parts.filter(function(r){return(r['Estado de cuenta']||'').toUpperCase()==='ACTIVE';}).length;
+  const suspendidos=totalPart-activos;
+  const tasa=totalPart>0?Math.round(activos/totalPart*100):0;
+  const ptsAcum=parts.reduce(function(s,r){return s+(parseFloat(r['Puntos Acumulados'])||0);},0);
+  const ptsRed=parts.reduce(function(s,r){return s+(parseFloat(r['Puntos Redimidos'])||0);},0);
+  const ptsDisp=parts.reduce(function(s,r){return s+(parseFloat(r['Puntos Disponibles'])||0);},0);
+  const pctRed=ptsAcum>0?Math.round(ptsRed/ptsAcum*100):0;
+
+  // Asignaciones
+  const trans=parsedData.trans||[];
+  const ptsAsig=trans.reduce(function(s,r){return s+(parseFloat(r['Monto'])||0);},0);
+  const plat=canjes.length>0?(canjes[0]['Plataforma']||plan.plataforma):plan.plataforma;
+
+  // Llenar plan
+  document.getElementById('pl-plataforma').textContent=plat||'-';
+  document.getElementById('pl-ordenes').textContent=totalOrdenes.toLocaleString();
+  document.getElementById('pl-delivered').textContent=delivered.toLocaleString();
+  document.getElementById('pl-pending').textContent=pending.toLocaleString();
+  document.getElementById('pl-valor').textContent='$'+valorTotal.toLocaleString(undefined,{maximumFractionDigits:0});
+  document.getElementById('pl-total-part').textContent=totalPart.toLocaleString();
+  document.getElementById('pl-activos').textContent=activos.toLocaleString();
+  document.getElementById('pl-suspendidos').textContent=suspendidos.toLocaleString();
+  document.getElementById('pl-tasa').textContent=tasa+'%';
+  document.getElementById('pl-pts-disp').textContent=ptsDisp.toLocaleString()+' pts';
+  document.getElementById('pl-pts-asig').textContent=ptsAsig.toLocaleString()+' pts';
+  document.getElementById('pl-pts-acum').textContent=ptsAcum.toLocaleString()+' pts';
+  document.getElementById('pl-pts-red').textContent=ptsRed.toLocaleString()+' pts';
+  document.getElementById('pl-pct-red').textContent=pctRed+'%';
+
+  // Categorias
+  const catEl=document.getElementById('pl-categorias');
+  if(topCats.length>0){
+    catEl.innerHTML=topCats.map(function(c){return'<div class="plan-row"><span class="plan-row-label">'+c[0]+'</span><span class="plan-row-val">'+c[1]+' ordenes</span></div>';}).join('');
+  }else{catEl.textContent='Sin datos de canjes';}
+
+  // Avance vs metas
+  const pctCanjeAnual=a.metaAnualCanje>0?Math.round((a.realAnualCanje||0)/a.metaAnualCanje*100):0;
+  const pctAsigAnual=a.metaAnualAsig>0?Math.round((a.realAnualAsig||0)/a.metaAnualAsig*100):0;
+  document.getElementById('pl-avance-canje').textContent=a.metaAnualCanje>0?pctCanjeAnual+'%':'Sin meta';
+  document.getElementById('pl-avance-asig').textContent=a.metaAnualAsig>0?pctAsigAnual+'%':'Sin meta';
+  document.getElementById('pl-sat').textContent=satScore>0?satScore+'/10':'Sin calificar';
+  document.getElementById('pl-fact-est').textContent=a.realAnualCanje>0?'$'+Math.round((a.realAnualCanje||0)*com/100).toLocaleString():'-';
+
+  // Alertas
+  const alertas=[];
+  if(tasa<50)alertas.push('Solo el '+tasa+'% de participantes esta activo. Hay oportunidad de reactivacion.');
+  if(pctRed<30&&ptsAcum>0)alertas.push('Solo el '+pctRed+'% de los puntos acumulados han sido redimidos. Activa estrategia de canje.');
+  if(pending>delivered&&totalOrdenes>0)alertas.push('Hay mas ordenes PENDING ('+pending+') que DELIVERED ('+delivered+'). Revisa el proceso de entrega.');
+  if(pctCanjeAnual<50&&a.metaAnualCanje>0)alertas.push('Avance de canje anual al '+pctCanjeAnual+'%. Acelera para llegar a la meta.');
+  if(satScore>0&&satScore<6)alertas.push('Satisfaccion del cliente en '+satScore+'/10. Requiere atencion inmediata.');
+  document.getElementById('pl-alertas').innerHTML=alertas.length>0?alertas.map(function(a){return'⚠ '+a;}).join('<br>'):'Sin alertas criticas detectadas.';
+
+  // Mostrar/ocultar
+  const hasData=canjes.length>0||parts.length>0||trans.length>0;
+  document.getElementById('plan-empty').style.display=hasData?'none':'block';
+  document.getElementById('plan-content').style.display=hasData?'block':'none';
+}
+
+async function analyzeAll(){
+  const btn=document.getElementById('analyze-btn');const res=document.getElementById('ai-result');
+  const ak=getAnualKey();const a=metas[ak]||{};
+  const k=getMetaKey(activeMonth);const m=metas[k]||{};
   let dataSummary='';
-  Object.entries(parsedData).forEach(([type,data])=>{
+  Object.entries(parsedData).forEach(function(entry){
+    const type=entry[0];const data=entry[1];
     if(data&&data.length){const cols=data[0]?Object.keys(data[0]).join(', '):'';const sample=JSON.stringify(data.slice(0,3));dataSummary+='\n['+type.toUpperCase()+'] '+data.length+' filas. Columnas: '+cols+'. Muestra: '+sample+'\n';}
   });
-  const prompt=Object.keys(uploadedFiles).length>0
-    ?'Archivos del programa '+acc.nombre+':\n'+dataSummary+'\nMeta anual canje: $'+(a.metaAnualCanje||0)+' | Real: $'+(a.realAnualCanje||0)+'. Meta anual asignacion: '+(a.metaAnualAsig||0)+' pts | Real: '+(a.realAnualAsig||0)+' pts. Satisfaccion cliente: '+(satScore||'sin calificar')+'/10.\nMeta canje '+MESES[activeMonth]+': $'+(m.metaCanje||0)+' | Real: $'+(m.realCanje||0)+'.\n\nDame: 1) Hallazgos clave de canjes y participantes, 2) Avance vs metas anuales y mensuales, 3) Riesgos detectados, 4) Top 3 acciones concretas esta semana.'
-    :'Sin archivos. Para '+acc.nombre+', meta anual canje $'+(a.metaAnualCanje||0)+', real $'+(a.realAnualCanje||0)+'. Satisfaccion: '+(satScore||'sin calificar')+'/10. Dame las 5 prioridades de accion inmediata.';
+  const prompt='Analiza estos datos del programa:\n'+dataSummary+'\nMeta anual canje: $'+(a.metaAnualCanje||0)+' | Real: $'+(a.realAnualCanje||0)+'. Meta asignacion: '+(a.metaAnualAsig||0)+' pts | Real: '+(a.realAnualAsig||0)+' pts. Satisfaccion: '+(satScore||'sin calificar')+'/10. Meta canje '+MESES[activeMonth]+': $'+(m.metaCanje||0)+' | Real: $'+(m.realCanje||0)+'.\n\nDame: 1) Hallazgos clave de canjes y participantes con numeros exactos, 2) Avance vs metas anuales y mensuales, 3) Riesgos criticos, 4) Top 3 acciones concretas para esta semana.';
   btn.disabled=true;btn.textContent='Analizando...';res.classList.remove('show');
   try{
     const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,system:buildContext(),messages:[{role:'user',content:prompt}]})});
     const d=await r.json();
-    if(d.error){res.innerHTML='Error: '+d.error.message;res.classList.add('show');btn.disabled=false;btn.textContent='Analizar con IA';return;}
-    const text=d.content?.find(b=>b.type==='text')?.text||'';
-    res.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');res.classList.add('show');
+    if(d.error){res.innerHTML='Error: '+d.error.message;res.classList.add('show');btn.disabled=false;btn.textContent='Analizar todo con IA →';return;}
+    const text=d.content&&d.content.find(function(b){return b.type==='text';});
+    res.innerHTML=(text?text.text:'').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');res.classList.add('show');
   }catch(e){res.innerHTML='Error: '+e.message;res.classList.add('show');}
-  btn.disabled=false;btn.textContent='Analizar con IA';
-}
-
-function buildAccountList(){
-  const list=document.getElementById('account-list');const none=document.getElementById('no-accounts');
-  list.innerHTML='';if(!accounts.length){none.style.display='block';return;}none.style.display='none';
-  const colors=['#c4621a','#2563a8','#1a6b3c','#8b1a6b','#ba7517'];
-  accounts.forEach((a,i)=>{
-    const c=colors[i%colors.length];const ini=a.nombre.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
-    const cons=a.consumo||0;const bcls=cons>=80?'ok':cons>=50?'warn':'alert';const btxt=cons>=80?'Activo':'Consumo bajo';
-    const div=document.createElement('div');div.className='account-row'+(a.id===activeAccountId?' selected':'');
-    div.innerHTML='<div class="ar-left"><div class="ar-avatar" style="background:'+c+'22;color:'+c+'">'+ini+'</div><div><div class="ar-name">'+a.nombre+'</div><div class="ar-sub">'+a.plataforma+' - '+(a.participantes||0).toLocaleString()+' part. - '+cons+'% consumido</div></div></div><div class="ar-right"><span class="ar-badge '+bcls+'">'+btxt+'</span><button class="ar-del" onclick="event.stopPropagation();deleteAccount(\''+a.id+'\')">X</button></div>';
-    div.onclick=()=>selectAccount(a.id);list.appendChild(div);
-  });
-}
-
-function buildAccountSelector(){
-  const sel=document.getElementById('account-select');sel.innerHTML='';
-  accounts.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.textContent=a.nombre+(a.plataforma?' - '+a.plataforma:'');if(a.id===activeAccountId)o.selected=true;sel.appendChild(o);});
-  const acc=getAccount(activeAccountId);
-  document.getElementById('meta-titulo').textContent='Metas - '+(acc?acc.nombre:'');
-  document.getElementById('rep-account-tag').textContent=acc?acc.nombre+' - '+acc.plataforma:'';
-}
-
-function selectAccount(id){activeAccountId=id;buildAccountList();buildAccountSelector();loadMetas();clearFiles();chatHistory=[];}
-function openModal(){document.getElementById('modal-bg').classList.add('open');}
-function closeModal(){document.getElementById('modal-bg').classList.remove('open');['m-nombre','m-plataforma','m-presupuesto','m-consumo','m-part','m-campanas','m-comision'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
-function saveAccount(){
-  const nombre=document.getElementById('m-nombre').value.trim();if(!nombre){alert('Ingresa el nombre del cliente');return;}
-  const id='a'+Date.now();
-  accounts.push({id,nombre,plataforma:document.getElementById('m-plataforma').value.trim()||'-',industria:document.getElementById('m-industria').value,presupuesto:parseFloat(document.getElementById('m-presupuesto').value)||0,consumo:parseFloat(document.getElementById('m-consumo').value)||0,participantes:parseInt(document.getElementById('m-part').value)||0,campanas:document.getElementById('m-campanas').value.trim()||'-',comision:parseFloat(document.getElementById('m-comision').value)||8});
-  activeAccountId=id;saveAccountsToStorage();closeModal();buildAccountSelector();buildAccountList();loadMetas();
-}
-function deleteAccount(id){
-  if(accounts.length<=1){alert('Debes tener al menos un plan.');return;}
-  accounts=accounts.filter(a=>a.id!==id);if(activeAccountId===id)activeAccountId=accounts[0].id;
-  saveAccountsToStorage();buildAccountSelector();buildAccountList();loadMetas();
+  btn.disabled=false;btn.textContent='Analizar todo con IA →';
 }
 
 function buildContext(){
-  const acc=getAccount(activeAccountId)||{};const k=getMetaKey(activeMonth);const m=metas[k]||{};
+  const plan=getPlan(activePlanId);
   const ak=getAnualKey();const a=metas[ak]||{};
-  const allAccStr=accounts.map(x=>'- '+x.nombre+' ('+x.plataforma+'): '+x.participantes+' part., $'+(x.presupuesto||0).toLocaleString()+', '+x.consumo+'% consumido, comision: '+x.comision+'%').join('\n');
-  const filesStr=Object.keys(uploadedFiles).length>0?'Archivos: '+Object.entries(uploadedFiles).map(([t,f])=>t+': '+f.name).join(', '):'Sin archivos.';
-  return 'Eres asistente experto en programas de incentivos B2B para Alus (Mexico). Alus cobra comision sobre canje realizado.\n\nCUENTA ACTIVA: '+acc.nombre+' | '+acc.plataforma+' | '+acc.industria+'\nPresupuesto: $'+(acc.presupuesto||0).toLocaleString()+' | Consumido: '+(acc.consumo||0)+'% | Participantes: '+(acc.participantes||0)+' | Comision: '+(acc.comision||8)+'%\n\nMETAS ANUALES '+new Date().getFullYear()+':\nMeta canje: $'+(a.metaAnualCanje||0).toLocaleString()+' | Real acumulado: $'+(a.realAnualCanje||0).toLocaleString()+' | Avance: '+(a.metaAnualCanje>0?Math.round((a.realAnualCanje||0)/a.metaAnualCanje*100):0)+'%\nMeta asignacion: '+(a.metaAnualAsig||0).toLocaleString()+' pts | Real: '+(a.realAnualAsig||0).toLocaleString()+' pts\nSatisfaccion cliente: '+(satScore||'sin calificar')+'/10\n\nMETAS '+MESES[activeMonth]+':\nCanje meta: $'+(m.metaCanje||0).toLocaleString()+' | Real: $'+(m.realCanje||0).toLocaleString()+'\nRedenciones meta: '+(m.metaRed||0)+' | Real: '+(m.realRed||0)+'\n\n'+filesStr+'\n\nTODOS LOS PLANES:\n'+allAccStr+'\n\nResponde en espanol, directo y accionable. Maximo 5 parrafos. Negritas para puntos clave.';
+  const k=getMetaKey(activeMonth);const m=metas[k]||{};
+  const canjes=parsedData.canjes||[];const parts=parsedData.part||[];const trans=parsedData.trans||[];
+  const totalOrdenes=canjes.length;
+  const activos=parts.filter(function(r){return(r['Estado de cuenta']||'').toUpperCase()==='ACTIVE';}).length;
+  const ptsAsig=trans.reduce(function(s,r){return s+(parseFloat(r['Monto'])||0);},0);
+  const valorTotal=canjes.reduce(function(s,r){return s+(parseFloat(r['Precio'])||0);},0);
+  return 'Eres asistente experto en programas de incentivos B2B para Alus (Mexico). Alus cobra comision sobre canje realizado.\n\nCUENTA: '+plan.nombre+' | Plataforma: '+plan.plataforma+' | Comision: '+(plan.comision||8)+'%\n\nMETAS ANUALES '+new Date().getFullYear()+':\nMeta canje: $'+(a.metaAnualCanje||0).toLocaleString()+' | Real: $'+(a.realAnualCanje||0).toLocaleString()+' | Avance: '+(a.metaAnualCanje>0?Math.round((a.realAnualCanje||0)/a.metaAnualCanje*100):0)+'%\nMeta asignacion: '+(a.metaAnualAsig||0).toLocaleString()+' pts | Real: '+(ptsAsig||a.realAnualAsig||0).toLocaleString()+' pts\nSatisfaccion cliente: '+(satScore||'sin calificar')+'/10\n\nMETAS '+MESES[activeMonth]+':\nMeta canje: $'+(m.metaCanje||0).toLocaleString()+' | Real: $'+(m.realCanje||0).toLocaleString()+'\nMeta redenciones: '+(m.metaRed||0)+' | Real: '+(m.realRed||0)+'\n\nDATOS DEL PROGRAMA:\nTotal ordenes: '+totalOrdenes+' | Valor canjeado: $'+valorTotal.toLocaleString(undefined,{maximumFractionDigits:0})+'\nParticipantes activos: '+activos+' de '+parts.length+'\nPuntos asignados total: '+ptsAsig.toLocaleString()+'\n\nResponde en espanol, directo y accionable. Maximo 5 parrafos. Negritas para puntos clave.';
+}
+
+function buildPlanSelector(){
+  const sel=document.getElementById('account-select');sel.innerHTML='';
+  plans.forEach(function(p){const o=document.createElement('option');o.value=p.id;o.textContent=p.nombre+(p.plataforma?' - '+p.plataforma:'');if(p.id===activePlanId)o.selected=true;sel.appendChild(o);});
+  const plan=getPlan(activePlanId);
+  document.getElementById('meta-titulo').textContent='Mis metas - '+(plan?plan.nombre:'');
+}
+
+function switchPlan(id){
+  activePlanId=id;buildPlanSelector();loadMetas();chatHistory=[];
+  uploadedFiles={};parsedData={};
+  [['canjes','📦'],['trans','💰'],['part','👥']].forEach(function(pair){
+    const t=pair[0];const icon=pair[1];
+    const c=document.getElementById('uc-'+t);if(c){c.classList.remove('loaded');c.querySelector('.up-icon-el').textContent=icon;}
+    const s=document.getElementById('us-'+t);if(s)s.textContent='';
+    const f=document.getElementById('f-'+t);if(f)f.value='';
+    const dot=document.getElementById('fdot-'+t);if(dot)dot.classList.remove('done');
+  });
+  document.getElementById('data-preview').classList.remove('show');
+  document.getElementById('files-count').textContent='0 de 3';
 }
 
 async function sendMessage(text){
@@ -581,7 +677,8 @@ async function sendMessage(text){
     const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,system:buildContext(),messages:chatHistory})});
     const data=await res.json();typing.remove();
     if(data.error){addMsg('Error: '+data.error.message,'ai');isLoading=false;document.getElementById('send-btn').disabled=false;return;}
-    const reply=data.content?.find(b=>b.type==='text')?.text||'No pude procesar.';
+    const block=data.content&&data.content.find(function(b){return b.type==='text';});
+    const reply=block?block.text:'No pude procesar.';
     addMsg(reply,'ai');chatHistory.push({role:'assistant',content:reply});
   }catch(e){typing.remove();addMsg('Error: '+e.message,'ai');}
   isLoading=false;document.getElementById('send-btn').disabled=false;
@@ -593,18 +690,17 @@ function addMsg(text,role){
   wrap.appendChild(div);wrap.scrollTop=wrap.scrollHeight;return div;
 }
 function addTyping(){const wrap=document.getElementById('messages');const div=document.createElement('div');div.className='msg ai typing';div.innerHTML='<span></span><span></span><span></span>';wrap.appendChild(div);wrap.scrollTop=wrap.scrollHeight;return div;}
-function askChip(text){switchPanel('chat');setTimeout(()=>sendMessage(text),80);}
-function askChipMeta(){const acc=getAccount(activeAccountId)||{};const k=getMetaKey(activeMonth);const m=metas[k]||{};askChip('Mi meta de canje para '+MESES[activeMonth]+' es $'+(m.metaCanje||0).toLocaleString()+' y llevo $'+(m.realCanje||0).toLocaleString()+'. Meta redenciones: '+(m.metaRed||0)+', real: '+(m.realRed||0)+'. Cuenta: '+acc.nombre+'. Como cierro el mes en meta?');}
-function askChipAnual(){const acc=getAccount(activeAccountId)||{};const ak=getAnualKey();const a=metas[ak]||{};askChip('Mis metas anuales para '+acc.nombre+': canje $'+(a.metaAnualCanje||0).toLocaleString()+' (real $'+(a.realAnualCanje||0).toLocaleString()+'), asignacion '+(a.metaAnualAsig||0)+' pts (real '+(a.realAnualAsig||0)+' pts), satisfaccion cliente '+(satScore||'sin calificar')+'/10. Que debo hacer para cerrar el ano en meta?');}
+function askChip(text){switchPanel('chat');setTimeout(function(){sendMessage(text);},80);}
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
 function switchPanel(name){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   document.getElementById('panel-'+name).classList.add('active');
-  const map={metas:0,reportes:1,cuentas:2,chat:3};
-  if(map[name]!==undefined)document.querySelectorAll('.nav-item')[map[name]].classList.add('active');
+  const navEl=document.getElementById('nav-'+name);if(navEl)navEl.classList.add('active');
 }
-buildMonthTabs();buildAccountSelector();buildAccountList();loadMetas();
+
+buildMonthTabs();buildPlanSelector();loadMetas();
+buildPlan();
 </script>
 </body>
 </html>
