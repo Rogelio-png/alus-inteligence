@@ -136,10 +136,36 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
 </head>
 <body>
 <div class="app">
+<!-- MODAL NUEVO PLAN -->
+<div id="modal-bg" style="display:none;position:fixed;inset:0;background:rgba(15,14,12,.5);z-index:200;align-items:center;justify-content:center">
+<div style="background:var(--cream);border-radius:var(--radius-lg);border:1px solid var(--cream3);padding:1.5rem;width:460px;max-width:95vw;max-height:90vh;overflow-y:auto">
+  <div style="font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:1rem" id="modal-title">Nuevo plan</div>
+  <div style="margin-bottom:.875rem"><label style="font-size:11px;color:var(--ink3);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em">Nombre del cliente / empresa</label><input id="m-nombre" type="text" placeholder="Ej. Seguros MTY" style="width:100%;border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem .75rem;font-family:'Outfit',sans-serif;font-size:13px;background:var(--cream);color:var(--ink);outline:none"/></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.875rem">
+    <div><label style="font-size:11px;color:var(--ink3);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em">Plataforma</label><input id="m-plataforma" type="text" placeholder="Ej. SMNYL Rewards" style="width:100%;border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem .75rem;font-family:'Outfit',sans-serif;font-size:13px;background:var(--cream);color:var(--ink);outline:none"/></div>
+    <div><label style="font-size:11px;color:var(--ink3);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em">Industria</label><select id="m-industria" style="width:100%;border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem .75rem;font-family:'Outfit',sans-serif;font-size:13px;background:var(--cream);color:var(--ink);outline:none"><option>Seguros</option><option>Automotriz</option><option>Banca</option><option>Retail</option><option>Tecnologia</option><option>Consumo masivo</option><option>Otro</option></select></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.875rem">
+    <div><label style="font-size:11px;color:var(--ink3);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em">Meta anual de canje ($)</label><input id="m-meta-canje" type="number" placeholder="Ej. 3000000" style="width:100%;border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem .75rem;font-family:'Outfit',sans-serif;font-size:13px;background:var(--cream);color:var(--ink);outline:none"/></div>
+    <div><label style="font-size:11px;color:var(--ink3);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em">Meta anual de redenciones (#)</label><input id="m-meta-red" type="number" placeholder="Ej. 500" style="width:100%;border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem .75rem;font-family:'Outfit',sans-serif;font-size:13px;background:var(--cream);color:var(--ink);outline:none"/></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.875rem">
+    <div><label style="font-size:11px;color:var(--ink3);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em">NPS ideal (meta)</label><input id="m-nps" type="number" placeholder="Ej. 8" min="0" max="10" step="0.5" style="width:100%;border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem .75rem;font-family:'Outfit',sans-serif;font-size:13px;background:var(--cream);color:var(--ink);outline:none"/></div>
+    <div><label style="font-size:11px;color:var(--ink3);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em">Comision Alus sobre canje (%)</label><input id="m-comision" type="number" placeholder="Ej. 8" step="0.5" style="width:100%;border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem .75rem;font-family:'Outfit',sans-serif;font-size:13px;background:var(--cream);color:var(--ink);outline:none"/></div>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem">
+    <button onclick="closeModal()" style="background:transparent;color:var(--ink2);border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem 1.1rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer">Cancelar</button>
+    <button onclick="savePlan()" style="background:var(--ink);color:var(--cream);border:none;border-radius:var(--radius);padding:.5rem 1.1rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer;font-weight:500">Guardar plan</button>
+  </div>
+</div>
+</div>
+
 <div class="header">
   <div class="logo">alus <span>intelligence</span></div>
   <div class="header-right">
     <select class="account-selector" id="account-select" onchange="switchPlan(this.value)"></select>
+    <button class="btn-outline" onclick="openModal()">+ Nuevo plan</button>
+    <button class="btn-outline" style="color:var(--red2);border-color:var(--red2)" onclick="deletePlan()" title="Eliminar plan actual">✕</button>
   </div>
 </div>
 <div class="main">
@@ -648,9 +674,65 @@ function buildContext(){
 
 function buildPlanSelector(){
   const sel=document.getElementById('account-select');sel.innerHTML='';
-  plans.forEach(function(p){const o=document.createElement('option');o.value=p.id;o.textContent=p.nombre+(p.plataforma?' - '+p.plataforma:'');if(p.id===activePlanId)o.selected=true;sel.appendChild(o);});
+  plans.forEach(function(p){const o=document.createElement('option');o.value=p.id;o.textContent=p.nombre+(p.plataforma?' — '+p.plataforma:'');if(p.id===activePlanId)o.selected=true;sel.appendChild(o);});
   const plan=getPlan(activePlanId);
-  document.getElementById('meta-titulo').textContent='Mis metas - '+(plan?plan.nombre:'');
+  document.getElementById('meta-titulo').textContent='Mis metas — '+(plan?plan.nombre:'');
+}
+
+function openModal(editId){
+  const modal=document.getElementById('modal-bg');
+  modal.style.display='flex';
+  if(editId){
+    const p=getPlan(editId);
+    document.getElementById('modal-title').textContent='Editar plan';
+    document.getElementById('m-nombre').value=p.nombre||'';
+    document.getElementById('m-plataforma').value=p.plataforma||'';
+    document.getElementById('m-industria').value=p.industria||'Seguros';
+    document.getElementById('m-meta-canje').value=p.metaCanje||'';
+    document.getElementById('m-meta-red').value=p.metaRed||'';
+    document.getElementById('m-nps').value=p.npsIdeal||'';
+    document.getElementById('m-comision').value=p.comision||'';
+    modal._editId=editId;
+  } else {
+    document.getElementById('modal-title').textContent='Nuevo plan';
+    ['m-nombre','m-plataforma','m-meta-canje','m-meta-red','m-nps','m-comision'].forEach(function(id){document.getElementById(id).value='';});
+    document.getElementById('m-industria').value='Seguros';
+    modal._editId=null;
+  }
+}
+
+function closeModal(){document.getElementById('modal-bg').style.display='none';}
+
+function savePlan(){
+  const nombre=document.getElementById('m-nombre').value.trim();
+  if(!nombre){alert('Ingresa el nombre del cliente');return;}
+  const modal=document.getElementById('modal-bg');
+  const editId=modal._editId;
+  const planData={nombre:nombre,plataforma:document.getElementById('m-plataforma').value.trim()||'—',industria:document.getElementById('m-industria').value,metaCanje:parseFloat(document.getElementById('m-meta-canje').value)||0,metaRed:parseFloat(document.getElementById('m-meta-red').value)||0,npsIdeal:parseFloat(document.getElementById('m-nps').value)||0,comision:parseFloat(document.getElementById('m-comision').value)||8};
+  if(editId){
+    const idx=plans.findIndex(function(p){return p.id===editId;});
+    if(idx>=0)plans[idx]=Object.assign({id:editId},planData);
+  } else {
+    const id='p'+Date.now();
+    plans.push(Object.assign({id:id},planData));
+    activePlanId=id;
+    const ak=id+'_anual';
+    metas[ak]=metas[ak]||{};
+    if(planData.metaCanje)metas[ak].metaAnualCanje=planData.metaCanje;
+    if(planData.npsIdeal)metas[ak].npsIdeal=planData.npsIdeal;
+    try{localStorage.setItem('alus_metas',JSON.stringify(metas));}catch(e){}
+  }
+  try{localStorage.setItem('alus_plans',JSON.stringify(plans));}catch(e){}
+  closeModal();buildPlanSelector();loadMetas();
+}
+
+function deletePlan(){
+  if(plans.length<=1){alert('Debes tener al menos un plan.');return;}
+  if(!confirm('Eliminar este plan?'))return;
+  plans=plans.filter(function(p){return p.id!==activePlanId;});
+  activePlanId=plans[0].id;
+  try{localStorage.setItem('alus_plans',JSON.stringify(plans));}catch(e){}
+  switchPlan(activePlanId);
 }
 
 function switchPlan(id){
