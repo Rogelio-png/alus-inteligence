@@ -307,8 +307,6 @@ function buildMetasUI(){
     ['Q1','Q2','Q3','Q4'].forEach(function(q){
       const card=document.createElement('div');card.className='q-card';
       const prefix=type==='canje'?'$':'pts';
-      const realLabel=type==='canje'?'Real '+q+' ($)':'Real '+q+' (pts)';
-      const prefix=type==='canje'?'$':'pts';
       card.innerHTML='<div class="q-label">'+q+'</div>'+
         '<div class="q-prefix">'+prefix+' meta</div>'+
         '<input class="q-input" id="m-'+type+'-'+q+'" type="number" placeholder="0" value="'+(metasData[type][q]||'')+'" oninput="updateMetasTotals()"/>';
