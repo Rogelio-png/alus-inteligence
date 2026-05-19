@@ -43,6 +43,10 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
 .btn-secondary{background:transparent;color:var(--ink2);border:1px solid var(--cream3);border-radius:var(--radius);padding:.5rem 1.1rem;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer}
 .save-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
 .save-bar h2{font-family:'DM Serif Display',serif;font-size:19px}
+.tabs-row{display:flex;gap:4px;margin-bottom:1.25rem;border-bottom:1px solid var(--cream3)}
+.tab-btn{font-size:12px;padding:6px 14px;cursor:pointer;border:none;background:transparent;color:var(--ink3);font-family:'Outfit',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
+.tab-panel{display:none}.tab-panel.active{display:block}
 .month-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1.25rem}
 .mtab{font-size:11px;padding:4px 10px;border:1px solid var(--cream3);border-radius:99px;cursor:pointer;color:var(--ink3);font-family:'DM Mono',monospace;transition:all .1s}
 .mtab:hover{border-color:var(--accent);color:var(--accent)}.mtab.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
@@ -62,6 +66,22 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
 .kpi-s-v{font-size:18px;font-weight:600;font-family:'DM Serif Display',serif;color:var(--ink)}
 .kpi-s-d{font-size:10px;margin-top:2px}
 .sec-hd{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.75rem}
+/* Satisfaccion */
+.sat-stars{display:flex;gap:6px;margin:8px 0 4px}
+.star{font-size:22px;cursor:pointer;opacity:.3;transition:opacity .1s,transform .1s}
+.star.active{opacity:1;transform:scale(1.1)}
+.sat-val{font-family:'DM Serif Display',serif;font-size:28px;font-weight:600;color:var(--ink)}
+.sat-label{font-size:11px;color:var(--ink3)}
+/* Anual */
+.anual-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1.25rem}
+@media(max-width:600px){.anual-grid{grid-template-columns:1fr}.meta-grid{grid-template-columns:1fr}}
+.anual-card{background:var(--cream2);border:1px solid var(--cream3);border-radius:var(--radius-lg);padding:1rem}
+.anual-label{font-size:10px;color:var(--ink3);margin-bottom:6px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em}
+.anual-val{font-size:20px;font-weight:600;font-family:'DM Serif Display',serif;color:var(--ink);margin-bottom:4px}
+.anual-sub{font-size:11px;color:var(--ink3)}
+.big-prog{background:var(--cream3);border-radius:99px;height:8px;margin-top:10px}
+.big-prog-fill{height:8px;border-radius:99px;transition:width .6s ease}
+/* REPORTES */
 .report-section{margin-bottom:1.75rem}
 .rep-hd{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.75rem}
 .upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:.875rem}
@@ -139,6 +159,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
   </div>
 </div>
 </div>
+
 <div class="header">
   <div class="logo">alus <span>intelligence</span></div>
   <div class="header-right">
@@ -146,181 +167,267 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--cream);co
     <button class="btn-outline" onclick="openModal()">+ Agregar plan</button>
   </div>
 </div>
+
 <div class="main">
 <div class="sidebar">
   <div class="nav-label">Mi cuenta</div>
-  <div class="nav-item active" onclick="switchPanel('metas')"><div class="nav-dot"></div>Metas mensuales</div>
+  <div class="nav-item active" onclick="switchPanel('metas')"><div class="nav-dot"></div>Metas</div>
   <div class="nav-item" onclick="switchPanel('reportes')"><div class="nav-dot"></div>Reportes y archivos</div>
   <div class="nav-item" onclick="switchPanel('cuentas')"><div class="nav-dot"></div>Mis planes</div>
   <div class="nav-item" onclick="switchPanel('chat')"><div class="nav-dot"></div>Consultar IA</div>
   <div class="nav-sep"></div>
   <div class="nav-label">Analisis rapido</div>
-  <div class="nav-item" onclick="switchPanel('chat');askChip('Como voy vs mi meta de canje este mes?')"><div class="nav-dot"></div>Avance vs meta</div>
+  <div class="nav-item" onclick="switchPanel('chat');askChip('Como voy vs mis metas anuales y mensuales?')"><div class="nav-dot"></div>Avance vs meta</div>
   <div class="nav-item" onclick="switchPanel('chat');askChip('Cual de mis cuentas necesita mas atencion urgente?')"><div class="nav-dot"></div>Priorizar cuentas</div>
   <div class="nav-item" onclick="switchPanel('chat');askChip('Como puedo cerrar el mes en meta?')"><div class="nav-dot"></div>Cerrar el mes</div>
   <div class="nav-item" onclick="switchPanel('chat');askChip('Compara el desempeno de todos mis planes')"><div class="nav-dot"></div>Comparar planes</div>
 </div>
+
 <div class="content">
+
+<!-- METAS -->
 <div id="panel-metas" class="panel active">
-  <div class="save-bar"><h2 id="meta-titulo">Metas mensuales</h2><button class="btn-primary" id="save-meta-btn" onclick="saveMetas()" style="font-size:12px;padding:.4rem .9rem">Guardar metas</button></div>
-  <div class="month-tabs" id="month-tabs"></div>
-  <div class="sec-hd">metas de facturacion - <span id="mes-label">-</span></div>
-  <div class="meta-grid">
-    <div class="meta-card"><div class="meta-card-label">Meta de canje ($)</div><div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="meta-canje" type="number" placeholder="0" oninput="updateProgs()"/></div><div class="meta-sub">Valor total de canje esperado</div><div class="prog-wrap"><div class="prog-fill prog-green" id="prog-canje" style="width:0%"></div></div><div style="font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace" id="prog-canje-txt"></div></div>
-    <div class="meta-card"><div class="meta-card-label">Meta de redenciones (#)</div><div class="meta-input-wrap"><div class="meta-prefix">#</div><input class="meta-input" id="meta-redenciones" type="number" placeholder="0" oninput="updateProgs()"/></div><div class="meta-sub">Numero de canjes a lograr</div><div class="prog-wrap"><div class="prog-fill prog-green" id="prog-red" style="width:0%"></div></div><div style="font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace" id="prog-red-txt"></div></div>
-    <div class="meta-card"><div class="meta-card-label">Canje real del mes ($)</div><div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="real-canje" type="number" placeholder="0" oninput="updateProgs()"/></div><div class="meta-sub">Lo que realmente se canjeo</div></div>
-    <div class="meta-card"><div class="meta-card-label">Redenciones reales (#)</div><div class="meta-input-wrap"><div class="meta-prefix">#</div><input class="meta-input" id="real-redenciones" type="number" placeholder="0" oninput="updateProgs()"/></div><div class="meta-sub">Pedidos reales del mes</div></div>
+  <div class="save-bar">
+    <h2 id="meta-titulo">Metas</h2>
+    <button class="btn-primary" id="save-meta-btn" onclick="saveMetas()" style="font-size:12px;padding:.4rem .9rem">Guardar</button>
   </div>
-  <div class="sec-hd">resumen del mes</div>
-  <div class="kpi-strip">
-    <div class="kpi-s"><div class="kpi-s-l">% avance canje</div><div class="kpi-s-v" id="kpi-avc">-</div><div class="kpi-s-d" id="kpi-avc-d" style="color:var(--ink3)">-</div></div>
-    <div class="kpi-s"><div class="kpi-s-l">% avance redenciones</div><div class="kpi-s-v" id="kpi-avr">-</div><div class="kpi-s-d" id="kpi-avr-d" style="color:var(--ink3)">-</div></div>
-    <div class="kpi-s"><div class="kpi-s-l">Facturacion estimada</div><div class="kpi-s-v" id="kpi-fact">-</div><div class="kpi-s-d" style="color:var(--ink3)">Sobre canje real</div></div>
-    <div class="kpi-s"><div class="kpi-s-l">Gap para meta</div><div class="kpi-s-v" id="kpi-gap">-</div><div class="kpi-s-d" style="color:var(--ink3)">Canje pendiente</div></div>
+
+  <div class="tabs-row">
+    <button class="tab-btn active" onclick="switchTab('anual',this)">Metas Anuales</button>
+    <button class="tab-btn" onclick="switchTab('mensual',this)">Metas Mensuales</button>
   </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <div class="chip" onclick="switchPanel('chat');askChipMeta()">Analizar avance con IA</div>
-    <div class="chip" onclick="switchPanel('chat');askChip('Que puedo hacer esta semana para acercarme a mi meta?')">Plan semanal</div>
+
+  <!-- ANUAL -->
+  <div id="tab-anual" class="tab-panel active">
+    <div class="sec-hd">objetivos del ano — <span id="year-label"></span></div>
+    <div class="anual-grid">
+      <div class="anual-card">
+        <div class="anual-label">Meta anual de canje ($)</div>
+        <div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="meta-anual-canje" type="number" placeholder="0" oninput="updateAnual()"/></div>
+        <div class="meta-sub">Valor total de canje esperado en el ano</div>
+        <div class="big-prog"><div class="big-prog-fill prog-green" id="prog-anual-canje" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--ink3);margin-top:5px;font-family:monospace" id="prog-anual-canje-txt"></div>
+      </div>
+      <div class="anual-card">
+        <div class="anual-label">Meta anual de asignacion (pts)</div>
+        <div class="meta-input-wrap"><div class="meta-prefix">pts</div><input class="meta-input" id="meta-anual-asig" type="number" placeholder="0" oninput="updateAnual()"/></div>
+        <div class="meta-sub">Total de puntos a dispersar en el ano</div>
+        <div class="big-prog"><div class="big-prog-fill prog-green" id="prog-anual-asig" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--ink3);margin-top:5px;font-family:monospace" id="prog-anual-asig-txt"></div>
+      </div>
+      <div class="anual-card">
+        <div class="anual-label">Satisfaccion del cliente (1-10)</div>
+        <div class="sat-stars" id="sat-stars"></div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-top:4px">
+          <div class="sat-val" id="sat-val">-</div>
+          <div class="sat-label" id="sat-label">Sin calificar</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-hd">avance real acumulado</div>
+    <div class="anual-grid">
+      <div class="anual-card">
+        <div class="anual-label">Canje real acumulado ($)</div>
+        <div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="real-anual-canje" type="number" placeholder="0" oninput="updateAnual()"/></div>
+        <div class="meta-sub">Lo canjeado hasta hoy</div>
+      </div>
+      <div class="anual-card">
+        <div class="anual-label">Asignacion real acumulada (pts)</div>
+        <div class="meta-input-wrap"><div class="meta-prefix">pts</div><input class="meta-input" id="real-anual-asig" type="number" placeholder="0" oninput="updateAnual()"/></div>
+        <div class="meta-sub">Puntos dispersados hasta hoy</div>
+      </div>
+      <div class="anual-card">
+        <div class="anual-label">Facturacion estimada anual</div>
+        <div class="anual-val" id="fact-anual">-</div>
+        <div class="anual-sub">Sobre canje real acumulado</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div class="chip" onclick="switchPanel('chat');askChipAnual()">Analizar metas anuales con IA</div>
+      <div class="chip" onclick="switchPanel('chat');askChip('Como proyecto cerrar el ano en meta de canje?')">Proyeccion anual</div>
+    </div>
+  </div>
+
+  <!-- MENSUAL -->
+  <div id="tab-mensual" class="tab-panel">
+    <div class="month-tabs" id="month-tabs"></div>
+    <div class="sec-hd">metas del mes — <span id="mes-label">-</span></div>
+    <div class="meta-grid">
+      <div class="meta-card">
+        <div class="meta-card-label">Meta de canje ($)</div>
+        <div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="meta-canje" type="number" placeholder="0" oninput="updateProgs()"/></div>
+        <div class="meta-sub">Valor total de canje esperado</div>
+        <div class="prog-wrap"><div class="prog-fill prog-green" id="prog-canje" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace" id="prog-canje-txt"></div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-label">Meta de redenciones (#)</div>
+        <div class="meta-input-wrap"><div class="meta-prefix">#</div><input class="meta-input" id="meta-redenciones" type="number" placeholder="0" oninput="updateProgs()"/></div>
+        <div class="meta-sub">Numero de canjes a lograr</div>
+        <div class="prog-wrap"><div class="prog-fill prog-green" id="prog-red" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace" id="prog-red-txt"></div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-label">Canje real del mes ($)</div>
+        <div class="meta-input-wrap"><div class="meta-prefix">$</div><input class="meta-input" id="real-canje" type="number" placeholder="0" oninput="updateProgs()"/></div>
+        <div class="meta-sub">Lo que realmente se canjeo</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-label">Redenciones reales (#)</div>
+        <div class="meta-input-wrap"><div class="meta-prefix">#</div><input class="meta-input" id="real-redenciones" type="number" placeholder="0" oninput="updateProgs()"/></div>
+        <div class="meta-sub">Pedidos reales del mes</div>
+      </div>
+    </div>
+    <div class="sec-hd">resumen del mes</div>
+    <div class="kpi-strip">
+      <div class="kpi-s"><div class="kpi-s-l">% avance canje</div><div class="kpi-s-v" id="kpi-avc">-</div><div class="kpi-s-d" id="kpi-avc-d" style="color:var(--ink3)">-</div></div>
+      <div class="kpi-s"><div class="kpi-s-l">% avance redenciones</div><div class="kpi-s-v" id="kpi-avr">-</div><div class="kpi-s-d" id="kpi-avr-d" style="color:var(--ink3)">-</div></div>
+      <div class="kpi-s"><div class="kpi-s-l">Facturacion estimada</div><div class="kpi-s-v" id="kpi-fact">-</div><div class="kpi-s-d" style="color:var(--ink3)">Sobre canje real</div></div>
+      <div class="kpi-s"><div class="kpi-s-l">Gap para meta</div><div class="kpi-s-v" id="kpi-gap">-</div><div class="kpi-s-d" style="color:var(--ink3)">Canje pendiente</div></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div class="chip" onclick="switchPanel('chat');askChipMeta()">Analizar avance con IA</div>
+      <div class="chip" onclick="switchPanel('chat');askChip('Que puedo hacer esta semana para acercarme a mi meta?')">Plan semanal</div>
+    </div>
   </div>
 </div>
+
+<!-- REPORTES -->
 <div id="panel-reportes" class="panel">
   <div class="save-bar"><h2>Reportes y archivos</h2><span id="rep-account-tag" style="font-size:12px;color:var(--ink3);font-family:monospace"></span></div>
   <div class="report-section">
-    <div class="rep-hd">canjes y transacciones</div>
+    <div class="rep-hd">archivos del programa</div>
     <div class="upload-grid">
-      <div class="up-card" id="uc-canjes" onclick="document.getElementById('f-canjes').click()"><span class="up-icon-el">📦</span><div class="up-name">Canjes realizados</div><div class="up-cols">fecha, usuario, producto, puntos, campana</div><input type="file" id="f-canjes" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'canjes')"/><div class="up-status" id="us-canjes"></div></div>
-      <div class="up-card" id="uc-trans" onclick="document.getElementById('f-trans').click()"><span class="up-icon-el">💳</span><div class="up-name">Transacciones</div><div class="up-cols">fecha, monto, tipo, usuario, estado</div><input type="file" id="f-trans" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'trans')"/><div class="up-status" id="us-trans"></div></div>
-      <div class="up-card" id="uc-ventas" onclick="document.getElementById('f-ventas').click()"><span class="up-icon-el">📈</span><div class="up-name">Reporte de ventas</div><div class="up-cols">fecha, vendedor, region, monto, objetivo</div><input type="file" id="f-ventas" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'ventas')"/><div class="up-status" id="us-ventas"></div></div>
-    </div>
-  </div>
-  <div class="report-section">
-    <div class="rep-hd">participantes y puntos</div>
-    <div class="upload-grid">
-      <div class="up-card" id="uc-puntos" onclick="document.getElementById('f-puntos').click()"><span class="up-icon-el">💰</span><div class="up-name">Dispersion de puntos</div><div class="up-cols">fecha, usuario, region, puntos, campana</div><input type="file" id="f-puntos" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'puntos')"/><div class="up-status" id="us-puntos"></div></div>
-      <div class="up-card" id="uc-part" onclick="document.getElementById('f-part').click()"><span class="up-icon-el">👥</span><div class="up-name">Participantes</div><div class="up-cols">usuario, region, puesto, campana, ultimo canje</div><input type="file" id="f-part" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'part')"/><div class="up-status" id="us-part"></div></div>
-      <div class="up-card" id="uc-budget" onclick="document.getElementById('f-budget').click()"><span class="up-icon-el">📊</span><div class="up-name">Presupuesto</div><div class="up-cols">campana, asignado, consumido, periodo</div><input type="file" id="f-budget" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'budget')"/><div class="up-status" id="us-budget"></div></div>
+      <div class="up-card" id="uc-canjes" onclick="document.getElementById('f-canjes').click()"><span class="up-icon-el">📦</span><div class="up-name">Canjes</div><div class="up-cols">Ordenes, status, productos, precios</div><input type="file" id="f-canjes" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'canjes')"/><div class="up-status" id="us-canjes"></div></div>
+      <div class="up-card" id="uc-trans" onclick="document.getElementById('f-trans').click()"><span class="up-icon-el">💰</span><div class="up-name">Asignaciones</div><div class="up-cols">Puntos dispersados por usuario y mes</div><input type="file" id="f-trans" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'trans')"/><div class="up-status" id="us-trans"></div></div>
+      <div class="up-card" id="uc-part" onclick="document.getElementById('f-part').click()"><span class="up-icon-el">👥</span><div class="up-name">Participantes</div><div class="up-cols">Usuarios, puntos, estado de cuenta</div><input type="file" id="f-part" accept=".csv,.xlsx" style="display:none" onchange="handleFile(this,'part')"/><div class="up-status" id="us-part"></div></div>
     </div>
   </div>
   <div class="data-preview" id="data-preview"><div class="preview-title" id="preview-title">Vista previa</div><div style="overflow-x:auto"><table class="preview-table" id="preview-table"></table></div></div>
   <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
-    <button class="analyze-btn" id="analyze-btn" onclick="analyzeFiles()">Analizar archivos con IA</button>
+    <button class="analyze-btn" id="analyze-btn" onclick="analyzeFiles()">Analizar con IA</button>
     <button class="btn-secondary" style="font-size:12px" onclick="clearFiles()">Limpiar</button>
     <span id="files-count" style="font-size:11px;color:var(--ink3);font-family:monospace"></span>
   </div>
   <div class="ai-result" id="ai-result"></div>
 </div>
+
+<!-- CUENTAS -->
 <div id="panel-cuentas" class="panel">
   <div class="save-bar"><h2>Mis planes</h2><button class="btn-outline" onclick="openModal()" style="font-size:12px">+ Agregar plan</button></div>
   <div class="sec-hd">planes activos</div>
   <div class="account-list" id="account-list"></div>
   <div id="no-accounts" style="font-size:13px;color:var(--ink3);padding:1rem 0;display:none">No tienes planes registrados.</div>
 </div>
+
+<!-- CHAT -->
 <div id="panel-chat" class="panel">
-  <div class="chat-intro"><h2>Consultar con IA</h2><p>La IA esta conectada. Preguntame sobre tus metas, reportes o planes.</p></div>
+  <div class="chat-intro"><h2>Consultar con IA</h2><p>Analizo tus metas anuales, mensuales, reportes y planes para darte recomendaciones accionables.</p></div>
   <div class="chips">
-    <div class="chip" onclick="askChip('Como voy vs mi meta de canje este mes?')">Avance vs meta</div>
-    <div class="chip" onclick="askChip('Cual de mis cuentas necesita mas atencion?')">Priorizar cuentas</div>
-    <div class="chip" onclick="askChip('Dame argumentos para que mi cliente consuma mas presupuesto')">Activar cliente</div>
-    <div class="chip" onclick="askChip('Como proyecto mi facturacion anual?')">Proyeccion anual</div>
+    <div class="chip" onclick="askChip('Como voy vs mis metas anuales y mensuales?')">Avance vs metas</div>
+    <div class="chip" onclick="askChip('Analiza mis archivos y dime los 3 hallazgos mas importantes')">Analizar reportes</div>
+    <div class="chip" onclick="askChip('Que debo hacer para mejorar la satisfaccion de mi cliente?')">Mejorar satisfaccion</div>
+    <div class="chip" onclick="askChip('Como proyecto cerrar el ano en meta de canje?')">Proyeccion anual</div>
+    <div class="chip" onclick="askChip('Cual de mis cuentas necesita mas atencion urgente?')">Priorizar cuentas</div>
   </div>
   <div class="messages" id="messages">
-    <div class="msg ai"><span class="tag">IA</span>Hola. Soy tu asistente de cuenta Alus. Preguntame lo que necesites.</div>
+    <div class="msg ai"><span class="tag">IA</span>Hola. Soy tu asistente de cuenta Alus. Preguntame sobre tus metas anuales, mensuales o reportes.</div>
   </div>
   <div class="input-row">
     <textarea id="user-input" rows="2" placeholder="Escribe tu pregunta aqui..." onkeydown="handleKey(event)"></textarea>
     <button class="send-btn" id="send-btn" onclick="sendMessage()">Enviar</button>
   </div>
 </div>
+
 </div>
 </div>
 </div>
+
 <script>
 const MESES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 let activeMonth=new Date().getMonth();
 let accounts=[{id:'a1',nombre:'Seguros MTY',plataforma:'SMNYL Rewards',industria:'Seguros',presupuesto:3298671,consumo:63,participantes:2429,campanas:'RDA, Camino a la cumbre, Legion centurion',comision:8}];
 let metas={},activeAccountId='a1',isLoading=false,chatHistory=[],uploadedFiles={},parsedData={};
+let satScore=0;
+
 try{const s=localStorage.getItem('alus_accounts');if(s)accounts=JSON.parse(s);}catch(e){}
 try{const s=localStorage.getItem('alus_metas');if(s)metas=JSON.parse(s);}catch(e){}
-function getAccount(id){return accounts.find(a=>a.id===id);}
-function getMetaKey(m){return activeAccountId+'_'+m;}
-function saveAccountsToStorage(){try{localStorage.setItem('alus_accounts',JSON.stringify(accounts));}catch(e){}}
-function handleFile(input,type){
-  const f=input.files[0];if(!f)return;
-  uploadedFiles[type]={name:f.name};updateFilesCount();
-  if(f.name.toLowerCase().endsWith('.csv')){
-    const reader=new FileReader();
-    reader.onload=e=>{
-      const result=Papa.parse(e.target.result,{header:true,skipEmptyLines:true});
-      parsedData[type]=result.data;
-      const card=document.getElementById('uc-'+type);
-      card.classList.add('loaded');card.querySelector('.up-icon-el').textContent='✅';
-      document.getElementById('us-'+type).textContent=f.name+' ('+result.data.length+' filas)';
-      showPreview(type,result.data);
-    };reader.readAsText(f);
-  }else{
-    const card=document.getElementById('uc-'+type);
-    card.classList.add('loaded');card.querySelector('.up-icon-el').textContent='✅';
-    document.getElementById('us-'+type).textContent=f.name;
-    parsedData[type]=[{archivo:f.name}];
+
+document.getElementById('year-label').textContent=new Date().getFullYear();
+
+// STARS
+function buildStars(){
+  const wrap=document.getElementById('sat-stars');wrap.innerHTML='';
+  for(let i=1;i<=10;i++){
+    const s=document.createElement('span');s.className='star'+(i<=satScore?' active':'');
+    s.textContent=i<=5?'★':'◆';s.title=i+'/10';
+    s.onclick=(()=>{const v=i;return()=>setSat(v);})();
+    wrap.appendChild(s);
   }
 }
-function showPreview(type,data){
-  if(!data||!data.length)return;
-  document.getElementById('preview-title').textContent='Vista previa: '+type+' (primeras 5 filas)';
-  const cols=Object.keys(data[0]).slice(0,6);const rows=data.slice(0,5);
-  let html='<thead><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
-  rows.forEach(r=>{html+='<tr>'+cols.map(c=>'<td>'+(r[c]||'-')+'</td>').join('')+'</tr>';});
-  document.getElementById('preview-table').innerHTML=html+'</tbody>';
-  document.getElementById('data-preview').classList.add('show');
+function setSat(v){
+  satScore=v;buildStars();
+  document.getElementById('sat-val').textContent=v+'/10';
+  const labels=['','Critico','Muy malo','Malo','Regular','Aceptable','Bueno','Muy bueno','Excelente','Sobresaliente','Perfecto'];
+  document.getElementById('sat-label').textContent=labels[v]||'';
 }
-function updateFilesCount(){const n=Object.keys(uploadedFiles).length;document.getElementById('files-count').textContent=n>0?n+' archivo(s) cargado(s)':'';}
-function clearFiles(){
-  uploadedFiles={};parsedData={};
-  ['canjes','trans','ventas','puntos','part','budget'].forEach((t,i)=>{
-    const icons=['📦','💳','📈','💰','👥','📊'];
-    const c=document.getElementById('uc-'+t);if(c){c.classList.remove('loaded');c.querySelector('.up-icon-el').textContent=icons[i];}
-    const s=document.getElementById('us-'+t);if(s)s.textContent='';
-    const f=document.getElementById('f-'+t);if(f)f.value='';
-  });
-  document.getElementById('data-preview').classList.remove('show');
-  document.getElementById('ai-result').classList.remove('show');
-  updateFilesCount();
+buildStars();
+
+function getAccount(id){return accounts.find(a=>a.id===id);}
+function getMetaKey(m){return activeAccountId+'_'+m;}
+function getAnualKey(){return activeAccountId+'_anual';}
+function saveAccountsToStorage(){try{localStorage.setItem('alus_accounts',JSON.stringify(accounts));}catch(e){}}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
 }
-async function analyzeFiles(){
-  const btn=document.getElementById('analyze-btn');const res=document.getElementById('ai-result');
-  const acc=getAccount(activeAccountId)||{};const k=getMetaKey(activeMonth);const m=metas[k]||{};
-  let dataSummary='';
-  Object.entries(parsedData).forEach(([type,data])=>{
-    if(data&&data.length){const cols=data[0]?Object.keys(data[0]).join(', '):'';const sample=JSON.stringify(data.slice(0,3));dataSummary+='\n['+type.toUpperCase()+'] '+data.length+' filas. Columnas: '+cols+'. Muestra: '+sample+'\n';}
-  });
-  const prompt=Object.keys(uploadedFiles).length>0
-    ?'Reportes subidos para '+acc.nombre+'. Datos:\n'+dataSummary+'\nMeta canje '+MESES[activeMonth]+': $'+(m.metaCanje||0)+' | Real: $'+(m.realCanje||0)+'. Meta redenciones: '+(m.metaRed||0)+' | Real: '+(m.realRed||0)+'. Dame: 1) Hallazgos clave, 2) Comparacion vs metas, 3) Riesgos, 4) Top 3 acciones concretas.'
-    :'Sin archivos. Para '+acc.nombre+' ($'+(acc.presupuesto||0)+' presupuesto, '+(acc.consumo||0)+'% consumido, '+(acc.participantes||0)+' participantes), dame las 5 prioridades para cerrar la meta de '+MESES[activeMonth]+'.';
-  btn.disabled=true;btn.textContent='Analizando...';res.classList.remove('show');
-  try{
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,system:buildContext(),messages:[{role:'user',content:prompt}]})});
-    const d=await r.json();
-    if(d.error){res.innerHTML='Error: '+d.error.message;res.classList.add('show');btn.disabled=false;btn.textContent='Analizar archivos con IA';return;}
-    const text=d.content?.find(b=>b.type==='text')?.text||'';
-    res.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-    res.classList.add('show');
-  }catch(e){res.innerHTML='Error: '+e.message;res.classList.add('show');}
-  btn.disabled=false;btn.textContent='Analizar archivos con IA';
-}
+
 function saveMetas(){
   const k=getMetaKey(activeMonth);
   metas[k]={metaCanje:parseFloat(document.getElementById('meta-canje').value)||0,metaRed:parseFloat(document.getElementById('meta-redenciones').value)||0,realCanje:parseFloat(document.getElementById('real-canje').value)||0,realRed:parseFloat(document.getElementById('real-redenciones').value)||0};
+  const ak=getAnualKey();
+  metas[ak]={metaAnualCanje:parseFloat(document.getElementById('meta-anual-canje').value)||0,metaAnualAsig:parseFloat(document.getElementById('meta-anual-asig').value)||0,realAnualCanje:parseFloat(document.getElementById('real-anual-canje').value)||0,realAnualAsig:parseFloat(document.getElementById('real-anual-asig').value)||0,sat:satScore};
   try{localStorage.setItem('alus_metas',JSON.stringify(metas));}catch(e){}
-  const btn=document.getElementById('save-meta-btn');btn.textContent='Guardado';setTimeout(()=>btn.textContent='Guardar metas',1500);
+  const btn=document.getElementById('save-meta-btn');btn.textContent='Guardado';setTimeout(()=>btn.textContent='Guardar',1500);
 }
+
 function loadMetas(){
   const k=getMetaKey(activeMonth);const m=metas[k]||{};
   document.getElementById('meta-canje').value=m.metaCanje||'';
   document.getElementById('meta-redenciones').value=m.metaRed||'';
   document.getElementById('real-canje').value=m.realCanje||'';
   document.getElementById('real-redenciones').value=m.realRed||'';
-  updateProgs();
+  const ak=getAnualKey();const a=metas[ak]||{};
+  document.getElementById('meta-anual-canje').value=a.metaAnualCanje||'';
+  document.getElementById('meta-anual-asig').value=a.metaAnualAsig||'';
+  document.getElementById('real-anual-canje').value=a.realAnualCanje||'';
+  document.getElementById('real-anual-asig').value=a.realAnualAsig||'';
+  satScore=a.sat||0;buildStars();
+  if(satScore>0){document.getElementById('sat-val').textContent=satScore+'/10';const labels=['','Critico','Muy malo','Malo','Regular','Aceptable','Bueno','Muy bueno','Excelente','Sobresaliente','Perfecto'];document.getElementById('sat-label').textContent=labels[satScore]||'';}
+  updateProgs();updateAnual();
 }
+
+function updateAnual(){
+  const mc=parseFloat(document.getElementById('meta-anual-canje').value)||0;
+  const ma=parseFloat(document.getElementById('meta-anual-asig').value)||0;
+  const rc=parseFloat(document.getElementById('real-anual-canje').value)||0;
+  const ra=parseFloat(document.getElementById('real-anual-asig').value)||0;
+  const acc=getAccount(activeAccountId);const com=acc?acc.comision:8;
+  const pctC=mc>0?Math.min(Math.round(rc/mc*100),100):0;
+  const pctA=ma>0?Math.min(Math.round(ra/ma*100),100):0;
+  const col=p=>p>=80?'prog-green':p>=50?'prog-gold':'prog-red';
+  const pc=document.getElementById('prog-anual-canje');pc.style.width=pctC+'%';pc.className='big-prog-fill '+col(pctC);
+  document.getElementById('prog-anual-canje-txt').textContent=mc>0?pctC+'% - $'+rc.toLocaleString()+' de $'+mc.toLocaleString():'';
+  const pa=document.getElementById('prog-anual-asig');pa.style.width=pctA+'%';pa.className='big-prog-fill '+col(pctA);
+  document.getElementById('prog-anual-asig-txt').textContent=ma>0?pctA+'% - '+ra.toLocaleString()+' de '+ma.toLocaleString()+' pts':'';
+  document.getElementById('fact-anual').textContent=rc>0?'$'+Math.round(rc*com/100).toLocaleString():'-';
+}
+
 function updateProgs(){
   const mc=parseFloat(document.getElementById('meta-canje').value)||0;
   const mr=parseFloat(document.getElementById('meta-redenciones').value)||0;
@@ -341,6 +448,7 @@ function updateProgs(){
   document.getElementById('kpi-fact').textContent=rc>0?'$'+Math.round(rc*com/100).toLocaleString():'-';
   document.getElementById('kpi-gap').textContent=mc>0&&mc>rc?'$'+Math.round(mc-rc).toLocaleString():'$0';
 }
+
 function buildMonthTabs(){
   const wrap=document.getElementById('month-tabs');wrap.innerHTML='';
   MESES.forEach((m,i)=>{
@@ -350,6 +458,75 @@ function buildMonthTabs(){
   });
   document.getElementById('mes-label').textContent=MESES[activeMonth]+' '+new Date().getFullYear();
 }
+
+function handleFile(input,type){
+  const f=input.files[0];if(!f)return;
+  uploadedFiles[type]={name:f.name};updateFilesCount();
+  if(f.name.toLowerCase().endsWith('.csv')){
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const result=Papa.parse(e.target.result,{header:true,skipEmptyLines:true});
+      parsedData[type]=result.data;
+      const card=document.getElementById('uc-'+type);
+      card.classList.add('loaded');card.querySelector('.up-icon-el').textContent='✅';
+      document.getElementById('us-'+type).textContent=f.name+' ('+result.data.length+' filas)';
+      showPreview(type,result.data);
+    };reader.readAsText(f);
+  }else{
+    const card=document.getElementById('uc-'+type);
+    card.classList.add('loaded');card.querySelector('.up-icon-el').textContent='✅';
+    document.getElementById('us-'+type).textContent=f.name;
+    parsedData[type]=[{archivo:f.name}];
+  }
+}
+
+function showPreview(type,data){
+  if(!data||!data.length)return;
+  const labels={canjes:'Canjes',trans:'Asignaciones',part:'Participantes'};
+  document.getElementById('preview-title').textContent='Vista previa: '+labels[type]+' (primeras 5 filas)';
+  const cols=Object.keys(data[0]).slice(0,6);const rows=data.slice(0,5);
+  let html='<thead><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
+  rows.forEach(r=>{html+='<tr>'+cols.map(c=>'<td>'+(r[c]||'-')+'</td>').join('')+'</tr>';});
+  document.getElementById('preview-table').innerHTML=html+'</tbody>';
+  document.getElementById('data-preview').classList.add('show');
+}
+
+function updateFilesCount(){const n=Object.keys(uploadedFiles).length;document.getElementById('files-count').textContent=n>0?n+' archivo(s) cargado(s)':'';}
+
+function clearFiles(){
+  uploadedFiles={};parsedData={};
+  [['canjes','📦'],['trans','💰'],['part','👥']].forEach(([t,icon])=>{
+    const c=document.getElementById('uc-'+t);if(c){c.classList.remove('loaded');c.querySelector('.up-icon-el').textContent=icon;}
+    const s=document.getElementById('us-'+t);if(s)s.textContent='';
+    const f=document.getElementById('f-'+t);if(f)f.value='';
+  });
+  document.getElementById('data-preview').classList.remove('show');
+  document.getElementById('ai-result').classList.remove('show');
+  updateFilesCount();
+}
+
+async function analyzeFiles(){
+  const btn=document.getElementById('analyze-btn');const res=document.getElementById('ai-result');
+  const acc=getAccount(activeAccountId)||{};const k=getMetaKey(activeMonth);const m=metas[k]||{};
+  const ak=getAnualKey();const a=metas[ak]||{};
+  let dataSummary='';
+  Object.entries(parsedData).forEach(([type,data])=>{
+    if(data&&data.length){const cols=data[0]?Object.keys(data[0]).join(', '):'';const sample=JSON.stringify(data.slice(0,3));dataSummary+='\n['+type.toUpperCase()+'] '+data.length+' filas. Columnas: '+cols+'. Muestra: '+sample+'\n';}
+  });
+  const prompt=Object.keys(uploadedFiles).length>0
+    ?'Archivos del programa '+acc.nombre+':\n'+dataSummary+'\nMeta anual canje: $'+(a.metaAnualCanje||0)+' | Real: $'+(a.realAnualCanje||0)+'. Meta anual asignacion: '+(a.metaAnualAsig||0)+' pts | Real: '+(a.realAnualAsig||0)+' pts. Satisfaccion cliente: '+(satScore||'sin calificar')+'/10.\nMeta canje '+MESES[activeMonth]+': $'+(m.metaCanje||0)+' | Real: $'+(m.realCanje||0)+'.\n\nDame: 1) Hallazgos clave de canjes y participantes, 2) Avance vs metas anuales y mensuales, 3) Riesgos detectados, 4) Top 3 acciones concretas esta semana.'
+    :'Sin archivos. Para '+acc.nombre+', meta anual canje $'+(a.metaAnualCanje||0)+', real $'+(a.realAnualCanje||0)+'. Satisfaccion: '+(satScore||'sin calificar')+'/10. Dame las 5 prioridades de accion inmediata.';
+  btn.disabled=true;btn.textContent='Analizando...';res.classList.remove('show');
+  try{
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,system:buildContext(),messages:[{role:'user',content:prompt}]})});
+    const d=await r.json();
+    if(d.error){res.innerHTML='Error: '+d.error.message;res.classList.add('show');btn.disabled=false;btn.textContent='Analizar con IA';return;}
+    const text=d.content?.find(b=>b.type==='text')?.text||'';
+    res.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');res.classList.add('show');
+  }catch(e){res.innerHTML='Error: '+e.message;res.classList.add('show');}
+  btn.disabled=false;btn.textContent='Analizar con IA';
+}
+
 function buildAccountList(){
   const list=document.getElementById('account-list');const none=document.getElementById('no-accounts');
   list.innerHTML='';if(!accounts.length){none.style.display='block';return;}none.style.display='none';
@@ -362,6 +539,7 @@ function buildAccountList(){
     div.onclick=()=>selectAccount(a.id);list.appendChild(div);
   });
 }
+
 function buildAccountSelector(){
   const sel=document.getElementById('account-select');sel.innerHTML='';
   accounts.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.textContent=a.nombre+(a.plataforma?' - '+a.plataforma:'');if(a.id===activeAccountId)o.selected=true;sel.appendChild(o);});
@@ -369,6 +547,7 @@ function buildAccountSelector(){
   document.getElementById('meta-titulo').textContent='Metas - '+(acc?acc.nombre:'');
   document.getElementById('rep-account-tag').textContent=acc?acc.nombre+' - '+acc.plataforma:'';
 }
+
 function selectAccount(id){activeAccountId=id;buildAccountList();buildAccountSelector();loadMetas();clearFiles();chatHistory=[];}
 function openModal(){document.getElementById('modal-bg').classList.add('open');}
 function closeModal(){document.getElementById('modal-bg').classList.remove('open');['m-nombre','m-plataforma','m-presupuesto','m-consumo','m-part','m-campanas','m-comision'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
@@ -383,12 +562,15 @@ function deleteAccount(id){
   accounts=accounts.filter(a=>a.id!==id);if(activeAccountId===id)activeAccountId=accounts[0].id;
   saveAccountsToStorage();buildAccountSelector();buildAccountList();loadMetas();
 }
+
 function buildContext(){
   const acc=getAccount(activeAccountId)||{};const k=getMetaKey(activeMonth);const m=metas[k]||{};
-  const allAccStr=accounts.map(a=>'- '+a.nombre+' ('+a.plataforma+'): '+a.participantes+' part., $'+(a.presupuesto||0).toLocaleString()+' presupuesto, '+a.consumo+'% consumido, comision: '+a.comision+'%').join('\n');
+  const ak=getAnualKey();const a=metas[ak]||{};
+  const allAccStr=accounts.map(x=>'- '+x.nombre+' ('+x.plataforma+'): '+x.participantes+' part., $'+(x.presupuesto||0).toLocaleString()+', '+x.consumo+'% consumido, comision: '+x.comision+'%').join('\n');
   const filesStr=Object.keys(uploadedFiles).length>0?'Archivos: '+Object.entries(uploadedFiles).map(([t,f])=>t+': '+f.name).join(', '):'Sin archivos.';
-  return 'Eres un asistente experto en programas de incentivos B2B para Alus (Mexico). Alus cobra comision sobre canje realizado.\n\nCUENTA ACTIVA: '+acc.nombre+' | '+acc.plataforma+' | '+acc.industria+'\nPresupuesto: $'+(acc.presupuesto||0).toLocaleString()+' | Consumido: '+(acc.consumo||0)+'% | Participantes: '+(acc.participantes||0)+' | Comision: '+(acc.comision||8)+'%\nCampanas: '+(acc.campanas||'-')+'\n\nMETAS '+MESES[activeMonth]+':\nCanje meta: $'+(m.metaCanje||0).toLocaleString()+' | Real: $'+(m.realCanje||0).toLocaleString()+' | Avance: '+(m.metaCanje>0?Math.round((m.realCanje||0)/m.metaCanje*100):0)+'%\nRedenciones meta: '+(m.metaRed||0)+' | Real: '+(m.realRed||0)+'\nFacturacion estimada: $'+Math.round((m.realCanje||0)*(acc.comision||8)/100).toLocaleString()+'\n\n'+filesStr+'\n\nTODOS LOS PLANES:\n'+allAccStr+'\n\nResponde en espanol, directo y accionable. Maximo 5 parrafos. Negritas para puntos clave.';
+  return 'Eres asistente experto en programas de incentivos B2B para Alus (Mexico). Alus cobra comision sobre canje realizado.\n\nCUENTA ACTIVA: '+acc.nombre+' | '+acc.plataforma+' | '+acc.industria+'\nPresupuesto: $'+(acc.presupuesto||0).toLocaleString()+' | Consumido: '+(acc.consumo||0)+'% | Participantes: '+(acc.participantes||0)+' | Comision: '+(acc.comision||8)+'%\n\nMETAS ANUALES '+new Date().getFullYear()+':\nMeta canje: $'+(a.metaAnualCanje||0).toLocaleString()+' | Real acumulado: $'+(a.realAnualCanje||0).toLocaleString()+' | Avance: '+(a.metaAnualCanje>0?Math.round((a.realAnualCanje||0)/a.metaAnualCanje*100):0)+'%\nMeta asignacion: '+(a.metaAnualAsig||0).toLocaleString()+' pts | Real: '+(a.realAnualAsig||0).toLocaleString()+' pts\nSatisfaccion cliente: '+(satScore||'sin calificar')+'/10\n\nMETAS '+MESES[activeMonth]+':\nCanje meta: $'+(m.metaCanje||0).toLocaleString()+' | Real: $'+(m.realCanje||0).toLocaleString()+'\nRedenciones meta: '+(m.metaRed||0)+' | Real: '+(m.realRed||0)+'\n\n'+filesStr+'\n\nTODOS LOS PLANES:\n'+allAccStr+'\n\nResponde en espanol, directo y accionable. Maximo 5 parrafos. Negritas para puntos clave.';
 }
+
 async function sendMessage(text){
   const input=document.getElementById('user-input');const msg=text||input.value.trim();
   if(!msg||isLoading)return;
@@ -412,7 +594,8 @@ function addMsg(text,role){
 }
 function addTyping(){const wrap=document.getElementById('messages');const div=document.createElement('div');div.className='msg ai typing';div.innerHTML='<span></span><span></span><span></span>';wrap.appendChild(div);wrap.scrollTop=wrap.scrollHeight;return div;}
 function askChip(text){switchPanel('chat');setTimeout(()=>sendMessage(text),80);}
-function askChipMeta(){const acc=getAccount(activeAccountId)||{};const k=getMetaKey(activeMonth);const m=metas[k]||{};askChip('Mi meta de canje para '+MESES[activeMonth]+' es $'+(m.metaCanje||0).toLocaleString()+' y llevo $'+(m.realCanje||0).toLocaleString()+' real. Meta redenciones: '+(m.metaRed||0)+', real: '+(m.realRed||0)+'. Cuenta: '+acc.nombre+'. Como cierro el mes en meta?');}
+function askChipMeta(){const acc=getAccount(activeAccountId)||{};const k=getMetaKey(activeMonth);const m=metas[k]||{};askChip('Mi meta de canje para '+MESES[activeMonth]+' es $'+(m.metaCanje||0).toLocaleString()+' y llevo $'+(m.realCanje||0).toLocaleString()+'. Meta redenciones: '+(m.metaRed||0)+', real: '+(m.realRed||0)+'. Cuenta: '+acc.nombre+'. Como cierro el mes en meta?');}
+function askChipAnual(){const acc=getAccount(activeAccountId)||{};const ak=getAnualKey();const a=metas[ak]||{};askChip('Mis metas anuales para '+acc.nombre+': canje $'+(a.metaAnualCanje||0).toLocaleString()+' (real $'+(a.realAnualCanje||0).toLocaleString()+'), asignacion '+(a.metaAnualAsig||0)+' pts (real '+(a.realAnualAsig||0)+' pts), satisfaccion cliente '+(satScore||'sin calificar')+'/10. Que debo hacer para cerrar el ano en meta?');}
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
 function switchPanel(name){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
