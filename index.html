@@ -6,6 +6,7 @@
 <title>Alus Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -473,44 +474,95 @@ function attachFileListeners(planId){
     if(!input)return;
     input.onchange=function(){
       const f=input.files[0];if(!f)return;
-      if(f.name.toLowerCase().endsWith('.csv')){
+      const fname=f.name.toLowerCase();
+      if(fname.endsWith('.csv')){
         const reader=new FileReader();
         reader.onload=function(e){
-          const result=Papa.parse(e.target.result,{header:true,skipEmptyLines:true});
+          const result=Papa.parse(e.target.result,{header:true,skipEmptyLines:true,dynamicTyping:false});
           processFile(planId,type,f.name,result.data);
         };reader.readAsText(f);
+      } else if(fname.endsWith('.xlsx')||fname.endsWith('.xls')){
+        const reader=new FileReader();
+        reader.onload=function(e){
+          try{
+            const wb=XLSX.read(e.target.result,{type:'array'});
+            const ws=wb.Sheets[wb.SheetNames[0]];
+            const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+            processFile(planId,type,f.name,rows);
+          }catch(err){
+            alert('Error leyendo el archivo Excel: '+err.message);
+          }
+        };reader.readAsArrayBuffer(f);
       } else {
-        processFile(planId,type,f.name,[]);
+        alert('Formato no soportado. Usa .xlsx, .xls o .csv');
       }
     };
   });
 }
 
+function parseRows(data){
+  // Normalize: remove empty rows, trim keys
+  return data.filter(function(r){return Object.values(r).some(function(v){return v!==null&&v!==''&&v!==undefined;});});
+}
+
 function processFile(planId,type,fname,rows){
   const plan=plans.find(function(p){return p.id===planId;});if(!plan)return;
   if(!plan.files)plan.files={};
+  rows=parseRows(rows);
   if(type==='canjes'){
     const total=rows.length;
-    const delivered=rows.filter(function(r){return(r['Orden Status']||'').toUpperCase()==='DELIVERED';}).length;
-    const pending=rows.filter(function(r){return(r['Orden Status']||'').toUpperCase()==='PENDING';}).length;
-    const totalValor=rows.reduce(function(s,r){return s+(parseFloat(r['Precio'])||0);},0);
-    const catMap={};rows.forEach(function(r){const c=r['Categoria']||r['Categoría']||'Sin categoria';catMap[c]=(catMap[c]||0)+1;});
+    // Try multiple possible column names for status
+    const delivered=rows.filter(function(r){
+      const s=(r['Orden Status']||r['Status']||r['Estatus']||r['estado']||'').toString().toUpperCase();
+      return s==='DELIVERED'||s==='ENTREGADO'||s==='ENTREGADA';
+    }).length;
+    const pending=rows.filter(function(r){
+      const s=(r['Orden Status']||r['Status']||r['Estatus']||r['estado']||'').toString().toUpperCase();
+      return s==='PENDING'||s==='PENDIENTE';
+    }).length;
+    // Try multiple price column names
+    const totalValor=rows.reduce(function(s,r){
+      const v=parseFloat(r['Precio']||r['precio']||r['Monto']||r['monto']||r['Price']||r['Valor']||0);
+      return s+(isNaN(v)?0:v);
+    },0);
+    const catMap={};
+    rows.forEach(function(r){
+      const c=r['Categoria']||r['Categoría']||r['categoria']||r['Category']||r['Tipo']||'Sin categoria';
+      catMap[c]=(catMap[c]||0)+1;
+    });
     const topCat=Object.entries(catMap).sort(function(a,b){return b[1]-a[1];})[0];
-    plan.files.canjes={name:fname,rows:total,total:total,delivered:delivered,pending:pending,totalValor:totalValor,topCat:topCat?topCat[0]:'—',rawSample:rows.slice(0,5)};
+    plan.files.canjes={name:fname,rows:total,total:total,delivered:delivered,pending:pending,totalValor:totalValor,topCat:topCat?topCat[0]:'—',rawSample:rows.slice(0,3),cols:rows.length>0?Object.keys(rows[0]):[]};
   } else if(type==='asig'){
-    const totalPts=rows.reduce(function(s,r){return s+(parseFloat(r['Monto'])||0);},0);
-    const usuarios=new Set(rows.map(function(r){return r['Nombre de usuario']||r['Correo']||'';})).size;
-    plan.files.asig={name:fname,rows:rows.length,totalPts:totalPts,usuarios:usuarios,rawSample:rows.slice(0,5)};
+    const totalPts=rows.reduce(function(s,r){
+      const v=parseFloat(r['Monto']||r['monto']||r['Puntos']||r['puntos']||r['Points']||0);
+      return s+(isNaN(v)?0:v);
+    },0);
+    const usuarios=new Set(rows.map(function(r){return r['Nombre de usuario']||r['Usuario']||r['usuario']||r['Correo']||r['correo']||r['Email']||'';})).size;
+    plan.files.asig={name:fname,rows:rows.length,totalPts:totalPts,usuarios:usuarios,rawSample:rows.slice(0,3),cols:rows.length>0?Object.keys(rows[0]):[]};
   } else if(type==='part'){
     const total=rows.length;
-    const activos=rows.filter(function(r){return(r['Estado de cuenta']||'').toUpperCase()==='ACTIVE';}).length;
+    const activos=rows.filter(function(r){
+      const s=(r['Estado de cuenta']||r['Estado']||r['estado']||r['Status']||r['Estatus']||'').toString().toUpperCase();
+      return s==='ACTIVE'||s==='ACTIVO'||s==='ACTIVA';
+    }).length;
     const tasa=total>0?Math.round(activos/total*100):0;
-    const ptsAcum=rows.reduce(function(s,r){return s+(parseFloat(r['Puntos Acumulados'])||0);},0);
-    const ptsRed=rows.reduce(function(s,r){return s+(parseFloat(r['Puntos Redimidos'])||0);},0);
-    plan.files.part={name:fname,rows:rows.length,total:total,activos:activos,tasa:tasa,ptsAcum:ptsAcum,ptsRed:ptsRed,rawSample:rows.slice(0,5)};
+    const ptsAcum=rows.reduce(function(s,r){
+      const v=parseFloat(r['Puntos Acumulados']||r['PuntosAcumulados']||r['puntos_acumulados']||r['Acumulados']||0);
+      return s+(isNaN(v)?0:v);
+    },0);
+    const ptsRed=rows.reduce(function(s,r){
+      const v=parseFloat(r['Puntos Redimidos']||r['PuntosRedimidos']||r['puntos_redimidos']||r['Redimidos']||0);
+      return s+(isNaN(v)?0:v);
+    },0);
+    const ptsDisp=rows.reduce(function(s,r){
+      const v=parseFloat(r['Puntos Disponibles']||r['PuntosDisponibles']||r['puntos_disponibles']||r['Disponibles']||0);
+      return s+(isNaN(v)?0:v);
+    },0);
+    plan.files.part={name:fname,rows:rows.length,total:total,activos:activos,tasa:tasa,ptsAcum:ptsAcum,ptsRed:ptsRed,ptsDisp:ptsDisp,rawSample:rows.slice(0,3),cols:rows.length>0?Object.keys(rows[0]):[]};
   }
   savePlansToStorage();
   buildPlanTabs();
+  updateMetasTotals();
 }
 
 function clearFiles(planId){
