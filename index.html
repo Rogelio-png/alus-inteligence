@@ -463,53 +463,43 @@ function handleUpload(idx, input){
   const date=new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short'});
   filesInfo[key]={name:file.name,date:date};
 
-  if(idx===0){ // Revenue: leer BD_Productos
-    const r=new FileReader();r.onload=function(e){
-      try{
-        const wb=XLSX.read(e.target.result,{type:'array'});
-        const wsName=wb.SheetNames.find(function(n){return n.includes('BD');}) || wb.SheetNames[0];
-        const rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:''});
-        filesData[key]=rows;
-        saveFilesData();
-      }catch(err){filesData[key]=[];saveFilesData();}
-    };r.readAsArrayBuffer(file);
-  } else if(idx===1){ // Health: leer hoja Health Score
-    const r=new FileReader();r.onload=function(e){
-      try{
-        const wb=XLSX.read(e.target.result,{type:'array'});
-        const wsName=wb.SheetNames.find(function(n){return n.toLowerCase().includes('health score');})||wb.SheetNames[0];
-        const rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:''});
-        filesData[key]=rows;saveFilesData();
-      }catch(err){filesData[key]=[];saveFilesData();}
-    };r.readAsArrayBuffer(file);
-  } else if(idx===2){ // WBR: leer hoja WBR — Cuentas
-    const r=new FileReader();r.onload=function(e){
-      try{
-        const wb=XLSX.read(e.target.result,{type:'array'});
-        const wsName=wb.SheetNames.find(function(n){return n.toLowerCase().includes('cuentas');}) || wb.SheetNames.find(function(n){return n.toLowerCase().includes('wbr');})||wb.SheetNames[0];
-        const rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:''});
-        filesData[key]=rows;saveFilesData();
-      }catch(err){filesData[key]=[];saveFilesData();}
-    };r.readAsArrayBuffer(file);
-  } else if(idx===3){ // Segmentación: leer hoja Cuentas
-    const r=new FileReader();r.onload=function(e){
-      try{
-        const wb=XLSX.read(e.target.result,{type:'array'});
-        const wsName=wb.SheetNames.find(function(n){return n.toLowerCase().includes('cuenta');}) || wb.SheetNames[1]||wb.SheetNames[0];
-        const rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:''});
-        filesData[key]=rows;saveFilesData();
-      }catch(err){filesData[key]=[];saveFilesData();}
-    };r.readAsArrayBuffer(file);
-  } else { // FollowUp: Tracker
-    const r=new FileReader();r.onload=function(e){
-      try{
-        const wb=XLSX.read(e.target.result,{type:'array'});
-        const wsName=wb.SheetNames.find(function(n){return n.toLowerCase().includes('tracker');})||wb.SheetNames[0];
-        const rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:''});
-        filesData[key]=rows;saveFilesData();
-      }catch(err){filesData[key]=[];saveFilesData();}
-    };r.readAsArrayBuffer(file);
-  }
+  const r=new FileReader();
+  r.onload=function(e){
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      let rows=[];
+      if(idx===0){
+        // Revenue: hoja BD_Productos, encabezado fila 0
+        const wsName=wb.SheetNames.find(function(n){return n==='BD_Productos';})||wb.SheetNames[0];
+        rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:'',header:0});
+      } else if(idx===1){
+        // Health Score: hoja 'Health Score', encabezado real en fila 3 (0-based)
+        const wsName=wb.SheetNames.find(function(n){return n==='Health Score';})||wb.SheetNames[0];
+        rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:'',range:3});
+      } else if(idx===2){
+        // WBR: hoja 'WBR — Cuentas', encabezado en fila 5
+        const wsName=wb.SheetNames.find(function(n){return n.includes('WBR')&&n.includes('Cuentas');})||wb.SheetNames.find(function(n){return n.includes('Cuentas');})||wb.SheetNames[0];
+        rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:'',range:5});
+      } else if(idx===3){
+        // Segmentacion: hoja '📋 Cuentas', encabezado en fila 4, datos desde fila 6
+        const wsName=wb.SheetNames.find(function(n){return n.includes('Cuentas');})||wb.SheetNames[1];
+        rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:'',range:4});
+        // Filtrar filas de notas al pie
+        rows=rows.filter(function(r){
+          const c=r['Cuenta']||'';
+          return c&&typeof c==='string'&&c.length>3&&!c.includes('Rango')&&!c.includes('Fuente')&&!c.includes('=');
+        });
+      } else {
+        // FollowUp: hoja Tracker, encabezado en fila con Folio
+        const wsName=wb.SheetNames.find(function(n){return n==='Tracker';})||wb.SheetNames[0];
+        rows=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:'',range:4});
+        rows=rows.filter(function(r){return r['Folio']&&r['Cliente']&&r['Descripción'];});
+      }
+      filesData[key]=rows;
+      saveFilesData();
+    }catch(err){console.error('Parse error idx '+idx,err);filesData[key]=[];saveFilesData();}
+  };
+  r.readAsArrayBuffer(file);
 
   markSlotLoaded(idx, file.name);
   try{localStorage.setItem('alus_files_info',JSON.stringify(filesInfo));}catch(e){}
@@ -625,33 +615,72 @@ function getKamAccounts(){
   const platSet={};
   rev.forEach(function(r){
     const km=(r['acc_manager_name']||'').toString().trim();
-    if(km!==currentKam)return;
+    if(!km||km===currentKam||km.toLowerCase()===currentKam.toLowerCase()){
+      if(km!==currentKam&&km.toLowerCase()!==currentKam.toLowerCase())return;
+    } else return;
     const plat=(r['plataforma']||'').toString().trim();
-    if(!plat)return;
+    if(!plat||plat==='plataforma')return;
     if(!platSet[plat])platSet[plat]={plat:plat,revenue:0,meses:[]};
-    platSet[plat].revenue+=(parseFloat(r['precio_total'])||0);
-    const mes=r['mes']||r['Month_name']||'';const yr=r['año']||r['year']||'';
-    if(mes)platSet[plat].meses.push({mes:mes,yr:yr,val:parseFloat(r['precio_total'])||0});
+    const val=parseFloat(r['precio_total'])||0;
+    platSet[plat].revenue+=val;
+    const mes=(r['Month_name']||r['mes']||'').toString();
+    const yr=(r['año']||'').toString();
+    if(mes&&val>0)platSet[plat].meses.push({mes:mes,yr:yr,val:val});
   });
   return Object.values(platSet);
 }
 
+function canonicalName(platRev){
+  const map={
+    'BBVA - Portal de Socios Banca Automotriz':'BBVA-Portal de Socios Banca Automotriz',
+    'BMW - Recompensas FS':'BMW-Recompensas FS',
+    'BMW - Recompensas MX':'BMW-Recompensas MX',
+    'Bimbo - Premiando-T':'Bimbo-Premiando-T',
+    'Bimbo - T-Conecta Autovend':'Bimbo-T-Conecta Autovend',
+    'Bimbo - T-Conecta Tenderos':'Bimbo-T-Conecta Tenderos',
+    'Brown Forman - Gana Más':null,
+    'Dapesa - Club Premia':'Dapesa-Club Premia',
+    'DiDi':'DiDi-Drivers',
+    'Edenred':'Edenred-Global Rewards',
+    'Equity Link - Loyalty Perks':'Equity Link-Loyalty Perks',
+    'GNP - Atrévete a ganar':'GNP-Atrévete a ganar',
+    'Lubricantes Abamex - Recompensas Mobil':'Lubricantes Abamex-Recompensas Mobil',
+    'RegAlus - N RegAlus':'Nestlé-N RegAlus',
+    'RegAlus - CASHI - VALLE DE MÉXICO':null,
+    'RegAlus - ¿Pagas con Cashi?':null,
+    'Safelink - Safelink Rewards':'Safelink-Safelink Rewards',
+    'Santander':'Cliente rojo-RSA',
+    'Seguros Monterrey NYL - SMNYL Rewards':'Seguros Monterrey NYL-SMNYL Rewards',
+    'Seguros Monterrey NYL - RDA':'Seguros Monterrey NYL-SMNYL Rewards',
+    'Válvulas Urrea - URREA REWARDS':'Válvulas Urrea-Urrea Rewards',
+    'Volvo':'Cliente gris-Embajadores',
+    'Walmart - On Demand':'Walmart-OnDemand',
+    'Walmart - regALUSGo':'Walmart-RegALUSGO',
+    'Skydropx - Skydropx Plus':null,
+    'Grupo Modelo - Chingones Modelo':null,
+    'Aleph - Aleph Rewards':'Aleph-Aleph Rewards',
+  };
+  return map[platRev]||platRev;
+}
+
 function getHS(plat){
   const rows=filesData.health||[];
+  const canon=canonicalName(plat);
   for(const r of rows){
-    const cuenta=getV(r,'Cuenta','cuenta','Account');
-    if(matchAccount(cuenta,plat)){
+    const cuenta=(r['Cuenta']||'').toString().trim();
+    if(!cuenta||cuenta==='Cuenta')continue;
+    if(cuenta===canon||cuenta===plat){
       return {
-        score:parseFloat(getV(r,'Score  Final','Score Final','ScoreFinal','score_final'))||0,
-        estado:getV(r,'Estado','estado'),
-        var:getV(r,'Var.','var','variacion'),
-        adopcion:parseFloat(getV(r,'Score  Adopción','Score Adopcion','score_adopcion'))||0,
-        owner:parseFloat(getV(r,'Score  Owner','Score Owner','score_owner'))||0,
-        participante:parseFloat(getV(r,'Score  Partic.','Score Partic','score_partic'))||0,
-        financiero:parseFloat(getV(r,'Score  Financ.','Score Financ','score_financ'))||0,
-        semana:getV(r,'Semana','semana'),
-        notas:getV(r,'Notas','notas'),
-        tipo:getV(r,'Tipo de  cuenta','Tipo de cuenta','tipo'),
+        score:parseFloat(r['Score\nFinal']||r['Score Final']||r['Score  Final']||0)||0,
+        estado:(r['Estado']||'').toString(),
+        var:(r['Var.']||'').toString(),
+        adopcion:parseFloat(r['Score\nAdopción']||r['Score Adopcion']||r['Score  Adopción']||0)||0,
+        owner:parseFloat(r['Score\nOwner']||r['Score  Owner']||0)||0,
+        participante:parseFloat(r['Score\nPartic.']||r['Score  Partic.']||0)||0,
+        financiero:parseFloat(r['Score\nFinanc.']||r['Score  Financ.']||0)||0,
+        semana:(r['Semana']||'').toString(),
+        notas:(r['Notas']||'').toString(),
+        tipo:(r['Tipo de\ncuenta']||r['Tipo de cuenta']||'').toString(),
       };
     }
   }
@@ -660,25 +689,32 @@ function getHS(plat){
 
 function getWBR(plat){
   const rows=filesData.wbr||[];
+  const canon=canonicalName(plat);
   for(const r of rows){
-    const cuenta=getV(r,'Cuenta','cuenta');
-    if(matchAccount(cuenta,plat)){
+    const cuenta=(r['Cuenta']||'').toString().trim();
+    if(!cuenta||cuenta==='Cuenta'||cuenta==='CUENTA')continue;
+    if(cuenta===canon||cuenta===plat){
+      const asigMeta=parseFloat(r['Asig.\nMeta ($)']||r['Asig. Meta ($)']||0)||0;
+      const asigReal=parseFloat(r['Asig.\nReal ($)']||r['Asig. Real ($)']||0)||0;
+      const redMeta=parseFloat(r['Red.\nMeta ($)']||r['Red. Meta ($)']||0)||0;
+      const redReal=parseFloat(r['Red.\nReal ($)']||r['Red. Real ($)']||0)||0;
+      const saldoRaw=(r['Saldo\nVivo ($)']||r['Saldo Vivo ($)']||'').toString().replace(/[$, ]/g,'');
       return {
-        estado:getV(r,'Estado','estado'),
-        hsScore:parseFloat(getV(r,'HS  Score','HS Score','hs_score'))||0,
-        hsVar:getV(r,'HS  Var.','HS Var.','hs_var'),
-        asigMeta:parseFloat(getV(r,'Asig.  Meta ($)','Asig. Meta ($)'))||0,
-        asigReal:parseFloat(getV(r,'Asig.  Real ($)','Asig. Real ($)'))||0,
-        redMeta:parseFloat(getV(r,'Red.  Meta ($)','Red. Meta ($)'))||0,
-        redReal:parseFloat(getV(r,'Red.  Real ($)','Red. Real ($)'))||0,
-        saldo:parseFloat(getV(r,'Saldo  Vivo ($)','Saldo Vivo ($)','saldo_vivo'))||0,
-        riesgo:getV(r,'Riesgo','riesgo'),
-        oportunidad:getV(r,'Oportunidad','oportunidad'),
-        accion:getV(r,'Acción / Iniciativa','Accion / Iniciativa','accion'),
-        responsable:getV(r,'Responsable','responsable'),
-        fechaComp:getV(r,'Fecha  Comp.','Fecha Comp.','fecha_comp'),
-        comentarios:getV(r,'Comentarios / Contexto','Comentarios','comentarios'),
-        segmento:getV(r,'Segmento','segmento'),
+        estado:(r['Estado']||'').toString(),
+        hsScore:parseFloat(r['HS\nScore']||r['HS Score']||0)||0,
+        hsVar:(r['HS\nVar.']||r['HS Var.']||'').toString(),
+        asigMeta:asigMeta,
+        asigReal:asigReal,
+        redMeta:redMeta,
+        redReal:redReal,
+        saldo:parseFloat(saldoRaw)||0,
+        riesgo:(r['Riesgo']||'').toString(),
+        oportunidad:(r['Oportunidad']||'').toString(),
+        accion:(r['Acción / Iniciativa']||'').toString(),
+        responsable:(r['Responsable']||'').toString(),
+        fechaComp:r['Fecha\nComp.']||r['Fecha Comp.']||'',
+        comentarios:(r['Comentarios / Contexto']||r['Comentarios']||'').toString(),
+        segmento:(r['Segmento']||'').toString(),
       };
     }
   }
@@ -687,15 +723,18 @@ function getWBR(plat){
 
 function getSeg(plat){
   const rows=filesData.segmentacion||[];
+  const canon=canonicalName(plat);
   for(const r of rows){
-    const cuenta=getV(r,'Cuenta','cuenta');
-    if(matchAccount(cuenta,plat)){
+    const cuenta=(r['Cuenta']||'').toString().trim();
+    if(!cuenta||cuenta==='Cuenta'||cuenta.length<3)continue;
+    if(cuenta===canon||cuenta===plat){
       return {
-        segmento:getV(r,'Segmento','segmento'),
-        score:parseFloat(getV(r,'Score Total','score_total'))||0,
-        hs:getV(r,'Health Score','health_score'),
-        notas:getV(r,'Notas / Siguiente acción','Notas','notas'),
-        revenue:parseFloat(getV(r,'Revenue LTM  Q1 2026 (MXN)','Revenue LTM','revenue_ltm'))||0,
+        segmento:(r['Segmento']||'').toString(),
+        score:parseFloat(r['Score Total']||0)||0,
+        hs:(r['Health Score']||'').toString(),
+        notas:(r['Notas / Siguiente acción']||r['Notas']||'').toString(),
+        revenue:parseFloat((r['Revenue LTM  Q1 2026 (MXN)']||r['Revenue LTM']||'').toString().replace(/[,$]/g,''))||0,
+        industria:(r['Industria']||'').toString(),
       };
     }
   }
@@ -704,13 +743,14 @@ function getSeg(plat){
 
 function getFollowUp(plat){
   const rows=filesData.followup||[];
-  const platBase=plat.split(' - ')[0].split('-')[0].trim().split(' ')[0];
+  const platBase=plat.split(' - ')[0].split('-')[0].trim();
+  const platWord=platBase.split(' ')[0].toLowerCase();
   return rows.filter(function(r){
-    const cliente=(getV(r,'Cliente','cliente')||'').toString();
-    return cliente&&(matchAccount(cliente,plat)||matchAccount(cliente,platBase));
-  }).filter(function(r){
-    const est=(getV(r,'Estatus','estatus')||'').toString().toLowerCase();
-    return !est.includes('conclu')&&!est.includes('cancel');
+    const cliente=(r['Cliente']||'').toString().trim().toLowerCase();
+    if(!cliente)return false;
+    const est=(r['Estatus']||'').toString().toLowerCase();
+    if(est.includes('conclu')||est.includes('cancel'))return false;
+    return cliente.includes(platWord)||platWord.includes(cliente.split(' ')[0]);
   }).slice(0,5);
 }
 
