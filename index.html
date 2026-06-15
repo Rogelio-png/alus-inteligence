@@ -670,17 +670,23 @@ function getHS(plat){
     const cuenta=(r['Cuenta']||'').toString().trim();
     if(!cuenta||cuenta==='Cuenta')continue;
     if(cuenta===canon||cuenta===plat){
+      // Helper to find column with 
+ or 
+ variants
+      function col(r,base){
+        return r[base]||r[base.replace(/\n/g,'\r\n')]||r[base.replace(/\n/g,' ')]||r[base.replace(/\n/g,'  ')]||'';
+      }
       return {
-        score:parseFloat(r['Score\nFinal']||r['Score Final']||r['Score  Final']||0)||0,
+        score:parseFloat(col(r,'Score\nFinal'))||0,
         estado:(r['Estado']||'').toString(),
         var:(r['Var.']||'').toString(),
-        adopcion:parseFloat(r['Score\nAdopción']||r['Score Adopcion']||r['Score  Adopción']||0)||0,
-        owner:parseFloat(r['Score\nOwner']||r['Score  Owner']||0)||0,
-        participante:parseFloat(r['Score\nPartic.']||r['Score  Partic.']||0)||0,
-        financiero:parseFloat(r['Score\nFinanc.']||r['Score  Financ.']||0)||0,
+        adopcion:parseFloat(col(r,'Score\nAdopción'))||0,
+        owner:parseFloat(col(r,'Score\nOwner'))||0,
+        participante:parseFloat(col(r,'Score\nPartic.'))||0,
+        financiero:parseFloat(col(r,'Score\nFinanc.'))||0,
         semana:(r['Semana']||'').toString(),
         notas:(r['Notas']||'').toString(),
-        tipo:(r['Tipo de\ncuenta']||r['Tipo de cuenta']||'').toString(),
+        tipo:(col(r,'Tipo de\ncuenta')||'').toString(),
       };
     }
   }
@@ -694,15 +700,16 @@ function getWBR(plat){
     const cuenta=(r['Cuenta']||'').toString().trim();
     if(!cuenta||cuenta==='Cuenta'||cuenta==='CUENTA')continue;
     if(cuenta===canon||cuenta===plat){
-      const asigMeta=parseFloat(r['Asig.\nMeta ($)']||r['Asig. Meta ($)']||0)||0;
-      const asigReal=parseFloat(r['Asig.\nReal ($)']||r['Asig. Real ($)']||0)||0;
-      const redMeta=parseFloat(r['Red.\nMeta ($)']||r['Red. Meta ($)']||0)||0;
-      const redReal=parseFloat(r['Red.\nReal ($)']||r['Red. Real ($)']||0)||0;
-      const saldoRaw=(r['Saldo\nVivo ($)']||r['Saldo Vivo ($)']||'').toString().replace(/[$, ]/g,'');
+      function wc(k){return r[k]||r[k.replace(/\n/g,'\r\n')]||r[k.replace(/\n/g,' ')]||'';}
+      const asigMeta=parseFloat(wc('Asig.\nMeta ($)'))||0;
+      const asigReal=parseFloat(wc('Asig.\nReal ($)'))||0;
+      const redMeta=parseFloat(wc('Red.\nMeta ($)'))||0;
+      const redReal=parseFloat(wc('Red.\nReal ($)'))||0;
+      const saldoRaw=(wc('Saldo\nVivo ($)')||'').toString().replace(/[$, ]/g,'');
       return {
         estado:(r['Estado']||'').toString(),
-        hsScore:parseFloat(r['HS\nScore']||r['HS Score']||0)||0,
-        hsVar:(r['HS\nVar.']||r['HS Var.']||'').toString(),
+        hsScore:parseFloat(wc('HS\nScore'))||0,
+        hsVar:(wc('HS\nVar.')||'').toString(),
         asigMeta:asigMeta,
         asigReal:asigReal,
         redMeta:redMeta,
@@ -712,7 +719,7 @@ function getWBR(plat){
         oportunidad:(r['Oportunidad']||'').toString(),
         accion:(r['Acción / Iniciativa']||'').toString(),
         responsable:(r['Responsable']||'').toString(),
-        fechaComp:r['Fecha\nComp.']||r['Fecha Comp.']||'',
+        fechaComp:wc('Fecha\nComp.')||r['Fecha Comp.']||'',
         comentarios:(r['Comentarios / Contexto']||r['Comentarios']||'').toString(),
         segmento:(r['Segmento']||'').toString(),
       };
