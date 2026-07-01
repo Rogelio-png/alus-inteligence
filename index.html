@@ -9,299 +9,319 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --red:#FF4558;--red-bg:#fff0f1;--red-border:#ffc0c5;
-  --navy:#12142B;--white:#FFFFFF;
+  --navy:#12142B;--white:#FFFFFF;--cream:#f7f5f0;
   --gray:#6B7280;--grayL:#F3F4F6;--grayB:#E5E7EB;--grayM:#9CA3AF;
-  --green:#059669;--green-bg:#f0faf5;
+  --green:#059669;--green-bg:#f0faf5;--green-border:#6ee7b7;
   --gold:#D97706;--gold-bg:#fffbeb;
-  --cream:#f7f5f0;
   --r:8px;--rl:14px;
 }
 html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream);color:var(--navy)}
 
 /* ── LOGO ── */
-.logo{display:flex;align-items:baseline;gap:0}
+.logo{display:flex;align-items:baseline}
 .logo-a{font-weight:700;color:var(--red)}
 .logo-lus{font-weight:700;color:var(--navy)}
-.logo-dot{color:var(--red);font-weight:700;font-size:.6em}
-.logo-tag{color:var(--gray);margin-left:8px;font-weight:400}
+.logo-dot{color:var(--red);font-weight:700}
+.logo-sub{color:var(--gray);margin-left:8px;font-weight:400}
 
 /* ── SCREENS ── */
-.screen{display:none;min-height:100vh}
+.screen{display:none}
 .screen.active{display:block}
 
-/* ── SHARED ── */
+/* ── BTNS ── */
 .btn{font-family:'Outfit',sans-serif;cursor:pointer;border-radius:var(--r);font-size:14px;padding:.6rem 1.25rem;display:inline-flex;align-items:center;gap:6px;font-weight:500;border:none;transition:opacity .15s}
 .btn-red{background:var(--red);color:#fff}.btn-red:hover{opacity:.88}
 .btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{opacity:.85}
 .btn-outline{background:transparent;border:1.5px solid var(--grayB);color:var(--navy)}.btn-outline:hover{border-color:var(--red);color:var(--red)}
-.card{background:var(--white);border:1px solid var(--grayB);border-radius:var(--rl);padding:1.25rem}
-.sec-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--grayM);margin-bottom:.75rem}
-.divider{height:1px;background:var(--grayB);margin:1.25rem 0}
+.btn-ghost{background:transparent;border:none;color:var(--gray);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:.4rem .75rem;border-radius:var(--r)}.btn-ghost:hover{color:var(--red);background:var(--red-bg)}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(18,20,43,.45);z-index:100;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--white);border-radius:var(--rl);padding:1.75rem;width:500px;max-width:95vw;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-title{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:1.25rem}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.5rem}
+.field{margin-bottom:.875rem}
+.field label{font-size:11px;color:var(--gray);display:block;margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em}
+.field input,.field select{width:100%;border:1.5px solid var(--grayB);border-radius:var(--r);padding:.55rem .875rem;font-family:'Outfit',sans-serif;font-size:14px;background:var(--white);color:var(--navy);outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:var(--red)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 /* ══════════════════════════════
-   SCREEN 1 — LOGIN
+   VENTANA 1 — LOGIN
 ══════════════════════════════ */
-#s-login{
-  display:none;min-height:100vh;
-  align-items:center;justify-content:center;
-  background:var(--white);position:relative;overflow:hidden;
-}
-#s-login.active{display:flex}
-.login-deco1{position:absolute;top:-120px;right:-100px;width:480px;height:480px;border-radius:50%;background:var(--red);opacity:.05}
-.login-deco2{position:absolute;bottom:-140px;left:-100px;width:380px;height:380px;border-radius:50%;background:var(--navy);opacity:.04}
+#v-login{min-height:100vh;display:none;align-items:center;justify-content:center;background:var(--white);position:relative;overflow:hidden}
+#v-login.active{display:flex}
+.deco1{position:absolute;top:-120px;right:-100px;width:480px;height:480px;border-radius:50%;background:var(--red);opacity:.05;pointer-events:none}
+.deco2{position:absolute;bottom:-140px;left:-100px;width:380px;height:380px;border-radius:50%;background:var(--navy);opacity:.04;pointer-events:none}
 .login-box{width:440px;max-width:94vw;z-index:1;padding:2rem 0}
-
 .login-logo{font-size:24px;margin-bottom:2.5rem}
-.login-title{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:.4rem;line-height:1.2}
-.login-sub{font-size:14px;color:var(--gray);margin-bottom:2.25rem;line-height:1.6}
-
+.login-title{font-size:28px;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.login-sub{font-size:14px;color:var(--gray);margin-bottom:2rem;line-height:1.6}
+.sec-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--grayM);margin-bottom:.75rem}
 .kam-list{display:flex;flex-direction:column;gap:10px;margin-bottom:1.75rem}
-.kam-item{
-  display:flex;align-items:center;gap:14px;
-  padding:1rem 1.1rem;border:2px solid var(--grayB);border-radius:var(--rl);
-  cursor:pointer;background:var(--white);transition:all .15s;
-}
+.kam-item{display:flex;align-items:center;gap:14px;padding:1rem 1.1rem;border:2px solid var(--grayB);border-radius:var(--rl);cursor:pointer;background:var(--white);transition:all .15s}
 .kam-item:hover{border-color:var(--red);background:var(--red-bg)}
 .kam-item.selected{border-color:var(--red);background:var(--red-bg)}
-.kam-avatar{
-  width:42px;height:42px;border-radius:50%;
-  background:var(--grayL);display:flex;align-items:center;justify-content:center;
-  font-size:15px;font-weight:700;color:var(--grayM);flex-shrink:0;
-  transition:all .15s;
-}
+.kam-avatar{width:42px;height:42px;border-radius:50%;background:var(--grayL);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--grayM);flex-shrink:0;transition:all .15s}
 .kam-item.selected .kam-avatar{background:var(--red-bg);color:var(--red);border:1.5px solid var(--red-border)}
 .kam-name{font-size:14px;font-weight:600;color:var(--navy);flex:1}
-.kam-check{
-  width:22px;height:22px;border-radius:50%;background:var(--red);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:opacity .15s;flex-shrink:0;
-}
+.kam-check{width:22px;height:22px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;flex-shrink:0}
 .kam-item.selected .kam-check{opacity:1}
-
-.btn-enter{
-  width:100%;padding:.875rem;border:none;border-radius:var(--rl);
-  background:var(--red);color:#fff;font-size:15px;font-weight:600;
-  font-family:'Outfit',sans-serif;cursor:pointer;
-  opacity:.35;pointer-events:none;transition:all .2s;
-}
+.btn-enter{width:100%;padding:.9rem;border:none;border-radius:var(--rl);background:var(--red);color:#fff;font-size:15px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;opacity:.35;pointer-events:none;transition:all .2s}
 .btn-enter.ready{opacity:1;pointer-events:all}.btn-enter.ready:hover{opacity:.88}
 .login-note{text-align:center;margin-top:1.25rem;font-size:11px;color:var(--grayM);font-family:'DM Mono',monospace}
 
 /* ══════════════════════════════
-   SCREEN 2 — OBJETIVOS Y PLANES
+   VENTANA 2 — OBJETIVOS
 ══════════════════════════════ */
-#s-app{display:none;flex-direction:column;min-height:100vh}
-#s-app.active{display:flex}
+#v-objetivos{min-height:100vh;display:none;flex-direction:column}
+#v-objetivos.active{display:flex}
+.obj-header{background:var(--white);border-bottom:1px solid var(--grayB);padding:1rem 1.75rem;display:flex;align-items:center;justify-content:space-between}
+.obj-body{flex:1;padding:2rem 1.75rem;max-width:820px;margin:0 auto;width:100%}
+.obj-title{font-size:24px;font-weight:700;color:var(--navy);margin-bottom:.3rem}
+.obj-sub{font-size:13px;color:var(--gray);margin-bottom:2rem;line-height:1.6}
+.section-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:.875rem;display:flex;align-items:center;gap:8px}
+.section-title em{font-size:12px;font-weight:400;font-style:normal;color:var(--gray)}
+.q-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:.875rem}
+.q-card{background:var(--white);border:1.5px solid var(--grayB);border-radius:var(--rl);padding:1rem;transition:border-color .15s}
+.q-card:focus-within{border-color:var(--red)}
+.q-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;padding:2px 9px;border-radius:99px;margin-bottom:.75rem;background:var(--grayL);color:var(--grayM);transition:all .15s}
+.q-card:focus-within .q-badge{background:var(--red-bg);color:var(--red)}
+.q-field-label{font-size:10px;color:var(--gray);margin-bottom:3px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
+.q-input-wrap{display:flex;align-items:center;gap:4px}
+.q-prefix{font-size:13px;color:var(--grayM);font-weight:500;flex-shrink:0}
+.q-input{border:none;background:transparent;font-size:21px;font-weight:700;font-family:'DM Serif Display',serif;color:var(--navy);width:100%;outline:none;padding:0}
+.q-input::placeholder{color:var(--grayB)}
+.total-band{background:var(--navy);color:#fff;border-radius:var(--rl);padding:1.1rem 1.5rem;margin-bottom:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.tb-label{font-size:10px;opacity:.5;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.tb-val{font-size:22px;font-weight:700;font-family:'DM Serif Display',serif}
+.tb-sub{font-size:11px;opacity:.45;margin-top:1px}
+.divider{height:1px;background:var(--grayB);margin:1.75rem 0}
+.save-row{display:flex;align-items:center;gap:12px}
+.save-hint{font-size:12px;color:var(--green);font-weight:500}
 
-.app-header{
-  background:var(--white);border-bottom:1px solid var(--grayB);
-  padding:.75rem 1.75rem;display:flex;align-items:center;justify-content:space-between;
-  flex-shrink:0;
-}
-.header-logo{font-size:17px}
+/* ══════════════════════════════
+   VENTANA 3 — DASHBOARD
+══════════════════════════════ */
+#v-dashboard{min-height:100vh;display:none;flex-direction:column}
+#v-dashboard.active{display:flex}
+.dash-header{background:var(--white);border-bottom:1px solid var(--grayB);padding:.75rem 1.75rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.dash-logo{font-size:17px}
 .header-right{display:flex;align-items:center;gap:10px}
-.kam-badge{
-  font-size:12px;padding:4px 12px;border-radius:99px;
-  background:var(--red-bg);border:1px solid var(--red-border);
-  color:var(--red);font-weight:600;
-}
-.btn-cambiar{
-  font-size:12px;padding:4px 12px;border-radius:99px;
-  border:1px solid var(--grayB);background:transparent;
-  color:var(--gray);cursor:pointer;font-family:'Outfit',sans-serif;
-}
-.btn-cambiar:hover{border-color:var(--red);color:var(--red)}
-
-/* NAV */
-.app-nav{
-  background:var(--white);border-bottom:1px solid var(--grayB);
-  display:flex;padding:0 1.75rem;overflow-x:auto;flex-shrink:0;
-}
-.nav-tab{
-  font-size:13px;padding:.65rem 1.1rem;cursor:pointer;
-  border-bottom:2px solid transparent;color:var(--gray);
-  white-space:nowrap;margin-bottom:-1px;font-weight:400;
-  transition:all .1s;
-}
+.kam-badge{font-size:12px;padding:4px 12px;border-radius:99px;background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);font-weight:600}
+.dash-nav{background:var(--white);border-bottom:1px solid var(--grayB);display:flex;padding:0 1.75rem;flex-shrink:0;overflow-x:auto}
+.nav-tab{font-size:13px;padding:.65rem 1.1rem;cursor:pointer;border-bottom:2px solid transparent;color:var(--gray);white-space:nowrap;margin-bottom:-1px;font-weight:400;transition:all .1s}
 .nav-tab:hover{color:var(--navy)}
 .nav-tab.active{color:var(--red);border-bottom-color:var(--red);font-weight:600}
+.dash-body{flex:1;overflow-y:auto;padding:1.75rem;background:var(--cream)}
+.dash-view{display:none}.dash-view.active{display:block}
 
-.app-body{flex:1;overflow-y:auto;padding:1.75rem;background:var(--cream)}
-.view{display:none}.view.active{display:block}
+/* PLANES */
+.planes-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px}
+.planes-title{font-size:22px;font-weight:700;color:var(--navy)}
+.planes-sub{font-size:13px;color:var(--gray);margin-top:.2rem}
+.plan-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+.plan-tab{font-size:12px;padding:5px 16px;border:1.5px solid var(--grayB);border-radius:99px;cursor:pointer;color:var(--gray);font-family:'Outfit',sans-serif;transition:all .15s;white-space:nowrap}
+.plan-tab:hover{border-color:var(--red);color:var(--red)}
+.plan-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.plan-content{display:none}.plan-content.active{display:block}
 
-/* ── OBJETIVOS ── */
-.obj-title{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:.25rem}
-.obj-sub{font-size:13px;color:var(--gray);margin-bottom:1.75rem;line-height:1.6}
+/* PLAN CARD */
+.plan-layout{display:grid;grid-template-columns:320px 1fr;gap:1.25rem}
+.card{background:var(--white);border:1px solid var(--grayB);border-radius:var(--rl);padding:1.25rem}
+.card-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;border-bottom:1px solid var(--grayB)}
+.info-row:last-child{border-bottom:none}
+.info-label{color:var(--gray)}
+.info-val{font-weight:500;color:var(--navy);text-align:right;max-width:60%}
+.plan-q-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:.75rem}
+.plan-q-card{background:var(--grayL);border-radius:var(--r);padding:.75rem}
+.plan-q-badge{font-family:'DM Mono',monospace;font-size:9px;font-weight:700;color:var(--grayM);margin-bottom:.5rem}
+.plan-q-label{font-size:10px;color:var(--gray);margin-bottom:2px}
+.plan-q-input-wrap{display:flex;align-items:center;gap:3px}
+.plan-q-prefix{font-size:11px;color:var(--grayM);flex-shrink:0}
+.plan-q-input{border:none;background:transparent;font-size:17px;font-weight:700;font-family:'DM Serif Display',serif;color:var(--navy);width:100%;outline:none;padding:0}
+.plan-q-input::placeholder{color:var(--grayB)}
+.plan-total-row{display:flex;justify-content:space-between;align-items:center;background:var(--navy);color:#fff;border-radius:var(--r);padding:.625rem 1rem;font-size:13px;margin-bottom:1rem}
+.plan-total-label{opacity:.55;font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+.plan-total-val{font-weight:700;font-family:'DM Serif Display',serif;font-size:18px}
+.no-plans{text-align:center;padding:3rem 1rem;color:var(--gray)}
+.no-plans-icon{font-size:40px;margin-bottom:.75rem}
+.no-plans-title{font-size:16px;font-weight:600;color:var(--navy);margin-bottom:.5rem}
+.no-plans-sub{font-size:13px;line-height:1.6}
 
-/* Q grid */
-.q-section-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:.875rem;display:flex;align-items:center;gap:8px}
-.q-section-title span{font-size:11px;font-weight:400;color:var(--gray)}
+/* MOD OBJETIVOS */
+.mod-obj-view{max-width:820px}
+.mod-obj-intro{font-size:13px;color:var(--gray);margin-bottom:1.75rem;line-height:1.6;padding:.875rem 1rem;background:var(--white);border:1px solid var(--grayB);border-radius:var(--r);display:flex;align-items:center;gap:10px}
 
-.q-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
-.q-card{
-  background:var(--white);border:1px solid var(--grayB);border-radius:var(--rl);
-  padding:1rem;transition:border-color .15s;
-}
-.q-card:focus-within{border-color:var(--red)}
-.q-badge{
-  display:inline-block;font-family:'DM Mono',monospace;font-size:10px;
-  font-weight:700;padding:2px 8px;border-radius:99px;margin-bottom:.75rem;
-  background:var(--grayL);color:var(--grayM);
-}
-.q-card:focus-within .q-badge{background:var(--red-bg);color:var(--red)}
-.q-field-label{font-size:11px;color:var(--gray);margin-bottom:3px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
-.q-input-wrap{display:flex;align-items:center;gap:4px;margin-bottom:10px}
-.q-prefix{font-size:13px;color:var(--grayM);font-weight:500}
-.q-input{
-  border:none;background:transparent;
-  font-size:20px;font-weight:700;font-family:'DM Serif Display',serif;
-  color:var(--navy);width:100%;outline:none;padding:0;
-}
-.q-input::placeholder{color:var(--grayB)}
-
-/* Total band */
-.total-band{
-  background:var(--navy);color:#fff;border-radius:var(--rl);
-  padding:1.1rem 1.5rem;margin-bottom:1.75rem;
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;
-}
-.tb-item-label{font-size:10px;opacity:.5;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-.tb-item-val{font-size:22px;font-weight:700;font-family:'DM Serif Display',serif}
-.tb-item-sub{font-size:11px;opacity:.45;margin-top:2px}
-
-/* Prog */
-.prog-wrap{background:rgba(255,255,255,.15);border-radius:99px;height:4px;margin-top:6px}
-.prog{height:4px;border-radius:99px;background:#fff;transition:width .5s}
-
-.save-row{display:flex;align-items:center;gap:10px;margin-top:1.25rem}
-.save-hint{font-size:12px;color:var(--grayM)}
-
-@media(max-width:640px){
-  .q-grid{grid-template-columns:1fr 1fr}
+@media(max-width:700px){
+  .plan-layout{grid-template-columns:1fr}
+  .q-grid,.plan-q-grid{grid-template-columns:1fr 1fr}
   .total-band{grid-template-columns:1fr}
-  .app-body{padding:1rem}
+  .obj-body,.dash-body{padding:1rem}
+  .obj-header,.dash-header{padding:.75rem 1rem}
+  .dash-nav{padding:0 1rem}
 }
 </style>
 </head>
 <body>
 
-<!-- ══ SCREEN 1: LOGIN ══ -->
-<div id="s-login" class="screen">
-  <div class="login-deco1"></div>
-  <div class="login-deco2"></div>
-  <div class="login-box">
+<!-- ══════════════════════════════
+     MODAL — NUEVO / EDITAR PLAN
+══════════════════════════════ -->
+<div class="modal-bg" id="modal-plan">
+<div class="modal">
+  <div class="modal-title" id="modal-plan-title">Nuevo plan</div>
+  <div class="field"><label>Cliente</label><input id="mp-cliente" type="text" placeholder="Ej. Seguros Monterrey NYL"/></div>
+  <div class="field-row">
+    <div class="field"><label>Plataforma</label><input id="mp-plataforma" type="text" placeholder="Ej. SMNYL Rewards"/></div>
+    <div class="field"><label>Nombre del Owner</label><input id="mp-owner" type="text" placeholder="Nombre del contacto"/></div>
+  </div>
+  <div class="field"><label>Valor peso / puntos (informativo)</label><input id="mp-valor" type="text" placeholder="Ej. 1 punto = $0.50 MXN"/></div>
+  <div class="modal-actions">
+    <button class="btn btn-outline" onclick="closePlanModal()">Cancelar</button>
+    <button class="btn btn-navy" onclick="savePlanModal()">Guardar plan</button>
+  </div>
+</div>
+</div>
 
+<!-- ══════════════════════════════
+     VENTANA 1 — LOGIN
+══════════════════════════════ -->
+<div id="v-login" class="screen">
+  <div class="deco1"></div><div class="deco2"></div>
+  <div class="login-box">
     <div class="login-logo logo">
       <span class="logo-a" style="font-size:24px">A</span>
       <span class="logo-lus" style="font-size:24px">LUS</span>
       <span class="logo-dot" style="font-size:14px">.</span>
-      <span class="logo-tag" style="font-size:14px">intelligence</span>
+      <span class="logo-sub" style="font-size:14px">intelligence</span>
     </div>
-
     <div class="login-title">Selecciona tu perfil</div>
-    <div class="login-sub">Elige tu nombre para acceder a tu espacio de trabajo y ver tus cuentas asignadas.</div>
-
+    <div class="login-sub">Elige tu nombre para acceder a tu espacio de trabajo.</div>
     <div class="sec-label">Account Managers</div>
-    <div class="kam-list" id="kam-list">
-      <!-- se construye dinámico o con lista fija por ahora -->
-    </div>
-
+    <div class="kam-list" id="kam-list"></div>
     <button class="btn-enter" id="btn-enter" onclick="enterApp()">Entrar →</button>
     <div class="login-note">Alus Intelligence · Uso interno · Confidencial</div>
   </div>
 </div>
 
-<!-- ══ SCREEN 2: APP ══ -->
-<div id="s-app" class="screen">
-  <div class="app-header">
-    <div class="header-logo logo">
+<!-- ══════════════════════════════
+     VENTANA 2 — OBJETIVOS
+══════════════════════════════ -->
+<div id="v-objetivos" class="screen">
+  <div class="obj-header">
+    <div class="logo">
       <span class="logo-a" style="font-size:17px">A</span>
       <span class="logo-lus" style="font-size:17px">LUS</span>
       <span class="logo-dot" style="font-size:10px">.</span>
-      <span class="logo-tag" style="font-size:12px">intelligence</span>
+      <span class="logo-sub" style="font-size:12px">intelligence</span>
+    </div>
+    <button class="btn-ghost" onclick="goLogin()">← Cambiar perfil</button>
+  </div>
+  <div class="obj-body">
+    <div class="obj-title">Mis objetivos anuales</div>
+    <div class="obj-sub">Define tus metas de asignación y redención por trimestre. Solo necesitas hacerlo una vez — después puedes modificarlos cuando quieras desde el dashboard.</div>
+
+    <div class="section-title">Asignación <em>Puntos a dispersar por trimestre</em></div>
+    <div class="q-grid" id="obj-grid-asig"></div>
+    <div class="total-band">
+      <div><div class="tb-label">Total anual</div><div class="tb-val" id="obj-total-asig">0 pts</div></div>
+      <div><div class="tb-label">Promedio por Q</div><div class="tb-val" id="obj-avg-asig">0 pts</div></div>
+      <div><div class="tb-label">Qs definidos</div><div class="tb-val" id="obj-qs-asig">0 / 4</div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-title">Redención <em>Valor a canjear por trimestre ($)</em></div>
+    <div class="q-grid" id="obj-grid-red"></div>
+    <div class="total-band">
+      <div><div class="tb-label">Total anual</div><div class="tb-val" id="obj-total-red">$0</div></div>
+      <div><div class="tb-label">Promedio por Q</div><div class="tb-val" id="obj-avg-red">$0</div></div>
+      <div><div class="tb-label">Qs definidos</div><div class="tb-val" id="obj-qs-red">0 / 4</div></div>
+    </div>
+
+    <div class="save-row">
+      <button class="btn btn-red" onclick="saveObjetivos(true)">Guardar y continuar →</button>
+      <span class="save-hint" id="obj-hint"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     VENTANA 3 — DASHBOARD
+══════════════════════════════ -->
+<div id="v-dashboard" class="screen">
+  <div class="dash-header">
+    <div class="dash-logo logo">
+      <span class="logo-a" style="font-size:17px">A</span>
+      <span class="logo-lus" style="font-size:17px">LUS</span>
+      <span class="logo-dot" style="font-size:10px">.</span>
+      <span class="logo-sub" style="font-size:12px">intelligence</span>
     </div>
     <div class="header-right">
-      <span class="kam-badge" id="header-badge"></span>
-      <button class="btn-cambiar" onclick="goLogin()">← Cambiar perfil</button>
+      <span class="kam-badge" id="dash-badge"></span>
+      <button class="btn-ghost" onclick="goLogin()">← Cambiar perfil</button>
     </div>
   </div>
 
-  <div class="app-nav">
-    <div class="nav-tab active" id="ntab-objetivos" onclick="switchView('objetivos')">Mis objetivos</div>
-    <div class="nav-tab" id="ntab-planes" onclick="switchView('planes')">Planes</div>
-    <div class="nav-tab" id="ntab-ia" onclick="switchView('ia')">Análisis IA</div>
+  <div class="dash-nav">
+    <div class="nav-tab active" id="dtab-planes" onclick="switchDash('planes')">Mis planes</div>
+    <div class="nav-tab" id="dtab-objetivos" onclick="switchDash('objetivos')">Modificar objetivos anuales</div>
   </div>
 
-  <div class="app-body">
+  <div class="dash-body">
 
-    <!-- ── VIEW: OBJETIVOS ── -->
-    <div class="view active" id="view-objetivos">
-      <div class="obj-title">Mis objetivos anuales</div>
-      <div class="obj-sub">Define tus metas de asignación y redención por trimestre. El total se calcula automáticamente.</div>
-
-      <!-- ASIGNACIÓN -->
-      <div class="q-section-title">
-        Asignación <span>Puntos a dispersar por trimestre</span>
-      </div>
-      <div class="q-grid" id="grid-asig"></div>
-      <div class="total-band" id="band-asig">
+    <!-- TAB: MIS PLANES -->
+    <div class="dash-view active" id="dview-planes">
+      <div class="planes-top">
         <div>
-          <div class="tb-item-label">Total anual asignación</div>
-          <div class="tb-item-val" id="total-asig-val">0 pts</div>
+          <div class="planes-title">Mis planes</div>
+          <div class="planes-sub">Información y metas de cada cuenta que administras.</div>
         </div>
-        <div>
-          <div class="tb-item-label">Promedio por Q</div>
-          <div class="tb-item-val" id="avg-asig-val">0 pts</div>
-          <div class="tb-item-sub">por trimestre</div>
-        </div>
-        <div>
-          <div class="tb-item-label">Qs con meta definida</div>
-          <div class="tb-item-val" id="qs-asig-val">0 / 4</div>
-        </div>
+        <button class="btn btn-red" onclick="openNewPlan()">+ Nuevo plan</button>
       </div>
 
-      <!-- REDENCIÓN -->
-      <div class="q-section-title">
-        Redención <span>Valor a canjear por trimestre ($)</span>
-      </div>
-      <div class="q-grid" id="grid-red"></div>
-      <div class="total-band" id="band-red">
-        <div>
-          <div class="tb-item-label">Total anual redención</div>
-          <div class="tb-item-val" id="total-red-val">$0</div>
-        </div>
-        <div>
-          <div class="tb-item-label">Promedio por Q</div>
-          <div class="tb-item-val" id="avg-red-val">$0</div>
-          <div class="tb-item-sub">por trimestre</div>
-        </div>
-        <div>
-          <div class="tb-item-label">Qs con meta definida</div>
-          <div class="tb-item-val" id="qs-red-val">0 / 4</div>
-        </div>
-      </div>
+      <div class="plan-tabs" id="plan-tabs"></div>
+      <div id="plan-contents"></div>
 
-      <div class="save-row">
-        <button class="btn btn-navy" onclick="saveObjetivos()">Guardar objetivos</button>
-        <span class="save-hint" id="save-hint"></span>
+      <div class="no-plans" id="no-plans" style="display:none">
+        <div class="no-plans-icon">📋</div>
+        <div class="no-plans-title">Aún no tienes planes</div>
+        <div class="no-plans-sub">Da clic en "+ Nuevo plan" para agregar tu primera cuenta.</div>
       </div>
     </div>
 
-    <!-- ── VIEW: PLANES (placeholder) ── -->
-    <div class="view" id="view-planes">
-      <div style="text-align:center;padding:3rem 1rem;color:var(--gray)">
-        <div style="font-size:36px;margin-bottom:.75rem">📋</div>
-        <div style="font-size:16px;font-weight:600;color:var(--navy);margin-bottom:.5rem">Planes — próximamente</div>
-        <div style="font-size:13px;line-height:1.6">Esta sección se construye en el siguiente paso.</div>
-      </div>
-    </div>
+    <!-- TAB: MODIFICAR OBJETIVOS -->
+    <div class="dash-view" id="dview-objetivos">
+      <div class="mod-obj-view">
+        <div class="mod-obj-intro">
+          📝 Aquí puedes actualizar tus objetivos anuales en cualquier momento. Los cambios se guardan automáticamente.
+        </div>
 
-    <!-- ── VIEW: IA (placeholder) ── -->
-    <div class="view" id="view-ia">
-      <div style="text-align:center;padding:3rem 1rem;color:var(--gray)">
-        <div style="font-size:36px;margin-bottom:.75rem">🤖</div>
-        <div style="font-size:16px;font-weight:600;color:var(--navy);margin-bottom:.5rem">Análisis IA — próximamente</div>
-        <div style="font-size:13px;line-height:1.6">Se activa cuando los planes estén cargados.</div>
+        <div class="section-title">Asignación <em>Puntos a dispersar por trimestre</em></div>
+        <div class="q-grid" id="mod-grid-asig"></div>
+        <div class="total-band">
+          <div><div class="tb-label">Total anual</div><div class="tb-val" id="mod-total-asig">0 pts</div></div>
+          <div><div class="tb-label">Promedio por Q</div><div class="tb-val" id="mod-avg-asig">0 pts</div></div>
+          <div><div class="tb-label">Qs definidos</div><div class="tb-val" id="mod-qs-asig">0 / 4</div></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-title">Redención <em>Valor a canjear por trimestre ($)</em></div>
+        <div class="q-grid" id="mod-grid-red"></div>
+        <div class="total-band">
+          <div><div class="tb-label">Total anual</div><div class="tb-val" id="mod-total-red">$0</div></div>
+          <div><div class="tb-label">Promedio por Q</div><div class="tb-val" id="mod-avg-red">$0</div></div>
+          <div><div class="tb-label">Qs definidos</div><div class="tb-val" id="mod-qs-red">0 / 4</div></div>
+        </div>
+
+        <div class="save-row">
+          <button class="btn btn-navy" onclick="saveObjetivos(false)">Guardar cambios</button>
+          <span class="save-hint" id="mod-hint"></span>
+        </div>
       </div>
     </div>
 
@@ -310,159 +330,328 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 
 <script>
 // ═══════════ KAMS ═══════════
-const KAMS = [
-  'Ana Karen Rodriguez',
-  'Carlos Ramirez',
-  'Jorge Baranda',
-  'Karen Lugo',
-  'Mauricio Dueñas',
-  'Rogelio Ruiz',
-];
+const KAMS=['Ana Karen Rodriguez','Carlos Ramirez','Jorge Baranda','Karen Lugo','Mauricio Dueñas','Rogelio Ruiz'];
+let currentKam=null;
+let state={objetivos:{},planes:{}};
+try{const s=localStorage.getItem('alus_v3');if(s)state=JSON.parse(s);}catch(e){}
 
-let currentKam = null;
-let objetivos = {};
+function save(){try{localStorage.setItem('alus_v3',JSON.stringify(state));}catch(e){}}
+function kamKey(){return currentKam.replace(/ /g,'_');}
+function getObj(){return state.objetivos[kamKey()]||{asig:{},red:{}};}
+function getPlanes(){return state.planes[kamKey()]||[];}
+function initials(n){return n.split(' ').slice(0,2).map(function(w){return w[0];}).join('').toUpperCase();}
 
-try{const s=localStorage.getItem('alus_obj2');if(s)objetivos=JSON.parse(s);}catch(e){}
-
-// ═══════════ LOGIN ═══════════
-function buildLogin(){
-  const list = document.getElementById('kam-list');
-  list.innerHTML = '';
-  KAMS.forEach(function(name){
-    const div = document.createElement('div');
-    div.className = 'kam-item';
-    div.innerHTML =
-      '<div class="kam-avatar">'+initials(name)+'</div>'+
-      '<span class="kam-name">'+name+'</span>'+
-      '<div class="kam-check">'+
-        '<svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5.5 4.5,8.5 9.5,2.5"/></svg>'+
-      '</div>';
-    div.onclick = function(){
-      document.querySelectorAll('.kam-item').forEach(function(i){i.classList.remove('selected');});
-      div.classList.add('selected');
-      currentKam = name;
-      const btn = document.getElementById('btn-enter');
-      btn.classList.add('ready');
-      btn.textContent = 'Entrar como ' + name.split(' ')[0] + ' →';
-    };
-    list.appendChild(div);
-  });
-}
-
-function initials(name){
-  return name.split(' ').slice(0,2).map(function(w){return w[0];}).join('').toUpperCase();
-}
-
-function enterApp(){
-  if(!currentKam) return;
-  document.getElementById('header-badge').textContent = '👤 ' + currentKam;
-  showScreen('s-app');
-  buildObjetivos();
-}
-
-function goLogin(){
-  currentKam = null;
-  document.querySelectorAll('.kam-item').forEach(function(i){i.classList.remove('selected');});
-  const btn = document.getElementById('btn-enter');
-  btn.classList.remove('ready');
-  btn.textContent = 'Entrar →';
-  showScreen('s-login');
-}
-
+// ═══════════ SCREENS ═══════════
 function showScreen(id){
-  document.querySelectorAll('.screen').forEach(function(s){
-    s.classList.remove('active');
-  });
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
   document.getElementById(id).classList.add('active');
 }
 
-// ═══════════ OBJETIVOS ═══════════
-function kamKey(){return 'kam_'+currentKam.replace(/ /g,'_');}
-
-function buildObjetivos(){
-  const key = kamKey();
-  const data = objetivos[key] || {};
-
-  ['asig','red'].forEach(function(type){
-    const grid = document.getElementById('grid-'+type);
-    grid.innerHTML = '';
-    ['Q1','Q2','Q3','Q4'].forEach(function(q){
-      const val = data[type] && data[type][q] ? data[type][q] : '';
-      const prefix = type==='asig' ? 'pts' : '$';
-      const placeholder = type==='asig' ? '0 pts' : '$0';
-
-      const card = document.createElement('div');
-      card.className = 'q-card';
-      card.innerHTML =
-        '<div class="q-badge">'+q+'</div>'+
-        '<div class="q-field-label">Meta '+( type==='asig'?'asignación':'redención' )+'</div>'+
-        '<div class="q-input-wrap">'+
-          '<span class="q-prefix">'+prefix+'</span>'+
-          '<input class="q-input" id="inp-'+type+'-'+q+'" type="number" min="0" '+
-            'placeholder="0" value="'+val+'" oninput="updateTotals()"/>'+
-        '</div>';
-      grid.appendChild(card);
-    });
-  });
-
-  updateTotals();
-}
-
-function getVal(id){
-  const el = document.getElementById(id);
-  if(!el || el.value==='' || isNaN(el.value)) return 0;
-  return parseFloat(el.value) || 0;
-}
-
-function fmt(n, type){
-  if(type==='asig') return n.toLocaleString('es-MX') + ' pts';
-  return '$' + n.toLocaleString('es-MX', {maximumFractionDigits:0});
-}
-
-function updateTotals(){
-  ['asig','red'].forEach(function(type){
-    let total = 0, filled = 0;
-    ['Q1','Q2','Q3','Q4'].forEach(function(q){
-      const v = getVal('inp-'+type+'-'+q);
-      total += v;
-      if(v>0) filled++;
-    });
-    const avg = filled > 0 ? Math.round(total/filled) : 0;
-
-    document.getElementById('total-'+type+'-val').textContent = fmt(total, type);
-    document.getElementById('avg-'+type+'-val').textContent = fmt(avg, type);
-    document.getElementById('qs-'+type+'-val').textContent = filled + ' / 4';
+// ═══════════ VENTANA 1: LOGIN ═══════════
+function buildLogin(){
+  const list=document.getElementById('kam-list');list.innerHTML='';
+  KAMS.forEach(function(name){
+    const d=document.createElement('div');d.className='kam-item';
+    d.innerHTML='<div class="kam-avatar">'+initials(name)+'</div>'+
+      '<span class="kam-name">'+name+'</span>'+
+      '<div class="kam-check"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5.5 4.5,8.5 9.5,2.5"/></svg></div>';
+    d.onclick=function(){
+      document.querySelectorAll('.kam-item').forEach(function(i){i.classList.remove('selected');});
+      d.classList.add('selected');currentKam=name;
+      const btn=document.getElementById('btn-enter');
+      btn.classList.add('ready');btn.textContent='Entrar como '+name.split(' ')[0]+' →';
+    };
+    list.appendChild(d);
   });
 }
 
-function saveObjetivos(){
-  const key = kamKey();
-  if(!objetivos[key]) objetivos[key] = {};
-  ['asig','red'].forEach(function(type){
-    if(!objetivos[key][type]) objetivos[key][type] = {};
-    ['Q1','Q2','Q3','Q4'].forEach(function(q){
-      objetivos[key][type][q] = getVal('inp-'+type+'-'+q);
-    });
-  });
-  try{localStorage.setItem('alus_obj2', JSON.stringify(objetivos));}catch(e){}
-
-  const hint = document.getElementById('save-hint');
-  hint.textContent = '✓ Guardado';
-  hint.style.color = 'var(--green)';
-  setTimeout(function(){hint.textContent='';}, 2000);
+function enterApp(){
+  if(!currentKam)return;
+  document.getElementById('dash-badge').textContent='👤 '+currentKam;
+  const obj=getObj();
+  const hasObj=Object.values(obj.asig||{}).some(function(v){return v>0;})||
+                Object.values(obj.red||{}).some(function(v){return v>0;});
+  if(hasObj){
+    buildDash();
+    showScreen('v-dashboard');
+  } else {
+    buildObjForm('v-objetivos');
+    showScreen('v-objetivos');
+  }
 }
 
-// ═══════════ VIEW SWITCHING ═══════════
-function switchView(name){
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+function goLogin(){
+  currentKam=null;
+  document.querySelectorAll('.kam-item').forEach(function(i){i.classList.remove('selected');});
+  const btn=document.getElementById('btn-enter');btn.classList.remove('ready');btn.textContent='Entrar →';
+  showScreen('v-login');
+}
+
+// ═══════════ VENTANA 2: OBJETIVOS ═══════════
+function buildObjForm(screen){
+  const prefix=screen==='v-objetivos'?'obj':'mod';
+  const obj=getObj();
+  ['asig','red'].forEach(function(type){
+    const grid=document.getElementById(prefix+'-grid-'+type);
+    if(!grid)return;
+    grid.innerHTML='';
+    ['Q1','Q2','Q3','Q4'].forEach(function(q){
+      const val=(obj[type]&&obj[type][q])||'';
+      const pr=type==='asig'?'pts':'$';
+      const c=document.createElement('div');c.className='q-card';
+      c.innerHTML='<div class="q-badge">'+q+'</div>'+
+        '<div class="q-field-label">Meta '+(type==='asig'?'asignación':'redención')+'</div>'+
+        '<div class="q-input-wrap"><span class="q-prefix">'+pr+'</span>'+
+        '<input class="q-input" id="'+prefix+'-inp-'+type+'-'+q+'" type="number" min="0" placeholder="0" value="'+(val||'')+'" oninput="updateObjTotals(\''+prefix+'\')"/></div>';
+      grid.appendChild(c);
+    });
+  });
+  updateObjTotals(prefix);
+}
+
+function getQVal(prefix,type,q){
+  const el=document.getElementById(prefix+'-inp-'+type+'-'+q);
+  if(!el||el.value===''||isNaN(el.value))return 0;
+  return parseFloat(el.value)||0;
+}
+
+function fmtPts(n){return n.toLocaleString('es-MX')+' pts';}
+function fmtMXN(n){return '$'+n.toLocaleString('es-MX',{maximumFractionDigits:0});}
+
+function updateObjTotals(prefix){
+  ['asig','red'].forEach(function(type){
+    let total=0,filled=0;
+    ['Q1','Q2','Q3','Q4'].forEach(function(q){const v=getQVal(prefix,type,q);total+=v;if(v>0)filled++;});
+    const avg=filled>0?Math.round(total/filled):0;
+    const fmt=type==='asig'?fmtPts:fmtMXN;
+    const tEl=document.getElementById(prefix+'-total-'+type);
+    const aEl=document.getElementById(prefix+'-avg-'+type);
+    const qEl=document.getElementById(prefix+'-qs-'+type);
+    if(tEl)tEl.textContent=fmt(total);
+    if(aEl)aEl.textContent=fmt(avg);
+    if(qEl)qEl.textContent=filled+' / 4';
+  });
+}
+
+function saveObjetivos(goToDash){
+  const key=kamKey();
+  if(!state.objetivos[key])state.objetivos[key]={asig:{},red:{}};
+  const prefix=goToDash?'obj':'mod';
+  ['asig','red'].forEach(function(type){
+    ['Q1','Q2','Q3','Q4'].forEach(function(q){
+      state.objetivos[key][type][q]=getQVal(prefix,type,q);
+    });
+  });
+  save();
+  const hintId=goToDash?'obj-hint':'mod-hint';
+  const hint=document.getElementById(hintId);
+  if(hint){hint.textContent='✓ Guardado';setTimeout(function(){hint.textContent='';},2000);}
+  if(goToDash){buildDash();showScreen('v-dashboard');}
+}
+
+// ═══════════ VENTANA 3: DASHBOARD ═══════════
+function buildDash(){
+  buildObjForm('mod');
+  buildPlanTabs();
+  switchDash('planes');
+}
+
+function switchDash(name){
+  document.querySelectorAll('.dash-view').forEach(function(v){v.classList.remove('active');});
   document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
-  document.getElementById('view-'+name).classList.add('active');
-  document.getElementById('ntab-'+name).classList.add('active');
+  document.getElementById('dview-'+name).classList.add('active');
+  document.getElementById('dtab-'+name).classList.add('active');
+}
+
+// ═══════════ PLANES ═══════════
+let editingPlanId=null;
+
+function buildPlanTabs(){
+  const planes=getPlanes();
+  const tabs=document.getElementById('plan-tabs');
+  const contents=document.getElementById('plan-contents');
+  const noPlanEl=document.getElementById('no-plans');
+  tabs.innerHTML='';contents.innerHTML='';
+
+  if(!planes.length){
+    noPlanEl.style.display='block';
+    return;
+  }
+  noPlanEl.style.display='none';
+
+  planes.forEach(function(plan,idx){
+    // Tab
+    const tab=document.createElement('div');
+    tab.className='plan-tab'+(idx===0?' active':'');
+    tab.textContent=plan.cliente||'Plan '+(idx+1);
+    tab.id='ptab-'+plan.id;
+    tab.onclick=(function(pid){return function(){activatePlanTab(pid);};})(plan.id);
+    tabs.appendChild(tab);
+
+    // Content
+    const content=document.createElement('div');
+    content.className='plan-content'+(idx===0?' active':'');
+    content.id='pcontent-'+plan.id;
+    content.innerHTML=buildPlanHTML(plan);
+    contents.appendChild(content);
+
+    // Attach input listeners
+    attachPlanInputs(plan.id);
+  });
+}
+
+function activatePlanTab(pid){
+  document.querySelectorAll('.plan-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.plan-content').forEach(function(c){c.classList.remove('active');});
+  const tab=document.getElementById('ptab-'+pid);
+  const content=document.getElementById('pcontent-'+pid);
+  if(tab)tab.classList.add('active');
+  if(content)content.classList.add('active');
+}
+
+function buildPlanHTML(plan){
+  return '<div class="plan-layout">'+
+    // Columna izq: info general
+    '<div>'+
+      '<div class="card" style="margin-bottom:10px">'+
+        '<div class="card-title">📋 Información del plan</div>'+
+        '<div class="info-row"><span class="info-label">Cliente</span><span class="info-val">'+plan.cliente+'</span></div>'+
+        '<div class="info-row"><span class="info-label">Plataforma</span><span class="info-val">'+plan.plataforma+'</span></div>'+
+        '<div class="info-row"><span class="info-label">Owner</span><span class="info-val">'+plan.owner+'</span></div>'+
+        '<div class="info-row"><span class="info-label">Valor pts</span><span class="info-val">'+plan.valor+'</span></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:8px">'+
+        '<button class="btn btn-outline" style="font-size:12px;padding:5px 12px" onclick="openEditPlan(\''+plan.id+'\')">Editar info</button>'+
+        '<button class="btn btn-ghost" style="font-size:12px;color:var(--red)" onclick="deletePlan(\''+plan.id+'\')">Eliminar</button>'+
+      '</div>'+
+    '</div>'+
+    // Columna der: metas Q
+    '<div>'+
+      '<div class="card">'+
+        '<div class="card-title">🎯 Metas por trimestre</div>'+
+        '<div class="section-title" style="font-size:12px;margin-bottom:.625rem">Asignación <em style="font-size:11px">Puntos a dispersar</em></div>'+
+        '<div class="plan-q-grid" id="pqg-asig-'+plan.id+'"></div>'+
+        '<div class="plan-total-row"><span class="plan-total-label">Total asignación</span><span class="plan-total-val" id="pt-asig-'+plan.id+'">0 pts</span></div>'+
+        '<div class="section-title" style="font-size:12px;margin-bottom:.625rem">Redención <em style="font-size:11px">Valor a canjear ($)</em></div>'+
+        '<div class="plan-q-grid" id="pqg-red-'+plan.id+'"></div>'+
+        '<div class="plan-total-row"><span class="plan-total-label">Total redención</span><span class="plan-total-val" id="pt-red-'+plan.id+'">$0</span></div>'+
+        '<button class="btn btn-navy" style="width:100%;justify-content:center" onclick="savePlanMetas(\''+plan.id+'\')">Guardar metas</button>'+
+        '<div style="font-size:12px;color:var(--green);margin-top:.5rem;min-height:18px" id="ph-'+plan.id+'"></div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+function attachPlanInputs(pid){
+  const planes=getPlanes();
+  const plan=planes.find(function(p){return p.id===pid;});
+  if(!plan)return;
+  ['asig','red'].forEach(function(type){
+    const grid=document.getElementById('pqg-'+type+'-'+pid);
+    if(!grid)return;
+    grid.innerHTML='';
+    ['Q1','Q2','Q3','Q4'].forEach(function(q){
+      const val=(plan.metas&&plan.metas[type]&&plan.metas[type][q])||'';
+      const pr=type==='asig'?'pts':'$';
+      const c=document.createElement('div');c.className='plan-q-card';
+      c.innerHTML='<div class="plan-q-badge">'+q+'</div>'+
+        '<div class="plan-q-label">'+(type==='asig'?'Asignación':'Redención')+'</div>'+
+        '<div class="plan-q-input-wrap"><span class="plan-q-prefix">'+pr+'</span>'+
+        '<input class="plan-q-input" id="pi-'+type+'-'+q+'-'+pid+'" type="number" min="0" placeholder="0" value="'+(val||'')+'" oninput="updatePlanTotal(\''+pid+'\')"/></div>';
+      grid.appendChild(c);
+    });
+  });
+  updatePlanTotal(pid);
+}
+
+function updatePlanTotal(pid){
+  ['asig','red'].forEach(function(type){
+    let total=0;
+    ['Q1','Q2','Q3','Q4'].forEach(function(q){
+      const el=document.getElementById('pi-'+type+'-'+q+'-'+pid);
+      total+=el?parseFloat(el.value)||0:0;
+    });
+    const el=document.getElementById('pt-'+type+'-'+pid);
+    if(el)el.textContent=type==='asig'?fmtPts(total):fmtMXN(total);
+  });
+}
+
+function savePlanMetas(pid){
+  const key=kamKey();
+  const planes=state.planes[key]||[];
+  const plan=planes.find(function(p){return p.id===pid;});
+  if(!plan)return;
+  if(!plan.metas)plan.metas={asig:{},red:{}};
+  ['asig','red'].forEach(function(type){
+    ['Q1','Q2','Q3','Q4'].forEach(function(q){
+      const el=document.getElementById('pi-'+type+'-'+q+'-'+pid);
+      plan.metas[type][q]=el?parseFloat(el.value)||0:0;
+    });
+  });
+  save();
+  const hint=document.getElementById('ph-'+pid);
+  if(hint){hint.textContent='✓ Metas guardadas';setTimeout(function(){hint.textContent='';},2000);}
+}
+
+// ═══════════ MODAL PLAN ═══════════
+function openNewPlan(){
+  editingPlanId=null;
+  document.getElementById('modal-plan-title').textContent='Nuevo plan';
+  ['mp-cliente','mp-plataforma','mp-owner','mp-valor'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('modal-plan').classList.add('open');
+}
+
+function openEditPlan(pid){
+  editingPlanId=pid;
+  const plan=getPlanes().find(function(p){return p.id===pid;});
+  if(!plan)return;
+  document.getElementById('modal-plan-title').textContent='Editar plan';
+  document.getElementById('mp-cliente').value=plan.cliente||'';
+  document.getElementById('mp-plataforma').value=plan.plataforma||'';
+  document.getElementById('mp-owner').value=plan.owner||'';
+  document.getElementById('mp-valor').value=plan.valor||'';
+  document.getElementById('modal-plan').classList.add('open');
+}
+
+function closePlanModal(){document.getElementById('modal-plan').classList.remove('open');}
+
+function savePlanModal(){
+  const cliente=document.getElementById('mp-cliente').value.trim();
+  if(!cliente){alert('El nombre del cliente es obligatorio.');return;}
+  const key=kamKey();
+  if(!state.planes[key])state.planes[key]=[];
+  const data={
+    cliente:cliente,
+    plataforma:document.getElementById('mp-plataforma').value.trim()||'—',
+    owner:document.getElementById('mp-owner').value.trim()||'—',
+    valor:document.getElementById('mp-valor').value.trim()||'—',
+  };
+  if(editingPlanId){
+    const idx=state.planes[key].findIndex(function(p){return p.id===editingPlanId;});
+    if(idx>=0){const metas=state.planes[key][idx].metas;state.planes[key][idx]=Object.assign({id:editingPlanId,metas:metas||{asig:{},red:{}}},data);}
+  } else {
+    const id='p'+Date.now();
+    state.planes[key].push(Object.assign({id:id,metas:{asig:{},red:{}}},data));
+  }
+  save();
+  closePlanModal();
+  buildPlanTabs();
+  if(editingPlanId){
+    const pid=editingPlanId;
+    setTimeout(function(){activatePlanTab(pid);},50);
+  }
+}
+
+function deletePlan(pid){
+  if(!confirm('¿Eliminar este plan?'))return;
+  const key=kamKey();
+  state.planes[key]=(state.planes[key]||[]).filter(function(p){return p.id!==pid;});
+  save();buildPlanTabs();
 }
 
 // ═══════════ INIT ═══════════
 buildLogin();
-showScreen('s-login');
+showScreen('v-login');
 </script>
 </body>
 </html>
