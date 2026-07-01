@@ -201,6 +201,85 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 .btn-clear-files{font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:.25rem;display:inline-flex;align-items:center;gap:4px}
 .btn-clear-files:hover{text-decoration:underline}
 
+/* ── LOGIN FILE SLOTS ── */
+.login-divider{height:1px;background:var(--grayB);margin:1.5rem 0}
+.login-file-slots{display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem}
+.login-file-slot{
+  display:flex;align-items:center;gap:12px;
+  padding:.75rem 1rem;border:1.5px solid var(--grayB);border-radius:var(--r);
+  cursor:pointer;background:var(--white);transition:all .15s;
+}
+.login-file-slot:hover{border-color:var(--red);background:var(--red-bg)}
+.login-file-slot.loaded{border-color:var(--green);background:var(--green-bg)}
+.lfs-icon{font-size:22px;flex-shrink:0;width:30px;text-align:center}
+.lfs-info{flex:1}
+.lfs-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:1px}
+.lfs-hint{font-size:11px;color:var(--gray)}
+.lfs-status{font-size:11px;font-family:'DM Mono',monospace;font-weight:500;text-align:right;max-width:140px;word-break:break-all}
+.lfs-status.pending{color:var(--grayM)}
+.lfs-status.ok{color:var(--green)}
+
+/* ── PLAN SELECTOR ── */
+.plan-selector{padding:1.75rem 0}
+.plan-selector-title{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:.3rem}
+.plan-selector-sub{font-size:13px;color:var(--gray);margin-bottom:1.75rem;line-height:1.6}
+.plan-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:1.5rem}
+.plan-card{
+  background:var(--white);border:2px solid var(--grayB);border-radius:var(--rl);
+  padding:1.1rem 1.25rem;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:14px;
+}
+.plan-card:hover{border-color:var(--red);background:var(--red-bg);transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,69,88,.08)}
+.plan-card-avatar{
+  width:46px;height:46px;border-radius:var(--r);
+  background:var(--grayL);display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;transition:all .15s;
+}
+.plan-card:hover .plan-card-avatar{background:var(--red-bg)}
+.plan-card-info{flex:1;min-width:0}
+.plan-card-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plan-card-plat{font-size:12px;color:var(--gray);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plan-card-badges{display:flex;gap:5px;flex-wrap:wrap}
+.plan-card-badge{font-size:10px;padding:1px 7px;border-radius:99px;font-family:'DM Mono',monospace;font-weight:500}
+.badge-loaded{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.badge-empty{background:var(--grayL);color:var(--grayM);border:1px solid var(--grayB)}
+.badge-metas{background:#EEF0FD;color:#3730A3;border:1px solid #C7D2FE}
+.plan-card-arrow{color:var(--grayM);font-size:16px;flex-shrink:0;transition:all .15s}
+.plan-card:hover .plan-card-arrow{color:var(--red)}
+.plan-detail-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap}
+.plan-back-btn{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--gray);cursor:pointer;background:none;border:none;font-family:'Outfit',sans-serif;padding:.35rem .5rem;border-radius:var(--r)}
+.plan-back-btn:hover{color:var(--red);background:var(--red-bg)}
+.plan-detail-name{font-size:20px;font-weight:700;color:var(--navy)}
+.plan-detail-plat{font-size:13px;color:var(--gray);margin-top:1px}
+
+/* ── RESUMEN ── */
+.resumen-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.resumen-kpi{background:var(--white);border:1px solid var(--grayB);border-radius:var(--rl);padding:1rem;text-align:center}
+.resumen-kpi-label{font-size:10px;color:var(--gray);margin-bottom:4px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em}
+.resumen-kpi-val{font-size:22px;font-weight:700;font-family:'DM Serif Display',serif;color:var(--navy)}
+.resumen-kpi-sub{font-size:11px;color:var(--gray);margin-top:2px}
+.resumen-obj-band{background:var(--navy);color:#fff;border-radius:var(--rl);padding:1.1rem 1.5rem;margin-bottom:1.5rem}
+.resumen-obj-band-title{font-size:12px;opacity:.5;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.resumen-obj-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:1rem;align-items:center}
+.resumen-obj-q{text-align:center}
+.resumen-obj-q-label{font-size:10px;opacity:.5;font-family:'DM Mono',monospace;margin-bottom:2px}
+.resumen-obj-q-val{font-size:15px;font-weight:700;font-family:'DM Serif Display',serif}
+.resumen-obj-total{text-align:center;border-left:1px solid rgba(255,255,255,.2);padding-left:1rem}
+.resumen-obj-total-label{font-size:10px;opacity:.5;font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:2px}
+.resumen-obj-total-val{font-size:20px;font-weight:700;font-family:'DM Serif Display',serif}
+.resumen-plan-row{background:var(--white);border:1px solid var(--grayB);border-radius:var(--rl);padding:1rem 1.25rem;margin-bottom:8px}
+.resumen-plan-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;flex-wrap:wrap;gap:8px}
+.resumen-plan-name{font-size:14px;font-weight:700;color:var(--navy)}
+.resumen-plan-plat{font-size:12px;color:var(--gray);margin-top:1px}
+.resumen-bars{display:flex;flex-direction:column;gap:.625rem}
+.resumen-bar-row{display:flex;align-items:center;gap:10px}
+.resumen-bar-label{font-size:11px;color:var(--gray);width:70px;flex-shrink:0}
+.resumen-bar-track{flex:1;background:var(--grayB);border-radius:99px;height:8px}
+.resumen-bar-fill{height:8px;border-radius:99px;transition:width .6s ease}
+.resumen-bar-pct{font-size:11px;font-weight:700;width:38px;text-align:right;flex-shrink:0}
+.resumen-no-data{font-size:12px;color:var(--grayM);font-style:italic}
+.resumen-total-row{background:var(--navy);color:#fff;border-radius:var(--rl);padding:1rem 1.25rem;margin-bottom:8px}
+
 @media(max-width:700px){
   .plan-layout{grid-template-columns:1fr}
   .q-grid,.plan-q-grid{grid-template-columns:1fr 1fr}
@@ -248,6 +327,30 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
     <div class="login-sub">Elige tu nombre para acceder a tu espacio de trabajo.</div>
     <div class="sec-label">Account Managers</div>
     <div class="kam-list" id="kam-list"></div>
+
+    <div class="login-divider"></div>
+    <div class="sec-label">Archivos globales</div>
+    <div class="login-file-slots">
+      <div class="login-file-slot" id="lfs-revenue" onclick="document.getElementById('lf-revenue').click()">
+        <span class="lfs-icon" id="lfs-icon-revenue">📊</span>
+        <div class="lfs-info">
+          <div class="lfs-name">Revenue Tracker</div>
+          <div class="lfs-hint">Facturación por cuenta y KAM</div>
+        </div>
+        <div class="lfs-status pending" id="lfs-status-revenue">Sin archivo</div>
+        <input type="file" id="lf-revenue" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleLoginFile('revenue',this)"/>
+      </div>
+      <div class="login-file-slot" id="lfs-healthscore" onclick="document.getElementById('lf-healthscore').click()">
+        <span class="lfs-icon" id="lfs-icon-healthscore">💚</span>
+        <div class="lfs-info">
+          <div class="lfs-name">Health Score</div>
+          <div class="lfs-hint">Score semanal por cuenta</div>
+        </div>
+        <div class="lfs-status pending" id="lfs-status-healthscore">Sin archivo</div>
+        <input type="file" id="lf-healthscore" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleLoginFile('healthscore',this)"/>
+      </div>
+    </div>
+
     <button class="btn-enter" id="btn-enter" onclick="enterApp()">Entrar →</button>
     <div class="login-note">Alus Intelligence · Uso interno · Confidencial</div>
   </div>
@@ -314,29 +417,49 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 
   <div class="dash-nav">
     <div class="nav-tab active" id="dtab-planes" onclick="switchDash('planes')">Mis planes</div>
-    <div class="nav-tab" id="dtab-objetivos" onclick="switchDash('objetivos')">Modificar objetivos anuales</div>
+    <div class="nav-tab" id="dtab-resumen" onclick="switchDash('resumen');buildResumen()">Resumen</div>
+    <div class="nav-tab" id="dtab-objetivos" onclick="switchDash('objetivos')">Modificar objetivos</div>
   </div>
 
   <div class="dash-body">
 
     <!-- TAB: MIS PLANES -->
     <div class="dash-view active" id="dview-planes">
-      <div class="planes-top">
-        <div>
-          <div class="planes-title">Mis planes</div>
-          <div class="planes-sub">Información y metas de cada cuenta que administras.</div>
+      <!-- SELECTOR DE CUENTAS -->
+      <div id="plan-selector-view">
+        <div class="planes-top">
+          <div>
+            <div class="planes-title">Mis planes</div>
+            <div class="planes-sub">Selecciona una cuenta para ver su detalle, cargar archivos y revisar el avance.</div>
+          </div>
+          <button class="btn btn-red" onclick="openNewPlan()">+ Nuevo plan</button>
         </div>
-        <button class="btn btn-red" onclick="openNewPlan()">+ Nuevo plan</button>
+        <div class="plan-cards" id="plan-cards"></div>
+        <div class="no-plans" id="no-plans" style="display:none">
+          <div class="no-plans-icon">📋</div>
+          <div class="no-plans-title">Aún no tienes planes</div>
+          <div class="no-plans-sub">Da clic en "+ Nuevo plan" para agregar tu primera cuenta.</div>
+        </div>
       </div>
 
-      <div class="plan-tabs" id="plan-tabs"></div>
-      <div id="plan-contents"></div>
-
-      <div class="no-plans" id="no-plans" style="display:none">
-        <div class="no-plans-icon">📋</div>
-        <div class="no-plans-title">Aún no tienes planes</div>
-        <div class="no-plans-sub">Da clic en "+ Nuevo plan" para agregar tu primera cuenta.</div>
+      <!-- DETALLE DE CUENTA -->
+      <div id="plan-detail-view" style="display:none">
+        <div class="plan-detail-header">
+          <button class="plan-back-btn" onclick="showPlanSelector()">← Mis planes</button>
+          <div>
+            <div class="plan-detail-name" id="detail-plan-name"></div>
+            <div class="plan-detail-plat" id="detail-plan-plat"></div>
+          </div>
+        </div>
+        <div id="plan-detail-content"></div>
       </div>
+    </div>
+
+    <!-- TAB: RESUMEN -->
+    <div class="dash-view" id="dview-resumen">
+      <div style="font-size:22px;font-weight:700;color:var(--navy);margin-bottom:.25rem">Resumen</div>
+      <div style="font-size:13px;color:var(--gray);margin-bottom:1.5rem">Mis objetivos anuales vs el consolidado de todos mis planes.</div>
+      <div id="resumen-content"></div>
     </div>
 
     <!-- TAB: MODIFICAR OBJETIVOS -->
@@ -376,7 +499,7 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 
 <script>
 // ═══════════ KAMS ═══════════
-const KAMS=['Ana Karen Rodriguez','Carlos Ramirez','Jorge Baranda','Karen Lugo','Mauricio Dueñas','Rogelio Ruiz'];
+const KAMS=['Rogelio Ruiz','KAM Dos'];
 let currentKam=null;
 let state={objetivos:{},planes:{}};
 try{const s=localStorage.getItem('alus_v3');if(s)state=JSON.parse(s);}catch(e){}
@@ -408,6 +531,12 @@ function buildLogin(){
       btn.classList.add('ready');btn.textContent='Entrar como '+name.split(' ')[0]+' →';
     };
     list.appendChild(d);
+  });
+  // Restore file slots
+  ['revenue','healthscore'].forEach(function(type){
+    if(state.globalFiles&&state.globalFiles[type]){
+      markLoginSlot(type, state.globalFiles[type].filename);
+    }
   });
 }
 
@@ -512,49 +641,82 @@ function switchDash(name){
 // ═══════════ PLANES ═══════════
 let editingPlanId=null;
 
-function buildPlanTabs(){
-  const planes=getPlanes();
-  const tabs=document.getElementById('plan-tabs');
-  const contents=document.getElementById('plan-contents');
-  const noPlanEl=document.getElementById('no-plans');
-  tabs.innerHTML='';contents.innerHTML='';
+function buildPlanTabs(){buildPlanSelector();}
 
-  if(!planes.length){
-    noPlanEl.style.display='block';
-    return;
-  }
+function buildPlanSelector(){
+  const planes=getPlanes();
+  const cardsEl=document.getElementById('plan-cards');
+  const noPlanEl=document.getElementById('no-plans');
+  cardsEl.innerHTML='';
+
+  showPlanSelector();
+
+  if(!planes.length){noPlanEl.style.display='block';return;}
   noPlanEl.style.display='none';
 
-  planes.forEach(function(plan,idx){
-    // Tab
-    const tab=document.createElement('div');
-    tab.className='plan-tab'+(idx===0?' active':'');
-    tab.textContent=plan.cliente||'Plan '+(idx+1);
-    tab.id='ptab-'+plan.id;
-    tab.onclick=(function(pid){return function(){activatePlanTab(pid);};})(plan.id);
-    tabs.appendChild(tab);
+  planes.forEach(function(plan){
+    const archivos=plan.archivos||{};
+    const metas=plan.metas||{asig:{},red:{}};
+    const hasCanjes=!!archivos.canjes;
+    const hasTrans=!!archivos.trans;
+    const hasMetasAsig=Object.values(metas.asig||{}).some(function(v){return v>0;});
+    const hasMetasRed=Object.values(metas.red||{}).some(function(v){return v>0;});
 
-    // Content
-    const content=document.createElement('div');
-    content.className='plan-content'+(idx===0?' active':'');
-    content.id='pcontent-'+plan.id;
-    content.innerHTML=buildPlanHTML(plan);
-    contents.appendChild(content);
+    // Progress summary
+    const totalMetaAsig=['Q1','Q2','Q3','Q4'].reduce(function(s,q){return s+(parseFloat(metas.asig[q])||0);},0);
+    const totalMetaRed=['Q1','Q2','Q3','Q4'].reduce(function(s,q){return s+(parseFloat(metas.red[q])||0);},0);
+    const realAsig=archivos.trans?archivos.trans.totalPts:null;
+    const realRed=archivos.canjes?archivos.canjes.totalValor:null;
+    const pAsig=totalMetaAsig>0&&realAsig!==null?Math.min(Math.round(realAsig/totalMetaAsig*100),100):null;
+    const pRed=totalMetaRed>0&&realRed!==null?Math.min(Math.round(realRed/totalMetaRed*100),100):null;
 
-    // Attach input listeners
-    attachPlanInputs(plan.id);
-    setTimeout(function(){attachFileListeners(plan.id);},0);
+    function pctBadge(p,label){
+      if(p===null)return '<span class="plan-card-badge badge-empty">'+label+': sin datos</span>';
+      const cls=p>=80?'badge-loaded':p>=50?'' :'';
+      const bg=p>=80?'background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)':p>=50?'background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)':'background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)';
+      return '<span class="plan-card-badge" style="'+bg+'">'+label+' '+p+'%</span>';
+    }
+
+    const card=document.createElement('div');
+    card.className='plan-card';
+    card.innerHTML=
+      '<div class="plan-card-avatar">🏢</div>'+
+      '<div class="plan-card-info">'+
+        '<div class="plan-card-name">'+plan.cliente+'</div>'+
+        '<div class="plan-card-plat">'+plan.plataforma+'</div>'+
+        '<div class="plan-card-badges">'+
+          (pAsig!==null?pctBadge(pAsig,'Asig.'):'<span class="plan-card-badge badge-empty">Asig.: sin datos</span>')+
+          (pRed!==null?pctBadge(pRed,'Red.'):'<span class="plan-card-badge badge-empty">Red.: sin datos</span>')+
+        '</div>'+
+      '</div>'+
+      '<span class="plan-card-arrow">→</span>';
+    card.onclick=(function(pid){return function(){showPlanDetail(pid);};})(plan.id);
+    cardsEl.appendChild(card);
   });
 }
 
-function activatePlanTab(pid){
-  document.querySelectorAll('.plan-tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.plan-content').forEach(function(c){c.classList.remove('active');});
-  const tab=document.getElementById('ptab-'+pid);
-  const content=document.getElementById('pcontent-'+pid);
-  if(tab)tab.classList.add('active');
-  if(content)content.classList.add('active');
+function showPlanSelector(){
+  document.getElementById('plan-selector-view').style.display='block';
+  document.getElementById('plan-detail-view').style.display='none';
 }
+
+function showPlanDetail(pid){
+  const planes=getPlanes();
+  const plan=planes.find(function(p){return p.id===pid;});
+  if(!plan)return;
+
+  document.getElementById('plan-selector-view').style.display='none';
+  document.getElementById('plan-detail-view').style.display='block';
+  document.getElementById('detail-plan-name').textContent=plan.cliente;
+  document.getElementById('detail-plan-plat').textContent=plan.plataforma+' · Owner: '+plan.owner;
+
+  const content=document.getElementById('plan-detail-content');
+  content.innerHTML=buildPlanHTML(plan);
+  attachPlanInputs(pid);
+  setTimeout(function(){attachFileListeners(pid);},0);
+}
+
+function activatePlanTab(pid){showPlanDetail(pid);}
 
 function buildPlanHTML(plan){
   return '<div class="plan-layout">'+
@@ -740,6 +902,8 @@ function processPlanFile(pid,type,fname,rows){
   if(avanceEl)avanceEl.innerHTML=buildAvanceHTML(plan);
 }
 
+
+
 function markSlotLoaded(pid,type,fname){
   const slot=document.getElementById('uslot-'+type+'-'+pid);
   const icon=document.getElementById('uicon-'+type+'-'+pid);
@@ -769,6 +933,8 @@ function clearPlanFiles(pid){
   const avanceEl=document.getElementById('avance-'+pid);
   if(avanceEl)avanceEl.innerHTML=buildAvanceHTML(plan);
 }
+
+
 
 function attachPlanInputs(pid){
   const planes=getPlanes();
@@ -863,10 +1029,10 @@ function savePlanModal(){
   }
   save();
   closePlanModal();
-  buildPlanTabs();
+  buildPlanSelector();
   if(editingPlanId){
     const pid=editingPlanId;
-    setTimeout(function(){activatePlanTab(pid);},50);
+    setTimeout(function(){showPlanDetail(pid);},50);
   }
 }
 
@@ -874,7 +1040,185 @@ function deletePlan(pid){
   if(!confirm('¿Eliminar este plan?'))return;
   const key=kamKey();
   state.planes[key]=(state.planes[key]||[]).filter(function(p){return p.id!==pid;});
-  save();buildPlanTabs();
+  save();buildPlanSelector();
+}
+
+// ═══════════ LOGIN FILES ═══════════
+function handleLoginFile(type, input){
+  const file=input.files[0];if(!file)return;
+  const fname=file.name.toLowerCase();
+  function processRows(rows){
+    if(!state.globalFiles)state.globalFiles={};
+    rows=rows.filter(function(r){return Object.values(r).some(function(v){return v!==null&&v!==''&&v!==undefined;});});
+    if(type==='revenue'){
+      // Extract account names and KAM mapping
+      const accounts={};
+      rows.forEach(function(r){
+        const plat=(r['plataforma']||'').toString().trim();
+        const kam=(r['acc_manager_name']||'').toString().trim();
+        const val=parseFloat(r['precio_total'])||0;
+        if(!plat)return;
+        if(!accounts[plat])accounts[plat]={plat:plat,kam:kam,revenue:0};
+        accounts[plat].revenue+=val;
+      });
+      state.globalFiles.revenue={filename:file.name,accounts:Object.values(accounts),rows:rows.length};
+    } else {
+      // Health Score — store raw for future use
+      state.globalFiles.healthscore={filename:file.name,rows:rows.length,data:rows.slice(0,50)};
+    }
+    save();
+    markLoginSlot(type,file.name);
+  }
+  if(fname.endsWith('.csv')){
+    const r=new FileReader();r.onload=function(e){const res=Papa.parse(e.target.result,{header:true,skipEmptyLines:true});processRows(res.data);};r.readAsText(file);
+  } else {
+    const r=new FileReader();r.onload=function(e){
+      try{const wb=XLSX.read(e.target.result,{type:'array'});
+        const wsName=wb.SheetNames.find(function(n){return n==='BD_Productos';})||wb.SheetNames[0];
+        const rows2=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:''});
+        processRows(rows2);
+      }catch(err){alert('Error leyendo el archivo: '+err.message);}
+    };r.readAsArrayBuffer(file);
+  }
+}
+
+function markLoginSlot(type,fname){
+  const slot=document.getElementById('lfs-'+type);
+  const icon=document.getElementById('lfs-icon-'+type);
+  const status=document.getElementById('lfs-status-'+type);
+  if(slot)slot.classList.add('loaded');
+  if(icon)icon.textContent='✅';
+  if(status){status.textContent=fname;status.className='lfs-status ok';}
+}
+
+// ═══════════ RESUMEN ═══════════
+function buildResumen(){
+  const obj=getObj();
+  const planes=getPlanes();
+  const container=document.getElementById('resumen-content');
+  if(!container)return;
+
+  function fmtPts(n){return (n||0).toLocaleString('es-MX')+' pts';}
+  function fmtMXN(n){return '$'+(Math.round(n)||0).toLocaleString('es-MX');}
+  function pctCls(p){return p>=80?'var(--green)':p>=50?'var(--gold)':'var(--red)';}
+  function fillCls(p){return p>=80?'fill-green':p>=50?'fill-gold':'fill-red';}
+
+  const totalMetaAsig=['Q1','Q2','Q3','Q4'].reduce(function(s,q){return s+(parseFloat(obj.asig[q])||0);},0);
+  const totalMetaRed=['Q1','Q2','Q3','Q4'].reduce(function(s,q){return s+(parseFloat(obj.red[q])||0);},0);
+
+  // Consolidado real de todos los planes
+  let totalRealAsig=0,totalRealRed=0,totalOrdenes=0;
+  planes.forEach(function(p){
+    totalRealAsig+=((p.archivos&&p.archivos.trans&&p.archivos.trans.totalPts)||0);
+    totalRealRed+=((p.archivos&&p.archivos.canjes&&p.archivos.canjes.totalValor)||0);
+    totalOrdenes+=((p.archivos&&p.archivos.canjes&&p.archivos.canjes.total)||0);
+  });
+
+  const pAsig=totalMetaAsig>0?Math.min(Math.round(totalRealAsig/totalMetaAsig*100),100):0;
+  const pRed=totalMetaRed>0?Math.min(Math.round(totalRealRed/totalMetaRed*100),100):0;
+
+  let html='';
+
+  // KPIs consolidados
+  html+='<div class="resumen-kpi-grid">'+
+    '<div class="resumen-kpi"><div class="resumen-kpi-label">Meta asignación anual</div><div class="resumen-kpi-val">'+fmtPts(totalMetaAsig)+'</div></div>'+
+    '<div class="resumen-kpi"><div class="resumen-kpi-label">Real asignación</div><div class="resumen-kpi-val" style="color:'+(totalRealAsig>0?'var(--navy)':'var(--grayM)')+'">'+fmtPts(totalRealAsig)+'</div><div class="resumen-kpi-sub">'+(pAsig?pAsig+'% cubierto':'sin datos')+'</div></div>'+
+    '<div class="resumen-kpi"><div class="resumen-kpi-label">Meta redención anual</div><div class="resumen-kpi-val">'+fmtMXN(totalMetaRed)+'</div></div>'+
+    '<div class="resumen-kpi"><div class="resumen-kpi-label">Real redención</div><div class="resumen-kpi-val" style="color:'+(totalRealRed>0?'var(--navy)':'var(--grayM)')+'">'+fmtMXN(totalRealRed)+'</div><div class="resumen-kpi-sub">'+(pRed?pRed+'% cubierto':'sin datos')+'</div></div>'+
+  '</div>';
+
+  // Objetivos por Q
+  html+='<div class="resumen-obj-band">'+
+    '<div class="resumen-obj-band-title">Mis objetivos anuales por trimestre</div>'+
+    '<div style="margin-bottom:.75rem"><div style="font-size:11px;opacity:.5;margin-bottom:.5rem;font-family:DM Mono,monospace;text-transform:uppercase;letter-spacing:.05em">Asignación (pts)</div>'+
+    '<div class="resumen-obj-row">'+
+    ['Q1','Q2','Q3','Q4'].map(function(q){
+      return '<div class="resumen-obj-q"><div class="resumen-obj-q-label">'+q+'</div><div class="resumen-obj-q-val">'+(parseFloat(obj.asig[q])||0).toLocaleString('es-MX')+'</div></div>';
+    }).join('')+
+    '<div class="resumen-obj-total"><div class="resumen-obj-total-label">Total</div><div class="resumen-obj-total-val">'+fmtPts(totalMetaAsig)+'</div></div>'+
+    '</div></div>'+
+    '<div><div style="font-size:11px;opacity:.5;margin-bottom:.5rem;font-family:DM Mono,monospace;text-transform:uppercase;letter-spacing:.05em">Redención ($)</div>'+
+    '<div class="resumen-obj-row">'+
+    ['Q1','Q2','Q3','Q4'].map(function(q){
+      return '<div class="resumen-obj-q"><div class="resumen-obj-q-label">'+q+'</div><div class="resumen-obj-q-val">'+fmtMXN(parseFloat(obj.red[q])||0)+'</div></div>';
+    }).join('')+
+    '<div class="resumen-obj-total"><div class="resumen-obj-total-label">Total</div><div class="resumen-obj-total-val">'+fmtMXN(totalMetaRed)+'</div></div>'+
+    '</div></div>'+
+  '</div>';
+
+  // Barra consolidada total
+  html+='<div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:.75rem">Cubrimiento consolidado · todos los planes</div>';
+  html+='<div class="resumen-total-row">'+
+    '<div class="resumen-bars">'+
+    '<div class="resumen-bar-row">'+
+      '<span class="resumen-bar-label" style="color:rgba(255,255,255,.6)">Asignación</span>'+
+      '<div class="resumen-bar-track"><div class="resumen-bar-fill '+fillCls(pAsig)+'" style="width:'+pAsig+'%"></div></div>'+
+      '<span class="resumen-bar-pct" style="color:'+pctCls(pAsig)+'">'+pAsig+'%</span>'+
+    '</div>'+
+    '<div class="resumen-bar-row">'+
+      '<span class="resumen-bar-label" style="color:rgba(255,255,255,.6)">Redención</span>'+
+      '<div class="resumen-bar-track"><div class="resumen-bar-fill '+fillCls(pRed)+'" style="width:'+pRed+'%"></div></div>'+
+      '<span class="resumen-bar-pct" style="color:'+pctCls(pRed)+'">'+pRed+'%</span>'+
+    '</div>'+
+    '</div>'+
+  '</div>';
+
+  // Por plan
+  if(planes.length){
+    html+='<div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:.75rem;margin-top:1.25rem">Desglose por plan</div>';
+    planes.forEach(function(plan){
+      const metas=plan.metas||{asig:{},red:{}};
+      const archivos=plan.archivos||{};
+      const metaAsig=['Q1','Q2','Q3','Q4'].reduce(function(s,q){return s+(parseFloat(metas.asig[q])||0);},0);
+      const metaRed=['Q1','Q2','Q3','Q4'].reduce(function(s,q){return s+(parseFloat(metas.red[q])||0);},0);
+      const realAsig=(archivos.trans&&archivos.trans.totalPts)||0;
+      const realRed=(archivos.canjes&&archivos.canjes.totalValor)||0;
+      const pA=metaAsig>0?Math.min(Math.round(realAsig/metaAsig*100),100):null;
+      const pR=metaRed>0?Math.min(Math.round(realRed/metaRed*100),100):null;
+      const sinMetas=!metaAsig&&!metaRed;
+      const sinDatos=!archivos.trans&&!archivos.canjes;
+
+      html+='<div class="resumen-plan-row">'+
+        '<div class="resumen-plan-header">'+
+          '<div><div class="resumen-plan-name">'+plan.cliente+'</div><div class="resumen-plan-plat">'+plan.plataforma+'</div></div>'+
+          '<div style="display:flex;gap:6px">'+
+            (pA!==null?'<span style="font-size:11px;padding:2px 9px;border-radius:99px;font-weight:700;background:'+(pA>=80?'var(--green-bg)':pA>=50?'var(--gold-bg)':'var(--red-bg)')+';color:'+(pA>=80?'var(--green)':pA>=50?'var(--gold)':'var(--red)')+'">Asig. '+pA+'%</span>':'<span style="font-size:11px;padding:2px 9px;border-radius:99px;background:var(--grayL);color:var(--grayM)">Asig. —</span>')+
+            (pR!==null?'<span style="font-size:11px;padding:2px 9px;border-radius:99px;font-weight:700;background:'+(pR>=80?'var(--green-bg)':pR>=50?'var(--gold-bg)':'var(--red-bg)')+';color:'+(pR>=80?'var(--green)':pR>=50?'var(--gold)':'var(--red)')+'">Red. '+pR+'%</span>':'<span style="font-size:11px;padding:2px 9px;border-radius:99px;background:var(--grayL);color:var(--grayM)">Red. —</span>')+
+          '</div>'+
+        '</div>';
+
+      if(sinMetas){
+        html+='<div class="resumen-no-data">Sin metas definidas — ve a Mis planes para configurarlas.</div>';
+      } else {
+        html+='<div class="resumen-bars">';
+        if(metaAsig>0){
+          const pAv=pA||0;
+          html+='<div class="resumen-bar-row">'+
+            '<span class="resumen-bar-label">Asig.</span>'+
+            '<div class="resumen-bar-track"><div class="resumen-bar-fill '+fillCls(pAv)+'" style="width:'+pAv+'%"></div></div>'+
+            '<span class="resumen-bar-pct" style="color:'+pctCls(pAv)+'">'+pAv+'%</span>'+
+          '</div>'+
+          '<div style="font-size:11px;color:var(--gray);margin-left:80px;margin-top:-2px;margin-bottom:4px">'+fmtPts(realAsig)+' de '+fmtPts(metaAsig)+'</div>';
+        }
+        if(metaRed>0){
+          const pRv=pR||0;
+          html+='<div class="resumen-bar-row">'+
+            '<span class="resumen-bar-label">Red.</span>'+
+            '<div class="resumen-bar-track"><div class="resumen-bar-fill '+fillCls(pRv)+'" style="width:'+pRv+'%"></div></div>'+
+            '<span class="resumen-bar-pct" style="color:'+pctCls(pRv)+'">'+pRv+'%</span>'+
+          '</div>'+
+          '<div style="font-size:11px;color:var(--gray);margin-left:80px;margin-top:-2px">'+fmtMXN(realRed)+' de '+fmtMXN(metaRed)+'</div>';
+        }
+        if(sinDatos)html+='<div style="font-size:11px;color:var(--grayM);margin-top:.25rem;font-style:italic">Carga archivos en el plan para ver el avance real.</div>';
+        html+='</div>';
+      }
+      html+='</div>';
+    });
+  } else {
+    html+='<div style="text-align:center;padding:2rem;color:var(--gray);font-size:13px">Aún no tienes planes — agrégalos en la pestaña Mis planes.</div>';
+  }
+
+  container.innerHTML=html;
 }
 
 // ═══════════ INIT ═══════════
