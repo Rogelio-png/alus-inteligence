@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Alus Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -154,6 +156,50 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 /* MOD OBJETIVOS */
 .mod-obj-view{max-width:820px}
 .mod-obj-intro{font-size:13px;color:var(--gray);margin-bottom:1.75rem;line-height:1.6;padding:.875rem 1rem;background:var(--white);border:1px solid var(--grayB);border-radius:var(--r);display:flex;align-items:center;gap:10px}
+
+/* ── ARCHIVOS / UPLOAD ── */
+.upload-section{margin-top:1.25rem}
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.upload-slot{border:1.5px dashed var(--grayB);border-radius:var(--rl);padding:1.1rem 1rem;cursor:pointer;text-align:center;background:var(--white);transition:all .15s;position:relative}
+.upload-slot:hover{border-color:var(--red);background:var(--red-bg)}
+.upload-slot.loaded{border-style:solid;border-color:var(--green);background:var(--green-bg)}
+.upload-slot-icon{font-size:26px;margin-bottom:.35rem;display:block}
+.upload-slot-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px}
+.upload-slot-hint{font-size:11px;color:var(--gray);line-height:1.4}
+.upload-slot-status{font-size:11px;color:var(--green);margin-top:.4rem;font-family:'DM Mono',monospace;font-weight:500;word-break:break-all}
+.upload-slot-status.pending{color:var(--grayM)}
+.upload-slot-tag{position:absolute;top:.6rem;right:.6rem;font-size:9px;padding:1px 6px;border-radius:3px;background:var(--navy);color:#fff;font-family:'DM Mono',monospace}
+
+/* ── AVANCE ── */
+.avance-section{margin-top:1.25rem}
+.avance-card{background:var(--white);border:1px solid var(--grayB);border-radius:var(--rl);padding:1.25rem;margin-bottom:1rem}
+.avance-card-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+.avance-row{margin-bottom:1rem}
+.avance-row:last-child{margin-bottom:0}
+.avance-labels{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.avance-label{font-size:12px;color:var(--gray)}
+.avance-nums{font-size:12px;color:var(--navy);font-weight:500;font-family:'DM Mono',monospace}
+.avance-pct{font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:6px}
+.pct-green{background:var(--green-bg);color:var(--green)}
+.pct-gold{background:var(--gold-bg);color:var(--gold)}
+.pct-red{background:var(--red-bg);color:var(--red)}
+.prog-bar{background:var(--grayB);border-radius:99px;height:7px}
+.prog-fill{height:7px;border-radius:99px;transition:width .6s ease}
+.fill-green{background:var(--green)}.fill-gold{background:var(--gold)}.fill-red{background:var(--red)}
+.avance-q-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:.75rem}
+.avance-q-item{background:var(--grayL);border-radius:var(--r);padding:.625rem .75rem;text-align:center}
+.avance-q-label{font-size:10px;color:var(--gray);margin-bottom:3px;font-family:'DM Mono',monospace;font-weight:700}
+.avance-q-meta{font-size:11px;color:var(--gray);margin-bottom:2px}
+.avance-q-real{font-size:14px;font-weight:700;font-family:'DM Serif Display',serif;color:var(--navy)}
+.avance-q-pct{font-size:10px;margin-top:2px;font-weight:600}
+.kpi-mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
+.kpi-mini{background:var(--grayL);border-radius:var(--r);padding:.75rem;text-align:center}
+.kpi-mini-label{font-size:10px;color:var(--gray);margin-bottom:3px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
+.kpi-mini-val{font-size:18px;font-weight:700;font-family:'DM Serif Display',serif;color:var(--navy)}
+.kpi-mini-sub{font-size:10px;color:var(--gray);margin-top:2px}
+.no-data-hint{font-size:12px;color:var(--grayM);text-align:center;padding:1.25rem;font-style:italic}
+.btn-clear-files{font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:.25rem;display:inline-flex;align-items:center;gap:4px}
+.btn-clear-files:hover{text-decoration:underline}
 
 @media(max-width:700px){
   .plan-layout{grid-template-columns:1fr}
@@ -497,6 +543,7 @@ function buildPlanTabs(){
 
     // Attach input listeners
     attachPlanInputs(plan.id);
+    setTimeout(function(){attachFileListeners(plan.id);},0);
   });
 }
 
@@ -511,7 +558,6 @@ function activatePlanTab(pid){
 
 function buildPlanHTML(plan){
   return '<div class="plan-layout">'+
-    // Columna izq: info general
     '<div>'+
       '<div class="card" style="margin-bottom:10px">'+
         '<div class="card-title">📋 Información del plan</div>'+
@@ -520,19 +566,49 @@ function buildPlanHTML(plan){
         '<div class="info-row"><span class="info-label">Owner</span><span class="info-val">'+plan.owner+'</span></div>'+
         '<div class="info-row"><span class="info-label">Valor pts</span><span class="info-val">'+plan.valor+'</span></div>'+
       '</div>'+
-      '<div style="display:flex;gap:8px">'+
+      '<div style="display:flex;gap:8px;margin-bottom:1.25rem">'+
         '<button class="btn btn-outline" style="font-size:12px;padding:5px 12px" onclick="openEditPlan(\''+plan.id+'\')">Editar info</button>'+
         '<button class="btn btn-ghost" style="font-size:12px;color:var(--red)" onclick="deletePlan(\''+plan.id+'\')">Eliminar</button>'+
       '</div>'+
-    '</div>'+
-    // Columna der: metas Q
-    '<div>'+
+
+      // Upload archivos
       '<div class="card">'+
+        '<div class="card-title">📂 Reportes del plan</div>'+
+        '<div class="upload-grid">'+
+          '<div class="upload-slot" id="uslot-canjes-'+plan.id+'" onclick="document.getElementById(\'uinput-canjes-'+plan.id+'\').click()">'+
+            '<span class="upload-slot-tag">Canjes</span>'+
+            '<span class="upload-slot-icon" id="uicon-canjes-'+plan.id+'">📦</span>'+
+            '<div class="upload-slot-name">Canjes</div>'+
+            '<div class="upload-slot-hint">Órdenes, status, precio, categoría</div>'+
+            '<input type="file" id="uinput-canjes-'+plan.id+'" accept=".xlsx,.xls,.csv" style="display:none"/>'+
+            '<div class="upload-slot-status pending" id="ustatus-canjes-'+plan.id+'">Sin archivo</div>'+
+          '</div>'+
+          '<div class="upload-slot" id="uslot-trans-'+plan.id+'" onclick="document.getElementById(\'uinput-trans-'+plan.id+'\').click()">'+
+            '<span class="upload-slot-tag">Transacciones</span>'+
+            '<span class="upload-slot-icon" id="uicon-trans-'+plan.id+'">💰</span>'+
+            '<div class="upload-slot-name">Transacciones</div>'+
+            '<div class="upload-slot-hint">Puntos asignados por usuario</div>'+
+            '<input type="file" id="uinput-trans-'+plan.id+'" accept=".xlsx,.xls,.csv" style="display:none"/>'+
+            '<div class="upload-slot-status pending" id="ustatus-trans-'+plan.id+'">Sin archivo</div>'+
+          '</div>'+
+        '</div>'+
+        '<button class="btn-clear-files" onclick="clearPlanFiles(\''+plan.id+'\')">✕ Limpiar archivos cargados</button>'+
+      '</div>'+
+    '</div>'+
+
+    '<div>'+
+      // Avance
+      '<div class="avance-section" id="avance-'+plan.id+'">'+
+        buildAvanceHTML(plan)+
+      '</div>'+
+
+      // Metas Q
+      '<div class="card" style="margin-top:1rem">'+
         '<div class="card-title">🎯 Metas por trimestre</div>'+
-        '<div class="section-title" style="font-size:12px;margin-bottom:.625rem">Asignación <em style="font-size:11px">Puntos a dispersar</em></div>'+
+        '<div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:.625rem">Asignación <span style="font-size:11px;font-weight:400;color:var(--gray)">Puntos a dispersar</span></div>'+
         '<div class="plan-q-grid" id="pqg-asig-'+plan.id+'"></div>'+
         '<div class="plan-total-row"><span class="plan-total-label">Total asignación</span><span class="plan-total-val" id="pt-asig-'+plan.id+'">0 pts</span></div>'+
-        '<div class="section-title" style="font-size:12px;margin-bottom:.625rem">Redención <em style="font-size:11px">Valor a canjear ($)</em></div>'+
+        '<div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:.625rem">Redención <span style="font-size:11px;font-weight:400;color:var(--gray)">Valor a canjear ($)</span></div>'+
         '<div class="plan-q-grid" id="pqg-red-'+plan.id+'"></div>'+
         '<div class="plan-total-row"><span class="plan-total-label">Total redención</span><span class="plan-total-val" id="pt-red-'+plan.id+'">$0</span></div>'+
         '<button class="btn btn-navy" style="width:100%;justify-content:center" onclick="savePlanMetas(\''+plan.id+'\')">Guardar metas</button>'+
@@ -540,6 +616,158 @@ function buildPlanHTML(plan){
       '</div>'+
     '</div>'+
   '</div>';
+}
+
+function buildAvanceHTML(plan){
+  const metas=plan.metas||{asig:{},red:{}};
+  const archivos=plan.archivos||{};
+  const totalMetaAsig=['Q1','Q2','Q3','Q4'].reduce(function(s,q){return s+(parseFloat(metas.asig[q])||0);},0);
+  const totalMetaRed=['Q1','Q2','Q3','Q4'].reduce(function(s,q){return s+(parseFloat(metas.red[q])||0);},0);
+  const realAsig=archivos.trans?archivos.trans.totalPts:null;
+  const realRed=archivos.canjes?archivos.canjes.totalValor:null;
+  const sinDatos=realAsig===null&&realRed===null;
+
+  if(sinDatos){
+    return '<div class="card">'+
+      '<div class="card-title">📊 Avance vs objetivos</div>'+
+      '<div class="no-data-hint">Sube los archivos de canjes y transacciones para ver el avance en tiempo real.</div>'+
+    '</div>';
+  }
+
+  function pctClass(p){return p>=80?'pct-green':p>=50?'pct-gold':'pct-red';}
+  function fillClass(p){return p>=80?'fill-green':p>=50?'fill-gold':'fill-red';}
+  function pctVal(real,meta){return meta>0?Math.min(Math.round(real/meta*100),100):0;}
+
+  const pAsig=pctVal(realAsig||0,totalMetaAsig);
+  const pRed=pctVal(realRed||0,totalMetaRed);
+
+  let html='<div class="avance-card">'+
+    '<div class="avance-card-title">📊 Avance vs objetivos</div>'+
+    '<div class="kpi-mini-row">'+
+      (realAsig!==null?'<div class="kpi-mini"><div class="kpi-mini-label">Asignado real</div><div class="kpi-mini-val">'+realAsig.toLocaleString('es-MX')+'</div><div class="kpi-mini-sub">pts</div></div>':'<div class="kpi-mini"><div class="kpi-mini-label">Asignado real</div><div class="kpi-mini-val" style="color:var(--grayM)">—</div><div class="kpi-mini-sub">sin datos</div></div>')+
+      (realRed!==null?'<div class="kpi-mini"><div class="kpi-mini-label">Canjeado real</div><div class="kpi-mini-val">$'+Math.round(realRed).toLocaleString('es-MX')+'</div><div class="kpi-mini-sub">MXN</div></div>':'<div class="kpi-mini"><div class="kpi-mini-label">Canjeado real</div><div class="kpi-mini-val" style="color:var(--grayM)">—</div><div class="kpi-mini-sub">sin datos</div></div>')+
+      (archivos.canjes?'<div class="kpi-mini"><div class="kpi-mini-label">Órdenes</div><div class="kpi-mini-val">'+archivos.canjes.total+'</div><div class="kpi-mini-sub">'+(archivos.canjes.topCat||'')+'</div></div>':'<div class="kpi-mini"><div class="kpi-mini-label">Órdenes</div><div class="kpi-mini-val" style="color:var(--grayM)">—</div><div class="kpi-mini-sub">sin datos</div></div>')+
+    '</div>';
+
+  if(totalMetaAsig>0&&realAsig!==null){
+    html+='<div class="avance-row">'+
+      '<div class="avance-labels">'+
+        '<span class="avance-label">Asignación</span>'+
+        '<span class="avance-nums">'+realAsig.toLocaleString('es-MX')+' / '+totalMetaAsig.toLocaleString('es-MX')+' pts <span class="avance-pct '+pctClass(pAsig)+'">'+pAsig+'%</span></span>'+
+      '</div>'+
+      '<div class="prog-bar"><div class="prog-fill '+fillClass(pAsig)+'" style="width:'+pAsig+'%"></div></div>'+
+    '</div>';
+  }
+
+  if(totalMetaRed>0&&realRed!==null){
+    html+='<div class="avance-row">'+
+      '<div class="avance-labels">'+
+        '<span class="avance-label">Redención</span>'+
+        '<span class="avance-nums">$'+Math.round(realRed).toLocaleString('es-MX')+' / $'+totalMetaRed.toLocaleString('es-MX')+' <span class="avance-pct '+pctClass(pRed)+'">'+pRed+'%</span></span>'+
+      '</div>'+
+      '<div class="prog-bar"><div class="prog-fill '+fillClass(pRed)+'" style="width:'+pRed+'%"></div></div>'+
+    '</div>';
+  }
+
+  html+='</div>';
+  return html;
+}
+
+function attachFileListeners(pid){
+  ['canjes','trans'].forEach(function(type){
+    const input=document.getElementById('uinput-'+type+'-'+pid);
+    if(!input||input._bound)return;
+    input._bound=true;
+    input.onchange=function(){
+      const file=input.files[0];if(!file)return;
+      const fname=file.name.toLowerCase();
+      if(fname.endsWith('.csv')){
+        const reader=new FileReader();
+        reader.onload=function(e){
+          const result=Papa.parse(e.target.result,{header:true,skipEmptyLines:true});
+          processPlanFile(pid,type,file.name,result.data);
+        };reader.readAsText(file);
+      } else {
+        const reader=new FileReader();
+        reader.onload=function(e){
+          try{
+            const wb=XLSX.read(e.target.result,{type:'array'});
+            const ws=wb.Sheets[wb.SheetNames[0]];
+            const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+            processPlanFile(pid,type,file.name,rows);
+          }catch(err){alert('Error leyendo el archivo: '+err.message);}
+        };reader.readAsArrayBuffer(file);
+      }
+    };
+  });
+  // Restore loaded state
+  const key=kamKey();
+  const planes=state.planes[key]||[];
+  const plan=planes.find(function(p){return p.id===pid;});
+  if(plan&&plan.archivos){
+    ['canjes','trans'].forEach(function(type){
+      if(plan.archivos[type]){
+        markSlotLoaded(pid,type,plan.archivos[type].filename);
+      }
+    });
+  }
+}
+
+function processPlanFile(pid,type,fname,rows){
+  const key=kamKey();
+  const planes=state.planes[key]||[];
+  const plan=planes.find(function(p){return p.id===pid;});
+  if(!plan)return;
+  if(!plan.archivos)plan.archivos={};
+  rows=rows.filter(function(r){return Object.values(r).some(function(v){return v!==null&&v!==''&&v!==undefined;});});
+
+  if(type==='canjes'){
+    const total=rows.length;
+    const totalValor=rows.reduce(function(s,r){return s+(parseFloat(r['Precio']||r['precio']||r['Monto']||r['Price']||0)||0);},0);
+    const catMap={};
+    rows.forEach(function(r){const c=r['Categoria']||r['Categoría']||r['Category']||'Sin categoría';catMap[c]=(catMap[c]||0)+1;});
+    const topCat=Object.entries(catMap).sort(function(a,b){return b[1]-a[1];})[0];
+    plan.archivos.canjes={filename:fname,rows:total,total:total,totalValor:totalValor,topCat:topCat?topCat[0]:'—'};
+  } else {
+    const totalPts=rows.reduce(function(s,r){return s+(parseFloat(r['Monto']||r['monto']||r['Puntos']||r['puntos']||r['Points']||0)||0);},0);
+    const usuarios=new Set(rows.map(function(r){return r['Nombre de usuario']||r['Usuario']||r['Correo']||r['Email']||'';})).size;
+    plan.archivos.trans={filename:fname,rows:rows.length,totalPts:totalPts,usuarios:usuarios};
+  }
+  save();
+  markSlotLoaded(pid,type,fname);
+  // Rebuild avance section
+  const avanceEl=document.getElementById('avance-'+pid);
+  if(avanceEl)avanceEl.innerHTML=buildAvanceHTML(plan);
+}
+
+function markSlotLoaded(pid,type,fname){
+  const slot=document.getElementById('uslot-'+type+'-'+pid);
+  const icon=document.getElementById('uicon-'+type+'-'+pid);
+  const status=document.getElementById('ustatus-'+type+'-'+pid);
+  if(slot)slot.classList.add('loaded');
+  if(icon)icon.textContent='✅';
+  if(status){status.textContent=fname;status.className='upload-slot-status';}
+}
+
+function clearPlanFiles(pid){
+  if(!confirm('¿Limpiar los archivos de este plan?'))return;
+  const key=kamKey();
+  const planes=state.planes[key]||[];
+  const plan=planes.find(function(p){return p.id===pid;});
+  if(!plan)return;
+  plan.archivos={};save();
+  ['canjes','trans'].forEach(function(type){
+    const slot=document.getElementById('uslot-'+type+'-'+pid);
+    const icon=document.getElementById('uicon-'+type+'-'+pid);
+    const status=document.getElementById('ustatus-'+type+'-'+pid);
+    const input=document.getElementById('uinput-'+type+'-'+pid);
+    if(slot)slot.classList.remove('loaded');
+    if(icon)icon.textContent=type==='canjes'?'📦':'💰';
+    if(status){status.textContent='Sin archivo';status.className='upload-slot-status pending';}
+    if(input)input.value='';
+  });
+  const avanceEl=document.getElementById('avance-'+pid);
+  if(avanceEl)avanceEl.innerHTML=buildAvanceHTML(plan);
 }
 
 function attachPlanInputs(pid){
