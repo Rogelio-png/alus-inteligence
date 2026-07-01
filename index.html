@@ -353,6 +353,11 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 
     <button class="btn-enter" id="btn-enter" onclick="enterApp()">Entrar →</button>
     <div class="login-note">Alus Intelligence · Uso interno · Confidencial</div>
+    <div style="text-align:center;margin-top:1rem">
+      <button onclick="emergencyReset()" style="background:none;border:none;font-size:11px;color:var(--grayM);cursor:pointer;font-family:'DM Mono',monospace;text-decoration:underline">
+        ↺ Resetear datos (solo si hay problemas)
+      </button>
+    </div>
   </div>
 </div>
 
@@ -502,9 +507,40 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 const KAMS=['Rogelio Ruiz','KAM Dos'];
 let currentKam=null;
 let state={objetivos:{},planes:{}};
-try{const s=localStorage.getItem('alus_v3');if(s)state=JSON.parse(s);}catch(e){}
+try{
+  const s=localStorage.getItem('alus_v3');
+  if(s){
+    const parsed=JSON.parse(s);
+    // Validate structure
+    if(parsed&&typeof parsed==='object'){
+      state=parsed;
+      if(!state.objetivos)state.objetivos={};
+      if(!state.planes)state.planes={};
+    }
+  }
+}catch(e){
+  console.warn('Estado corrupto, reiniciando:',e);
+  localStorage.removeItem('alus_v3');
+  state={objetivos:{},planes:{}};
+}
 
-function save(){try{localStorage.setItem('alus_v3',JSON.stringify(state));}catch(e){}}
+function save(){
+  try{
+    const str=JSON.stringify(state);
+    localStorage.setItem('alus_v3',str);
+  }catch(e){
+    console.warn('Error guardando:',e);
+    // Try saving without globalFiles data if too large
+    try{
+      const s2=JSON.parse(JSON.stringify(state));
+      if(s2.globalFiles){
+        if(s2.globalFiles.revenue)s2.globalFiles.revenue.accounts=s2.globalFiles.revenue.accounts?s2.globalFiles.revenue.accounts.slice(0,20):[];
+        if(s2.globalFiles.healthscore)delete s2.globalFiles.healthscore.data;
+      }
+      localStorage.setItem('alus_v3',JSON.stringify(s2));
+    }catch(e2){console.error('No se pudo guardar:',e2);}
+  }
+}
 function kamKey(){return currentKam.replace(/ /g,'_');}
 function getObj(){return state.objetivos[kamKey()]||{asig:{},red:{}};}
 function getPlanes(){return state.planes[kamKey()]||[];}
@@ -1082,7 +1118,11 @@ function savePlanModal(){
     const id='p'+Date.now();
     state.planes[key].push(Object.assign({id:id,metas:{asig:{},red:{}}},data));
   }
-  save();
+  try{
+    save();
+  }catch(e){
+    console.error('Error guardando plan:',e);
+  }
   closePlanModal();
   buildPlanSelector();
   if(editingPlanId){
