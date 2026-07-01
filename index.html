@@ -308,6 +308,7 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
     <button class="btn btn-outline" onclick="closePlanModal()">Cancelar</button>
     <button class="btn btn-navy" onclick="savePlanModal()">Guardar plan</button>
   </div>
+  <div id="modal-save-status" style="font-size:11px;color:var(--green);text-align:center;margin-top:.5rem;min-height:16px"></div>
 </div>
 </div>
 
@@ -511,34 +512,51 @@ try{
   const s=localStorage.getItem('alus_v3');
   if(s){
     const parsed=JSON.parse(s);
-    // Validate structure
     if(parsed&&typeof parsed==='object'){
       state=parsed;
       if(!state.objetivos)state.objetivos={};
       if(!state.planes)state.planes={};
+      if(!state.globalFiles)state.globalFiles={};
     }
+  }
+  // Load globalFiles info separately
+  const gf=localStorage.getItem('alus_v3_gf');
+  if(gf){
+    const parsedGf=JSON.parse(gf);
+    if(!state.globalFiles)state.globalFiles={};
+    if(parsedGf.revenue)state.globalFiles.revenue=state.globalFiles.revenue||parsedGf.revenue;
+    if(parsedGf.healthscore)state.globalFiles.healthscore=state.globalFiles.healthscore||parsedGf.healthscore;
   }
 }catch(e){
   console.warn('Estado corrupto, reiniciando:',e);
   localStorage.removeItem('alus_v3');
-  state={objetivos:{},planes:{}};
+  localStorage.removeItem('alus_v3_gf');
+  state={objetivos:{},planes:{},globalFiles:{}};
 }
 
 function save(){
   try{
-    const str=JSON.stringify(state);
-    localStorage.setItem('alus_v3',str);
+    // Always save globalFiles separately to avoid quota issues
+    const mainState={objetivos:state.objetivos,planes:state.planes};
+    localStorage.setItem('alus_v3',JSON.stringify(mainState));
+    if(state.globalFiles){
+      try{
+        // Only save filenames, not raw data
+        const gf={};
+        if(state.globalFiles.revenue)gf.revenue={filename:state.globalFiles.revenue.filename,rows:state.globalFiles.revenue.rows};
+        if(state.globalFiles.healthscore)gf.healthscore={filename:state.globalFiles.healthscore.filename,rows:state.globalFiles.healthscore.rows};
+        localStorage.setItem('alus_v3_gf',JSON.stringify(gf));
+      }catch(e){}
+    }
   }catch(e){
-    console.warn('Error guardando:',e);
-    // Try saving without globalFiles data if too large
+    console.error('Error guardando estado:',e);
+    // Last resort: save only planes
     try{
-      const s2=JSON.parse(JSON.stringify(state));
-      if(s2.globalFiles){
-        if(s2.globalFiles.revenue)s2.globalFiles.revenue.accounts=s2.globalFiles.revenue.accounts?s2.globalFiles.revenue.accounts.slice(0,20):[];
-        if(s2.globalFiles.healthscore)delete s2.globalFiles.healthscore.data;
-      }
-      localStorage.setItem('alus_v3',JSON.stringify(s2));
-    }catch(e2){console.error('No se pudo guardar:',e2);}
+      localStorage.setItem('alus_v3',JSON.stringify({objetivos:state.objetivos,planes:state.planes}));
+    }catch(e2){
+      console.error('Error crítico al guardar:',e2);
+      alert('No se pudo guardar. El almacenamiento del navegador puede estar lleno.');
+    }
   }
 }
 function kamKey(){return currentKam.replace(/ /g,'_');}
@@ -576,18 +594,47 @@ function buildLogin(){
   });
 }
 
+function emergencyReset(){
+  if(!confirm('¿Resetear todos los datos guardados? Esta acción no se puede deshacer.'))return;
+  localStorage.removeItem('alus_v3');
+  localStorage.removeItem('alus_v3_gf');
+  state={objetivos:{},planes:{},globalFiles:{}};
+  currentKam=null;
+  document.querySelectorAll('.kam-item').forEach(function(i){i.classList.remove('selected');});
+  const btn=document.getElementById('btn-enter');
+  if(btn){btn.classList.remove('ready');btn.textContent='Entrar →';}
+  ['revenue','healthscore'].forEach(function(type){
+    const slot=document.getElementById('lfs-'+type);
+    const icon=document.getElementById('lfs-icon-'+type);
+    const status=document.getElementById('lfs-status-'+type);
+    const inp=document.getElementById('lf-'+type);
+    if(slot)slot.classList.remove('loaded');
+    if(icon)icon.textContent=type==='revenue'?'📊':'💚';
+    if(status){status.textContent='Sin archivo';status.className='lfs-status pending';}
+    if(inp)inp.value='';
+  });
+  showScreen('v-login');
+}
+
 function enterApp(){
   if(!currentKam)return;
-  document.getElementById('dash-badge').textContent='👤 '+currentKam;
-  const obj=getObj();
-  const hasObj=Object.values(obj.asig||{}).some(function(v){return v>0;})||
-                Object.values(obj.red||{}).some(function(v){return v>0;});
-  if(hasObj){
-    buildDash();
-    showScreen('v-dashboard');
-  } else {
-    buildObjForm('v-objetivos');
-    showScreen('v-objetivos');
+  try{
+    const badge=document.getElementById('dash-badge');
+    if(badge)badge.textContent='👤 '+currentKam;
+    const obj=getObj();
+    const hasObj=Object.values(obj.asig||{}).some(function(v){return v>0;})||
+                  Object.values(obj.red||{}).some(function(v){return v>0;});
+    if(hasObj){
+      buildDash();
+      showScreen('v-dashboard');
+    } else {
+      buildObjForm('v-objetivos');
+      showScreen('v-objetivos');
+    }
+  }catch(e){
+    console.error('Error al entrar:',e);
+    alert('Hubo un problema. Se reiniciarán los datos.');
+    emergencyReset();
   }
 }
 
@@ -720,13 +767,13 @@ function buildPlanSelector(){
       '<div class="plan-card-info">'+
         '<div class="plan-card-name">'+plan.cliente+'</div>'+
         '<div class="plan-card-plat">'+plan.plataforma+'</div>'+
-        (metaAsig>0||metaRed>0?'<div style="font-size:11px;color:var(--gray);margin-bottom:4px">'+
-          (metaAsig>0?'Meta asig: '+metaAsig.toLocaleString('es-MX')+' pts':'')+
-          (metaAsig>0&&metaRed>0?' · ':'')+
-          (metaRed>0?'Meta red: $'+Math.round(metaRed).toLocaleString('es-MX'):'')+'</div>':'')+
+        (totalMetaAsig>0||totalMetaRed>0?'<div style="font-size:11px;color:var(--gray);margin-bottom:4px">'+
+          (totalMetaAsig>0?'Meta asig: '+totalMetaAsig.toLocaleString('es-MX')+' pts':'')+
+          (totalMetaAsig>0&&totalMetaRed>0?' · ':'')+
+          (totalMetaRed>0?'Meta red: $'+Math.round(totalMetaRed).toLocaleString('es-MX'):'')+'</div>':'')+
         '<div class="plan-card-badges">'+
-          (metaAsig>0?(pAsig!==null?pctBadge(pAsig,'Asig.'):'<span class="plan-card-badge badge-empty">Asig.: sin archivos</span>'):'<span class="plan-card-badge badge-empty">Asig.: sin meta</span>')+
-          (metaRed>0?(pRed!==null?pctBadge(pRed,'Red.'):'<span class="plan-card-badge badge-empty">Red.: sin archivos</span>'):'<span class="plan-card-badge badge-empty">Red.: sin meta</span>')+
+          (totalMetaAsig>0?(pAsig!==null?pctBadge(pAsig,'Asig.'):'<span class="plan-card-badge badge-empty">Asig.: sin archivos</span>'):'<span class="plan-card-badge badge-empty">Asig.: sin meta</span>')+
+          (totalMetaRed>0?(pRed!==null?pctBadge(pRed,'Red.'):'<span class="plan-card-badge badge-empty">Red.: sin archivos</span>'):'<span class="plan-card-badge badge-empty">Red.: sin meta</span>')+
         '</div>'+
       '</div>'+
       '<span class="plan-card-arrow">→</span>';
@@ -1123,11 +1170,17 @@ function savePlanModal(){
   }catch(e){
     console.error('Error guardando plan:',e);
   }
-  closePlanModal();
-  buildPlanSelector();
+  const statusEl=document.getElementById('modal-save-status');
+  if(statusEl){
+    statusEl.textContent='✓ Plan guardado correctamente';
+    setTimeout(function(){closePlanModal();buildPlanSelector();},600);
+  } else {
+    closePlanModal();
+    buildPlanSelector();
+  }
   if(editingPlanId){
     const pid=editingPlanId;
-    setTimeout(function(){showPlanDetail(pid);},50);
+    setTimeout(function(){showPlanDetail(pid);},700);
   }
 }
 
