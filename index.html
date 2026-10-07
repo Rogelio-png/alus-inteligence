@@ -201,24 +201,6 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 .btn-clear-files{font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:.25rem;display:inline-flex;align-items:center;gap:4px}
 .btn-clear-files:hover{text-decoration:underline}
 
-/* ── LOGIN FILE SLOTS ── */
-.login-divider{height:1px;background:var(--grayB);margin:1.5rem 0}
-.login-file-slots{display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem}
-.login-file-slot{
-  display:flex;align-items:center;gap:12px;
-  padding:.75rem 1rem;border:1.5px solid var(--grayB);border-radius:var(--r);
-  cursor:pointer;background:var(--white);transition:all .15s;
-}
-.login-file-slot:hover{border-color:var(--red);background:var(--red-bg)}
-.login-file-slot.loaded{border-color:var(--green);background:var(--green-bg)}
-.lfs-icon{font-size:22px;flex-shrink:0;width:30px;text-align:center}
-.lfs-info{flex:1}
-.lfs-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:1px}
-.lfs-hint{font-size:11px;color:var(--gray)}
-.lfs-status{font-size:11px;font-family:'DM Mono',monospace;font-weight:500;text-align:right;max-width:140px;word-break:break-all}
-.lfs-status.pending{color:var(--grayM)}
-.lfs-status.ok{color:var(--green)}
-
 /* ── PLAN SELECTOR ── */
 .plan-selector{padding:1.75rem 0}
 .plan-selector-title{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:.3rem}
@@ -280,6 +262,21 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 .resumen-no-data{font-size:12px;color:var(--grayM);font-style:italic}
 .resumen-total-row{background:var(--navy);color:#fff;border-radius:var(--rl);padding:1rem 1.25rem;margin-bottom:8px}
 
+/* ── CONSULTA ── */
+.consulta-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.consulta-card{background:var(--white);border:2px solid var(--grayB);border-radius:var(--rl);display:flex;flex-direction:column;overflow:hidden;transition:all .15s}
+.consulta-card:hover{border-color:var(--red);box-shadow:0 4px 12px rgba(255,69,88,.08)}
+.consulta-main{display:flex;align-items:center;gap:14px;padding:1.1rem 1.25rem;text-decoration:none;color:inherit;cursor:pointer;flex:1}
+.consulta-main:hover{background:var(--red-bg)}
+.consulta-icon{width:46px;height:46px;border-radius:var(--r);background:var(--grayL);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.consulta-info{min-width:0}
+.consulta-name{font-size:14px;font-weight:700;color:var(--navy)}
+.consulta-hint{font-size:12px;color:var(--gray);margin:2px 0 4px}
+.consulta-status{font-size:11px;font-family:'DM Mono',monospace;font-weight:500;color:var(--green)}
+.consulta-status.pending{color:var(--grayM)}
+.consulta-edit{border:none;border-top:1px solid var(--grayB);background:var(--grayL);color:var(--gray);font-family:'Outfit',sans-serif;font-size:12px;padding:.55rem;cursor:pointer;transition:all .15s}
+.consulta-edit:hover{color:var(--red);background:var(--red-bg)}
+
 @media(max-width:700px){
   .plan-layout{grid-template-columns:1fr}
   .q-grid,.plan-q-grid{grid-template-columns:1fr 1fr}
@@ -329,28 +326,6 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
     <div class="sec-label">Account Managers</div>
     <div class="kam-list" id="kam-list"></div>
 
-    <div class="login-divider"></div>
-    <div class="sec-label">Archivos globales</div>
-    <div class="login-file-slots">
-      <div class="login-file-slot" id="lfs-revenue" onclick="document.getElementById('lf-revenue').click()">
-        <span class="lfs-icon" id="lfs-icon-revenue">📊</span>
-        <div class="lfs-info">
-          <div class="lfs-name">Revenue Tracker</div>
-          <div class="lfs-hint">Facturación por cuenta y KAM</div>
-        </div>
-        <div class="lfs-status pending" id="lfs-status-revenue">Sin archivo</div>
-        <input type="file" id="lf-revenue" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleLoginFile('revenue',this)"/>
-      </div>
-      <div class="login-file-slot" id="lfs-healthscore" onclick="document.getElementById('lf-healthscore').click()">
-        <span class="lfs-icon" id="lfs-icon-healthscore">💚</span>
-        <div class="lfs-info">
-          <div class="lfs-name">Health Score</div>
-          <div class="lfs-hint">Score semanal por cuenta</div>
-        </div>
-        <div class="lfs-status pending" id="lfs-status-healthscore">Sin archivo</div>
-        <input type="file" id="lf-healthscore" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleLoginFile('healthscore',this)"/>
-      </div>
-    </div>
 
     <button class="btn-enter" id="btn-enter" onclick="enterApp()">Entrar →</button>
     <div class="login-note">Alus Intelligence · Uso interno · Confidencial</div>
@@ -425,6 +400,7 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
     <div class="nav-tab active" id="dtab-planes" onclick="switchDash('planes')">Mis planes</div>
     <div class="nav-tab" id="dtab-resumen" onclick="switchDash('resumen')">Resumen</div>
     <div class="nav-tab" id="dtab-objetivos" onclick="switchDash('objetivos')">Modificar objetivos</div>
+    <div class="nav-tab" id="dtab-consulta" onclick="switchDash('consulta')">Consulta</div>
   </div>
 
   <div class="dash-body">
@@ -468,6 +444,13 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
       <div id="resumen-content"></div>
     </div>
 
+    <!-- TAB: CONSULTA -->
+    <div class="dash-view" id="dview-consulta">
+      <div class="planes-title">Consulta</div>
+      <div class="planes-sub" style="margin-bottom:1.25rem">Abre los archivos originales en una pestaña nueva. Puedes pegar o cambiar cada enlace en cualquier momento.</div>
+      <div class="consulta-grid" id="consulta-cards"></div>
+    </div>
+
     <!-- TAB: MODIFICAR OBJETIVOS -->
     <div class="dash-view" id="dview-objetivos">
       <div class="mod-obj-view">
@@ -503,11 +486,26 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
   </div>
 </div>
 
+<!-- MODAL — ENLACE DE CONSULTA -->
+<div class="modal-bg" id="modal-link">
+<div class="modal">
+  <div class="modal-title" id="modal-link-title">Enlace</div>
+  <div class="field"><label>Dirección del archivo</label><input id="ml-url" type="text" placeholder="https://comercializadoraalus-my.sharepoint.com/..." onkeydown="if(event.key==='Enter')saveLinkModal()"/></div>
+  <div style="font-size:11px;color:var(--gray);line-height:1.5">Pega el enlace de SharePoint, OneDrive o donde esté el archivo. Déjalo vacío para quitar el enlace.</div>
+  <div id="modal-link-err" style="font-size:12px;color:var(--red);min-height:16px;margin-top:.5rem"></div>
+  <div class="modal-actions">
+    <button class="btn btn-outline" onclick="closeLinkModal()">Cancelar</button>
+    <button class="btn btn-navy" onclick="saveLinkModal()">Guardar enlace</button>
+  </div>
+</div>
+</div>
+
 <script>
 // ═══════════ KAMS ═══════════
 const KAMS=['Rogelio Ruiz','KAM Dos'];
 let currentKam=null;
-let state={objetivos:{},planes:{}};
+const EMPTY_LINKS={revenue:'',healthscore:'',wbr:''};
+let state={objetivos:{},planes:{},links:Object.assign({},EMPTY_LINKS)};
 try{
   const s=localStorage.getItem('alus_v3');
   if(s){
@@ -516,47 +514,25 @@ try{
       state=parsed;
       if(!state.objetivos)state.objetivos={};
       if(!state.planes)state.planes={};
-      if(!state.globalFiles)state.globalFiles={};
     }
   }
-  // Load globalFiles info separately
-  const gf=localStorage.getItem('alus_v3_gf');
-  if(gf){
-    const parsedGf=JSON.parse(gf);
-    if(!state.globalFiles)state.globalFiles={};
-    if(parsedGf.revenue)state.globalFiles.revenue=state.globalFiles.revenue||parsedGf.revenue;
-    if(parsedGf.healthscore)state.globalFiles.healthscore=state.globalFiles.healthscore||parsedGf.healthscore;
-  }
+  state.links=Object.assign({},EMPTY_LINKS,state.links||{});
+  // Limpieza: el login ya no carga archivos globales
+  delete state.globalFiles;
+  localStorage.removeItem('alus_v3_gf');
 }catch(e){
   console.warn('Estado corrupto, reiniciando:',e);
   localStorage.removeItem('alus_v3');
   localStorage.removeItem('alus_v3_gf');
-  state={objetivos:{},planes:{},globalFiles:{}};
+  state={objetivos:{},planes:{},links:Object.assign({},EMPTY_LINKS)};
 }
 
 function save(){
   try{
-    // Always save globalFiles separately to avoid quota issues
-    const mainState={objetivos:state.objetivos,planes:state.planes};
-    localStorage.setItem('alus_v3',JSON.stringify(mainState));
-    if(state.globalFiles){
-      try{
-        // Only save filenames, not raw data
-        const gf={};
-        if(state.globalFiles.revenue)gf.revenue={filename:state.globalFiles.revenue.filename,rows:state.globalFiles.revenue.rows};
-        if(state.globalFiles.healthscore)gf.healthscore={filename:state.globalFiles.healthscore.filename,rows:state.globalFiles.healthscore.rows};
-        localStorage.setItem('alus_v3_gf',JSON.stringify(gf));
-      }catch(e){}
-    }
+    localStorage.setItem('alus_v3',JSON.stringify({objetivos:state.objetivos,planes:state.planes,links:state.links}));
   }catch(e){
     console.error('Error guardando estado:',e);
-    // Last resort: save only planes
-    try{
-      localStorage.setItem('alus_v3',JSON.stringify({objetivos:state.objetivos,planes:state.planes}));
-    }catch(e2){
-      console.error('Error crítico al guardar:',e2);
-      alert('No se pudo guardar. El almacenamiento del navegador puede estar lleno.');
-    }
+    alert('No se pudo guardar. El almacenamiento del navegador puede estar lleno.');
   }
 }
 function kamKey(){return currentKam.replace(/ /g,'_');}
@@ -586,33 +562,17 @@ function buildLogin(){
     };
     list.appendChild(d);
   });
-  // Restore file slots
-  ['revenue','healthscore'].forEach(function(type){
-    if(state.globalFiles&&state.globalFiles[type]){
-      markLoginSlot(type, state.globalFiles[type].filename);
-    }
-  });
 }
 
 function emergencyReset(){
   if(!confirm('¿Resetear todos los datos guardados? Esta acción no se puede deshacer.'))return;
   localStorage.removeItem('alus_v3');
   localStorage.removeItem('alus_v3_gf');
-  state={objetivos:{},planes:{},globalFiles:{}};
+  state={objetivos:{},planes:{},links:Object.assign({},EMPTY_LINKS)};
   currentKam=null;
   document.querySelectorAll('.kam-item').forEach(function(i){i.classList.remove('selected');});
   const btn=document.getElementById('btn-enter');
   if(btn){btn.classList.remove('ready');btn.textContent='Entrar →';}
-  ['revenue','healthscore'].forEach(function(type){
-    const slot=document.getElementById('lfs-'+type);
-    const icon=document.getElementById('lfs-icon-'+type);
-    const status=document.getElementById('lfs-status-'+type);
-    const inp=document.getElementById('lf-'+type);
-    if(slot)slot.classList.remove('loaded');
-    if(icon)icon.textContent=type==='revenue'?'📊':'💚';
-    if(status){status.textContent='Sin archivo';status.className='lfs-status pending';}
-    if(inp)inp.value='';
-  });
   showScreen('v-login');
 }
 
@@ -720,6 +680,7 @@ function switchDash(name){
   document.getElementById('dview-'+name).classList.add('active');
   document.getElementById('dtab-'+name).classList.add('active');
   if(name==='resumen')buildResumen();
+  if(name==='consulta')buildConsulta();
 }
 
 // ═══════════ PLANES ═══════════
@@ -1191,52 +1152,70 @@ function deletePlan(pid){
   save();buildPlanSelector();
 }
 
-// ═══════════ LOGIN FILES ═══════════
-function handleLoginFile(type, input){
-  const file=input.files[0];if(!file)return;
-  const fname=file.name.toLowerCase();
-  function processRows(rows){
-    if(!state.globalFiles)state.globalFiles={};
-    rows=rows.filter(function(r){return Object.values(r).some(function(v){return v!==null&&v!==''&&v!==undefined;});});
-    if(type==='revenue'){
-      // Extract account names and KAM mapping
-      const accounts={};
-      rows.forEach(function(r){
-        const plat=(r['plataforma']||'').toString().trim();
-        const kam=(r['acc_manager_name']||'').toString().trim();
-        const val=parseFloat(r['precio_total'])||0;
-        if(!plat)return;
-        if(!accounts[plat])accounts[plat]={plat:plat,kam:kam,revenue:0};
-        accounts[plat].revenue+=val;
-      });
-      state.globalFiles.revenue={filename:file.name,accounts:Object.values(accounts),rows:rows.length};
-    } else {
-      // Health Score — store raw for future use
-      state.globalFiles.healthscore={filename:file.name,rows:rows.length,data:rows.slice(0,50)};
-    }
-    save();
-    markLoginSlot(type,file.name);
-  }
-  if(fname.endsWith('.csv')){
-    const r=new FileReader();r.onload=function(e){const res=Papa.parse(e.target.result,{header:true,skipEmptyLines:true});processRows(res.data);};r.readAsText(file);
-  } else {
-    const r=new FileReader();r.onload=function(e){
-      try{const wb=XLSX.read(e.target.result,{type:'array'});
-        const wsName=wb.SheetNames.find(function(n){return n==='BD_Productos';})||wb.SheetNames[0];
-        const rows2=XLSX.utils.sheet_to_json(wb.Sheets[wsName],{defval:''});
-        processRows(rows2);
-      }catch(err){alert('Error leyendo el archivo: '+err.message);}
-    };r.readAsArrayBuffer(file);
-  }
+// ═══════════ CONSULTA (HIPERVÍNCULOS A ARCHIVOS ORIGINALES) ═══════════
+const CONSULTA_ITEMS=[
+  {key:'revenue',icon:'📊',name:'Revenue Tracker',hint:'Facturación por cuenta y KAM'},
+  {key:'healthscore',icon:'💚',name:'Health Score',hint:'Score semanal por cuenta'},
+  {key:'wbr',icon:'📋',name:'WBR',hint:'Weekly Business Review'}
+];
+let editingLinkKey=null;
+
+// Acepta solo http/https (evita javascript:, data:, etc.). '' = sin enlace; null = inválido.
+function cleanUrl(raw){
+  let u=(raw||'').trim();
+  if(!u)return '';
+  if(!/^[a-z][a-z0-9+.-]*:/i.test(u))u='https://'+u;
+  try{
+    const p=new URL(u);
+    if(p.protocol!=='https:'&&p.protocol!=='http:')return null;
+    return p.href;
+  }catch(e){return null;}
+}
+function escAttr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function buildConsulta(){
+  const el=document.getElementById('consulta-cards');
+  if(!el)return;
+  el.innerHTML=CONSULTA_ITEMS.map(function(it){
+    const url=(state.links&&state.links[it.key])||'';
+    const body='<div class="consulta-icon">'+it.icon+'</div>'+
+      '<div class="consulta-info"><div class="consulta-name">'+it.name+'</div>'+
+      '<div class="consulta-hint">'+it.hint+'</div>'+
+      '<div class="consulta-status'+(url?'':' pending')+'">'+(url?'Abrir archivo original ↗':'Sin enlace configurado')+'</div></div>';
+    const main=url?
+      '<a class="consulta-main" href="'+escAttr(url)+'" target="_blank" rel="noopener noreferrer">'+body+'</a>':
+      '<div class="consulta-main" onclick="openLinkModal(\''+it.key+'\')">'+body+'</div>';
+    return '<div class="consulta-card" id="consulta-card-'+it.key+'">'+main+
+      '<button class="consulta-edit" onclick="openLinkModal(\''+it.key+'\')">'+(url?'✏️ Editar enlace':'＋ Agregar enlace')+'</button></div>';
+  }).join('');
 }
 
-function markLoginSlot(type,fname){
-  const slot=document.getElementById('lfs-'+type);
-  const icon=document.getElementById('lfs-icon-'+type);
-  const status=document.getElementById('lfs-status-'+type);
-  if(slot)slot.classList.add('loaded');
-  if(icon)icon.textContent='✅';
-  if(status){status.textContent=fname;status.className='lfs-status ok';}
+function openLinkModal(key){
+  const it=CONSULTA_ITEMS.find(function(x){return x.key===key;});
+  if(!it)return;
+  editingLinkKey=key;
+  document.getElementById('modal-link-title').textContent='Enlace de '+it.name;
+  document.getElementById('ml-url').value=(state.links&&state.links[key])||'';
+  document.getElementById('modal-link-err').textContent='';
+  document.getElementById('modal-link').classList.add('open');
+  setTimeout(function(){document.getElementById('ml-url').focus();},50);
+}
+function closeLinkModal(){
+  document.getElementById('modal-link').classList.remove('open');
+  editingLinkKey=null;
+}
+function saveLinkModal(){
+  if(!editingLinkKey)return;
+  const val=cleanUrl(document.getElementById('ml-url').value);
+  if(val===null){
+    document.getElementById('modal-link-err').textContent='Enlace no válido. Debe ser una dirección http:// o https://';
+    return;
+  }
+  if(!state.links)state.links=Object.assign({},EMPTY_LINKS);
+  state.links[editingLinkKey]=val;
+  save();
+  closeLinkModal();
+  buildConsulta();
 }
 
 // ═══════════ RESUMEN ═══════════
