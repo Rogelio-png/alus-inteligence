@@ -262,6 +262,41 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 .resumen-no-data{font-size:12px;color:var(--grayM);font-style:italic}
 .resumen-total-row{background:var(--navy);color:#fff;border-radius:var(--rl);padding:1rem 1.25rem;margin-bottom:8px}
 
+/* ── CHAT IA ── */
+.chat-wrap{max-width:900px}
+.chat-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:1rem}
+.chat-top-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.chat-conn{font-size:11px;font-family:'DM Mono',monospace;color:var(--gray);padding:4px 10px;border:1px solid var(--grayB);border-radius:99px;background:var(--white)}
+.chat-box{background:var(--white);border:1px solid var(--grayB);border-radius:var(--rl);display:flex;flex-direction:column;height:calc(100vh - 300px);min-height:440px}
+.chat-msgs{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:14px}
+.msg{display:flex;gap:10px;max-width:88%}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.msg-avatar{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.msg.user .msg-avatar{background:var(--red-bg);color:var(--red);border:1.5px solid var(--red-border)}
+.msg-bubble{font-size:14px;line-height:1.6;padding:.7rem 1rem;border-radius:var(--rl);background:var(--grayL);color:var(--navy);overflow-wrap:anywhere}
+.msg.user .msg-bubble{background:var(--navy);color:#fff;white-space:pre-wrap}
+.msg-bubble p{margin:0 0 .5rem}.msg-bubble p:last-child{margin-bottom:0}
+.msg-bubble ul,.msg-bubble ol{margin:.25rem 0 .5rem 1.2rem}
+.msg-bubble li{margin-bottom:.2rem}
+.msg-bubble code{font-family:'DM Mono',monospace;font-size:12px;background:rgba(18,20,43,.08);padding:1px 5px;border-radius:4px}
+.msg-bubble .md-h{font-weight:700;margin-top:.35rem}
+.msg.error .msg-bubble{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);font-size:13px}
+.msg.error .msg-bubble button{margin-top:.5rem;font-family:'Outfit',sans-serif;font-size:12px;background:var(--white);border:1px solid var(--red-border);color:var(--red);border-radius:var(--r);padding:.3rem .7rem;cursor:pointer}
+.chat-empty{margin:auto;text-align:center;max-width:540px;padding:1rem}
+.chat-empty-title{font-size:18px;font-weight:700;margin-bottom:.4rem}
+.chat-empty-sub{font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:1.1rem}
+.chat-sugs{display:flex;flex-direction:column;gap:8px}
+.chat-sug{text-align:left;font-family:'Outfit',sans-serif;font-size:13px;padding:.6rem .9rem;border:1.5px solid var(--grayB);border-radius:var(--r);background:var(--white);cursor:pointer;color:var(--navy);transition:all .15s}
+.chat-sug:hover{border-color:var(--red);background:var(--red-bg)}
+.chat-input-row{display:flex;gap:8px;padding:.85rem;border-top:1px solid var(--grayB);align-items:flex-end}
+.chat-input-row textarea{flex:1;border:1.5px solid var(--grayB);border-radius:var(--r);padding:.6rem .85rem;font-family:'Outfit',sans-serif;font-size:14px;resize:none;outline:none;max-height:140px;color:var(--navy);background:var(--white)}
+.chat-input-row textarea:focus{border-color:var(--red)}
+.chat-foot{font-size:11px;color:var(--grayM);margin-top:.6rem;line-height:1.5}
+.typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--grayM);margin-right:3px;animation:blink 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+@media(max-width:700px){.msg{max-width:96%}.chat-box{height:calc(100vh - 260px)}}
+
 /* ── CONSULTA ── */
 .consulta-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .consulta-card{background:var(--white);border:2px solid var(--grayB);border-radius:var(--rl);display:flex;flex-direction:column;overflow:hidden;transition:all .15s}
@@ -399,6 +434,7 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
   <div class="dash-nav">
     <div class="nav-tab active" id="dtab-planes" onclick="switchDash('planes')">Mis planes</div>
     <div class="nav-tab" id="dtab-resumen" onclick="switchDash('resumen')">Resumen</div>
+    <div class="nav-tab" id="dtab-ia" onclick="switchDash('ia')">🤖 Análisis IA</div>
     <div class="nav-tab" id="dtab-objetivos" onclick="switchDash('objetivos')">Modificar objetivos</div>
     <div class="nav-tab" id="dtab-consulta" onclick="switchDash('consulta')">Consulta</div>
   </div>
@@ -451,6 +487,31 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
       <div class="consulta-grid" id="consulta-cards"></div>
     </div>
 
+    <!-- TAB: ANÁLISIS IA -->
+    <div class="dash-view" id="dview-ia">
+      <div class="chat-wrap">
+        <div class="chat-top">
+          <div>
+            <div class="planes-title">Análisis IA</div>
+            <div class="planes-sub">Pregunta lo que quieras: estrategia, redacción, ideas, análisis, dudas del día a día. Si es sobre tus cuentas, también usa los datos de la herramienta.</div>
+          </div>
+          <div class="chat-top-actions">
+            <span class="chat-conn" id="chat-conn"></span>
+            <button class="btn btn-outline btn-sm" onclick="openAiSettings()">⚙ Conexión</button>
+            <button class="btn btn-outline btn-sm" onclick="clearChat()">Nueva conversación</button>
+          </div>
+        </div>
+        <div class="chat-box">
+          <div class="chat-msgs" id="chat-msgs"></div>
+          <div class="chat-input-row">
+            <textarea id="chat-input" rows="1" placeholder="Escribe tu pregunta…  (Enter envía · Shift+Enter salto de línea)" onkeydown="onChatKey(event)" oninput="autoGrow(this)"></textarea>
+            <button class="btn btn-red" id="chat-send" onclick="sendChat()">Enviar</button>
+          </div>
+        </div>
+        <div class="chat-foot" id="chat-ctx"></div>
+      </div>
+    </div>
+
     <!-- TAB: MODIFICAR OBJETIVOS -->
     <div class="dash-view" id="dview-objetivos">
       <div class="mod-obj-view">
@@ -491,7 +552,7 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 <div class="modal">
   <div class="modal-title" id="modal-link-title">Enlace</div>
   <div class="field"><label>Dirección del archivo</label><input id="ml-url" type="text" placeholder="https://comercializadoraalus-my.sharepoint.com/..." onkeydown="if(event.key==='Enter')saveLinkModal()"/></div>
-  <div style="font-size:11px;color:var(--gray);line-height:1.5">Pega el enlace de SharePoint, OneDrive o donde esté el archivo. Déjalo vacío para quitar el enlace.</div>
+  <div style="font-size:11px;color:var(--gray);line-height:1.5">Pega el enlace de SharePoint, OneDrive o donde esté el archivo. Déjalo vacío para volver al enlace original de Alus.</div>
   <div id="modal-link-err" style="font-size:12px;color:var(--red);min-height:16px;margin-top:.5rem"></div>
   <div class="modal-actions">
     <button class="btn btn-outline" onclick="closeLinkModal()">Cancelar</button>
@@ -500,12 +561,38 @@ html,body{min-height:100%;font-family:'Outfit',sans-serif;background:var(--cream
 </div>
 </div>
 
+<!-- MODAL — CONEXIÓN DE IA -->
+<div class="modal-bg" id="modal-ai">
+<div class="modal">
+  <div class="modal-title">Conexión de la IA</div>
+  <div style="font-size:12px;color:var(--gray);line-height:1.6;margin-bottom:1rem">
+    El chat usa la <b>llave integrada</b> en la herramienta (línea <code>AI_EMBEDDED_KEY</code> de index.html). Si no hay llave integrada, intenta el servicio <code>/api/chat</code> de Vercel.
+    Una <b>clave personal</b> escrita aquí tiene prioridad sobre las demás, solo en este navegador.
+  </div>
+  <div class="field"><label>Código de acceso del equipo (solo si el administrador lo configuró)</label><input id="ai-code" type="password" autocomplete="off" placeholder="Opcional"/></div>
+  <div class="field"><label>Clave API personal de Anthropic (opcional)</label><input id="ai-key" type="password" autocomplete="off" placeholder="sk-ant-..."/></div>
+  <div style="font-size:11px;color:var(--gray);line-height:1.5">La clave personal se guarda solo en este navegador y las consultas salen directo desde aquí a Anthropic. Si dejas el campo vacío se usa el servicio del equipo.</div>
+  <div id="modal-ai-err" style="font-size:12px;color:var(--red);min-height:16px;margin-top:.5rem"></div>
+  <div class="modal-actions">
+    <button class="btn btn-outline" onclick="closeAiSettings()">Cancelar</button>
+    <button class="btn btn-navy" onclick="saveAiSettings()">Guardar</button>
+  </div>
+</div>
+</div>
+
 <script>
 // ═══════════ KAMS ═══════════
 const KAMS=['Rogelio Ruiz','KAM Dos'];
 let currentKam=null;
-const EMPTY_LINKS={revenue:'',healthscore:'',wbr:''};
-let state={objetivos:{},planes:{},links:Object.assign({},EMPTY_LINKS)};
+const DEFAULT_LINKS={
+  revenue:'https://comercializadoraalus-my.sharepoint.com/:x:/r/personal/gerardo_sanchez_alus_com_mx/_layouts/15/Doc.aspx?sourcedoc=%7B75D98914-41B9-47C2-9E58-B3F3A4B65A04%7D&file=Alus%20-%20Revenue%20Tracker.xlsx&action=default&mobileredirect=true',
+  healthscore:'https://comercializadoraalus.sharepoint.com/:x:/r/sites/ALUSAcademyCustomerSuccess/_layouts/15/Doc.aspx?sourcedoc=%7B15B5CBE6-21B4-425D-97B9-6B8258D32ACC%7D&file=Health_Score.xlsx&action=default&mobileredirect=true',
+  wbr:'https://comercializadoraalus.sharepoint.com/:x:/r/sites/ALUSAcademyCustomerSuccess/_layouts/15/Doc.aspx?sourcedoc=%7BDCEAA280-8580-4959-9DBF-8A1DEDE404E3%7D&file=WBR.xlsx&action=default&mobileredirect=true'
+};
+function freshState(){
+  return {objetivos:{},planes:{},links:Object.assign({},DEFAULT_LINKS),chat:{},ai:{apiKey:'',accessCode:''}};
+}
+let state=freshState();
 try{
   const s=localStorage.getItem('alus_v3');
   if(s){
@@ -516,7 +603,12 @@ try{
       if(!state.planes)state.planes={};
     }
   }
-  state.links=Object.assign({},EMPTY_LINKS,state.links||{});
+  // Enlaces: lo que esté vacío usa el enlace original de Alus
+  const savedLinks=state.links||{};
+  state.links={};
+  Object.keys(DEFAULT_LINKS).forEach(function(k){state.links[k]=savedLinks[k]||DEFAULT_LINKS[k];});
+  if(!state.chat||typeof state.chat!=='object')state.chat={};
+  state.ai=Object.assign({apiKey:'',accessCode:''},state.ai||{});
   // Limpieza: el login ya no carga archivos globales
   delete state.globalFiles;
   localStorage.removeItem('alus_v3_gf');
@@ -524,12 +616,12 @@ try{
   console.warn('Estado corrupto, reiniciando:',e);
   localStorage.removeItem('alus_v3');
   localStorage.removeItem('alus_v3_gf');
-  state={objetivos:{},planes:{},links:Object.assign({},EMPTY_LINKS)};
+  state=freshState();
 }
 
 function save(){
   try{
-    localStorage.setItem('alus_v3',JSON.stringify({objetivos:state.objetivos,planes:state.planes,links:state.links}));
+    localStorage.setItem('alus_v3',JSON.stringify({objetivos:state.objetivos,planes:state.planes,links:state.links,chat:state.chat,ai:state.ai}));
   }catch(e){
     console.error('Error guardando estado:',e);
     alert('No se pudo guardar. El almacenamiento del navegador puede estar lleno.');
@@ -568,7 +660,7 @@ function emergencyReset(){
   if(!confirm('¿Resetear todos los datos guardados? Esta acción no se puede deshacer.'))return;
   localStorage.removeItem('alus_v3');
   localStorage.removeItem('alus_v3_gf');
-  state={objetivos:{},planes:{},links:Object.assign({},EMPTY_LINKS)};
+  state=freshState();
   currentKam=null;
   document.querySelectorAll('.kam-item').forEach(function(i){i.classList.remove('selected');});
   const btn=document.getElementById('btn-enter');
@@ -681,6 +773,7 @@ function switchDash(name){
   document.getElementById('dtab-'+name).classList.add('active');
   if(name==='resumen')buildResumen();
   if(name==='consulta')buildConsulta();
+  if(name==='ia')buildChat();
 }
 
 // ═══════════ PLANES ═══════════
@@ -1152,6 +1245,259 @@ function deletePlan(pid){
   save();buildPlanSelector();
 }
 
+// ═══════════ ANÁLISIS IA (CHAT) ═══════════
+// ▼▼▼ LLAVE INTEGRADA: pega aquí tu clave de Anthropic entre las comillas (empieza con sk-ant-) ▼▼▼
+const AI_EMBEDDED_KEY='';
+// ▲▲▲ Quien abra la herramienta podrá usar la IA sin configurar nada. ▲▲▲
+const AI_MODEL='claude-sonnet-5-5';
+const AI_ENDPOINT='/api/chat';
+const AI_MAX_TOKENS=1500;
+const AI_SUGGESTIONS=[
+  '¿Cómo voy contra mis metas anuales y qué cuentas me preocupan más?',
+  'Dame un plan de acción para esta semana, priorizado.',
+  'Prepara el borrador de mi WBR con lo que ves en mis planes.',
+  'Ayúdame con ideas para un programa de incentivos que motive a la fuerza de ventas de un cliente.'
+];
+const AI_NOT_CONFIGURED='La IA todavía no tiene llave. Pega tu clave de Anthropic en la línea AI_EMBEDDED_KEY de index.html y vuelve a publicar, o pégala temporalmente en ⚙ Conexión.';
+let aiBusy=false;
+
+function getChat(){return (state.chat&&state.chat[kamKey()])||[];}
+function setChat(arr){
+  if(!state.chat)state.chat={};
+  state.chat[kamKey()]=arr.slice(-40);
+  save();
+}
+function aiErr(msg,openSettings){const e=new Error(msg);e.openSettings=!!openSettings;return e;}
+function escHtml(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// Markdown mínimo y seguro: se escapa TODO el HTML primero y luego se aplican negritas, listas y código.
+function mdLite(src){
+  const lines=escHtml(src).split('\n');
+  const out=[];let list=null;
+  function inline(t){
+    return t.replace(/`([^`]+)`/g,'<code>$1</code>')
+            .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+            .replace(/(^|[^*])\*([^*\s][^*]*)\*/g,'$1<em>$2</em>');
+  }
+  function close(){if(list){out.push('</'+list+'>');list=null;}}
+  lines.forEach(function(l){
+    let m;
+    if((m=l.match(/^\s*[-*•]\s+(.*)$/))){
+      if(list!=='ul'){close();out.push('<ul>');list='ul';}
+      out.push('<li>'+inline(m[1])+'</li>');
+    } else if((m=l.match(/^\s*\d+[.)]\s+(.*)$/))){
+      if(list!=='ol'){close();out.push('<ol>');list='ol';}
+      out.push('<li>'+inline(m[1])+'</li>');
+    } else {
+      close();
+      if(/^#{1,4}\s+/.test(l))out.push('<p class="md-h">'+inline(l.replace(/^#{1,4}\s+/,''))+'</p>');
+      else if(l.trim()!=='')out.push('<p>'+inline(l)+'</p>');
+    }
+  });
+  close();
+  return out.join('');
+}
+
+function autoGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,140)+'px';}
+function onChatKey(e){
+  if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();sendChat();}
+}
+
+function updateChatMeta(){
+  const conn=document.getElementById('chat-conn');
+  if(conn)conn.textContent=(state.ai&&state.ai.apiKey)?'● Clave personal':(AI_EMBEDDED_KEY?'● Llave integrada':'● Servicio del equipo');
+  const ctx=document.getElementById('chat-ctx');
+  if(ctx){
+    const n=getPlanes().length;
+    ctx.textContent='Responde sobre cualquier tema. Para tus cuentas puede usar: '+n+' plan'+(n===1?'':'es')+', tus metas por trimestre y los archivos de canjes/transacciones cargados. No abre los archivos de SharePoint ni busca en internet. Verifica cifras y datos importantes antes de compartirlos.';
+  }
+}
+
+function buildChat(){
+  updateChatMeta();
+  renderChat();
+  const inp=document.getElementById('chat-input');
+  if(inp)setTimeout(function(){inp.focus();},50);
+}
+
+function renderChat(typing,errMsg,errOpensSettings){
+  const box=document.getElementById('chat-msgs');
+  if(!box)return;
+  const hist=getChat();
+  let h='';
+  if(!hist.length&&!typing&&!errMsg){
+    h='<div class="chat-empty"><div class="chat-empty-title">¿En qué te ayudo hoy?</div>'+
+      '<div class="chat-empty-sub">Puedes preguntarme cualquier cosa: redactar correos, preparar reuniones, ideas para programas de incentivos, análisis, resúmenes. Si es sobre tus cuentas, uso tus planes, metas y avance.</div>'+
+      '<div class="chat-sugs">'+AI_SUGGESTIONS.map(function(t,i){return '<button class="chat-sug" onclick="sendChat(AI_SUGGESTIONS['+i+'])">'+escHtml(t)+'</button>';}).join('')+'</div></div>';
+  }
+  hist.forEach(function(m){
+    if(m.role==='user'){
+      h+='<div class="msg user"><div class="msg-avatar">'+escHtml(initials(currentKam||'TÚ'))+'</div><div class="msg-bubble">'+escHtml(m.content)+'</div></div>';
+    } else {
+      h+='<div class="msg"><div class="msg-avatar">IA</div><div class="msg-bubble">'+mdLite(m.content)+'</div></div>';
+    }
+  });
+  if(typing)h+='<div class="msg"><div class="msg-avatar">IA</div><div class="msg-bubble"><span class="typing"><span></span><span></span><span></span></span></div></div>';
+  if(errMsg)h+='<div class="msg error"><div class="msg-avatar">!</div><div class="msg-bubble">'+escHtml(errMsg)+
+    (errOpensSettings?'<br><button onclick="openAiSettings()">⚙ Abrir conexión</button>':'')+'</div></div>';
+  box.innerHTML=h;
+  box.scrollTop=box.scrollHeight;
+}
+
+function clearChat(){
+  if(aiBusy)return;
+  if(getChat().length&&!confirm('¿Empezar una conversación nueva? Se borra el historial de este chat.'))return;
+  setChat([]);
+  renderChat();
+}
+
+// ── Contexto real de la herramienta que ve la IA ──
+function buildAiContext(){
+  const obj=getObj(),planes=getPlanes();
+  const Q=['Q1','Q2','Q3','Q4'];
+  const num=function(n){return (parseFloat(n)||0).toLocaleString('es-MX');};
+  const sum=function(o){return Q.reduce(function(t,q){return t+(parseFloat(o&&o[q])||0);},0);};
+  const pct=function(r,m){return m>0?Math.round(r/m*100)+'%':'sin meta';};
+  const now=new Date();
+  const metaA=sum(obj.asig),metaR=sum(obj.red);
+  let realA=0,realR=0;
+  planes.forEach(function(p){
+    realA+=(p.archivos&&p.archivos.trans&&p.archivos.trans.totalPts)||0;
+    realR+=(p.archivos&&p.archivos.canjes&&p.archivos.canjes.totalValor)||0;
+  });
+  const L=[];
+  L.push('Fecha de hoy: '+now.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'})+' (trimestre actual: Q'+(Math.floor(now.getMonth()/3)+1)+')');
+  L.push('KAM: '+currentKam);
+  L.push('');
+  L.push('METAS ANUALES DEL KAM');
+  L.push('Asignación (pts): '+Q.map(function(q){return q+' '+num((obj.asig||{})[q]);}).join(' · ')+' | Total '+num(metaA));
+  L.push('Redención ($): '+Q.map(function(q){return q+' '+num((obj.red||{})[q]);}).join(' · ')+' | Total '+num(metaR));
+  L.push('');
+  L.push('AVANCE CONSOLIDADO (suma de archivos cargados en los planes)');
+  L.push('Asignación real: '+num(realA)+' pts de '+num(metaA)+' ('+pct(realA,metaA)+')');
+  L.push('Redención real: $'+num(realR)+' de $'+num(metaR)+' ('+pct(realR,metaR)+')');
+  L.push('');
+  if(!planes.length){
+    L.push('PLANES: el KAM aún no ha creado planes.');
+  } else {
+    L.push('PLANES ('+planes.length+')');
+    planes.forEach(function(p,i){
+      const m=p.metas||{asig:{},red:{}},a=p.archivos||{};
+      const mA=sum(m.asig),mR=sum(m.red);
+      const rA=(a.trans&&a.trans.totalPts)||0,rR=(a.canjes&&a.canjes.totalValor)||0;
+      L.push((i+1)+') '+p.cliente+' — '+p.plataforma+' | Owner: '+p.owner+' | Valor punto/peso: '+p.valor);
+      L.push('   Metas asignación: '+Q.map(function(q){return q+' '+num((m.asig||{})[q]);}).join(' · ')+' | Total '+num(mA));
+      L.push('   Metas redención: '+Q.map(function(q){return q+' '+num((m.red||{})[q]);}).join(' · ')+' | Total $'+num(mR));
+      L.push('   Transacciones: '+(a.trans?('archivo "'+a.trans.filename+'": '+num(a.trans.totalPts)+' pts, '+a.trans.usuarios+' usuarios, '+a.trans.rows+' filas'):'sin archivo cargado'));
+      L.push('   Canjes: '+(a.canjes?('archivo "'+a.canjes.filename+'": $'+num(a.canjes.totalValor)+', '+a.canjes.total+' órdenes, categoría principal: '+a.canjes.topCat):'sin archivo cargado'));
+      L.push('   Avance: asignación '+(a.trans?pct(rA,mA):'sin datos')+' | redención '+(a.canjes?pct(rR,mR):'sin datos'));
+    });
+  }
+  L.push('');
+  L.push('Archivos de consulta del equipo (la IA no puede abrirlos): Revenue Tracker, Health Score y WBR.');
+  return L.join('\n');
+}
+
+function buildSystemPrompt(){
+  return [
+    'Eres Alus Intelligence, el asistente de IA de los Account Managers (KAM) de Alus, una empresa B2B de gestión de incentivos en Ciudad de México. Hablas con '+currentKam+'.',
+    'Eres un asistente de propósito general: puedes ayudar con cualquier tema que el usuario plantee (redacción, estrategia, ideas, análisis, cálculos, explicaciones, preparación de reuniones, etc.), no solo con la información cargada en la herramienta. Cuando la pregunta trate de sus cuentas, planes o avance, apóyate en los datos de contexto; cuando sea otro tema, responde con tu conocimiento general. Entre sus usos más frecuentes están analizar el avance de planes contra metas, priorizar cuentas, preparar el WBR y seguimientos, y redactar comunicaciones.',
+    '',
+    'REGLAS',
+    '- Responde en español, claro, accionable y conciso (máximo ~250 palabras salvo que pidan un documento).',
+    '- Para cifras de las cuentas del usuario (metas, avance, canjes, transacciones) usa únicamente los datos de contexto; si falta un dato, dilo y di qué cargar. Nunca inventes cifras ni hechos de clientes concretos. Para temas generales puedes usar tu conocimiento, aclarando cuando algo pueda estar desactualizado: no tienes acceso a internet.',
+    '- Evita tablas; usa listas cortas o párrafos.',
+    '- Clientes protegidos: si un plan o el usuario se refiere a «Cliente Rojo» o «Cliente Gris», usa solo ese código y nunca intentes inferir ni escribir el nombre real.',
+    '- Si redactas algo para un cliente o tercero, no menciones a otros clientes de Alus; si el texto involucra a dos empresas que compiten en el mismo sector, avísalo antes de entregarlo.',
+    '',
+    'DATOS ACTUALES DE LA HERRAMIENTA',
+    buildAiContext()
+  ].join('\n');
+}
+
+async function callAI(hist){
+  const system=buildSystemPrompt();
+  const msgs=hist.slice(-20).map(function(m){return {role:m.role,content:m.content};});
+  while(msgs.length&&msgs[0].role!=='user')msgs.shift();
+  const key=((state.ai&&state.ai.apiKey)||AI_EMBEDDED_KEY||'').trim();
+  let resp;
+  try{
+    if(key){
+      resp=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:AI_MODEL,max_tokens:AI_MAX_TOKENS,system:system,messages:msgs})
+      });
+    } else {
+      const headers={'content-type':'application/json'};
+      if(state.ai&&state.ai.accessCode)headers['x-access-code']=state.ai.accessCode;
+      resp=await fetch(AI_ENDPOINT,{method:'POST',headers:headers,body:JSON.stringify({system:system,messages:msgs})});
+    }
+  }catch(e){
+    throw key?aiErr('No pude conectar con Anthropic. Revisa tu conexión a internet e intenta de nuevo.',false):aiErr(AI_NOT_CONFIGURED,true);
+  }
+  let data=null;
+  try{data=await resp.json();}catch(e){}
+  if(!resp.ok){
+    const apiMsg=data&&data.error&&data.error.message;
+    if(!key&&(resp.status===404||resp.status===405))throw aiErr(AI_NOT_CONFIGURED,true);
+    if(resp.status===401)throw aiErr(key?(state.ai&&state.ai.apiKey?'Anthropic rechazó tu clave personal. Revísala en ⚙ Conexión.':'Anthropic rechazó la llave integrada en index.html. Revisa que esté completa y vigente.'):'El servicio pidió un código de acceso que falta o es incorrecto. Ingrésalo en ⚙ Conexión.',true);
+    if(resp.status===429)throw aiErr('Hay demasiadas consultas en este momento. Espera unos segundos e intenta de nuevo.',false);
+    if(resp.status===529||resp.status===503)throw aiErr('El servicio de IA está saturado. Intenta de nuevo en un momento.',false);
+    throw aiErr(apiMsg?('Error de la IA: '+apiMsg):('Error de la IA (código '+resp.status+').'),false);
+  }
+  const text=((data&&data.content)||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('\n').trim();
+  if(!text)throw aiErr('La IA no devolvió texto. Intenta reformular tu pregunta.',false);
+  return text;
+}
+
+async function sendChat(preset){
+  if(aiBusy)return;
+  const inp=document.getElementById('chat-input');
+  const text=(typeof preset==='string'?preset:(inp?inp.value:'')).trim();
+  if(!text)return;
+  if(inp){inp.value='';autoGrow(inp);}
+  const hist=getChat().concat([{role:'user',content:text,ts:Date.now()}]);
+  setChat(hist);
+  aiBusy=true;
+  document.getElementById('chat-send').disabled=true;
+  renderChat(true);
+  try{
+    const reply=await callAI(hist);
+    setChat(getChat().concat([{role:'assistant',content:reply,ts:Date.now()}]));
+    renderChat();
+  }catch(err){
+    // No dejar el mensaje huérfano: se devuelve al cuadro de texto para reintentar
+    setChat(getChat().slice(0,-1));
+    if(inp){inp.value=text;autoGrow(inp);}
+    renderChat(false,err.message||'No se pudo obtener respuesta.',err.openSettings);
+  }finally{
+    aiBusy=false;
+    const b=document.getElementById('chat-send');
+    if(b)b.disabled=false;
+  }
+}
+
+function openAiSettings(){
+  document.getElementById('ai-key').value=(state.ai&&state.ai.apiKey)||'';
+  document.getElementById('ai-code').value=(state.ai&&state.ai.accessCode)||'';
+  document.getElementById('modal-ai-err').textContent='';
+  document.getElementById('modal-ai').classList.add('open');
+}
+function closeAiSettings(){document.getElementById('modal-ai').classList.remove('open');}
+function saveAiSettings(){
+  const key=document.getElementById('ai-key').value.trim();
+  const code=document.getElementById('ai-code').value.trim();
+  if(key&&!/^sk-ant-/.test(key)){
+    document.getElementById('modal-ai-err').textContent='Esa clave no parece de Anthropic (debe empezar con sk-ant-).';
+    return;
+  }
+  state.ai={apiKey:key,accessCode:code};
+  save();
+  closeAiSettings();
+  updateChatMeta();
+}
+
 // ═══════════ CONSULTA (HIPERVÍNCULOS A ARCHIVOS ORIGINALES) ═══════════
 const CONSULTA_ITEMS=[
   {key:'revenue',icon:'📊',name:'Revenue Tracker',hint:'Facturación por cuenta y KAM'},
@@ -1211,8 +1557,8 @@ function saveLinkModal(){
     document.getElementById('modal-link-err').textContent='Enlace no válido. Debe ser una dirección http:// o https://';
     return;
   }
-  if(!state.links)state.links=Object.assign({},EMPTY_LINKS);
-  state.links[editingLinkKey]=val;
+  if(!state.links)state.links=Object.assign({},DEFAULT_LINKS);
+  state.links[editingLinkKey]=val||DEFAULT_LINKS[editingLinkKey]; // vacío = volver al enlace original
   save();
   closeLinkModal();
   buildConsulta();
